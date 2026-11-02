@@ -86,6 +86,20 @@ mới (CONFLICTS, ConflictRAG, HVM-GraphRAG, MemGraphRAG, EvoTrustRAG), trả l�
 - [ ] Tính lại số liệu của decision-model typing từ output đã lưu — **bị chặn** (auto-mode classifier không cho chạy code bên thứ ba ở cloud).
 - [x] Commit + push → **STOP**.
 
+### Phase A++ — audit mở rộng đợt 3
+
+Phạm vi: When Facts Change (`jwallat/knowledge-conflicts-mutability`), Ragability (`OFAI/python-ragability`, `OFAI/python-llms-wrapper`),
+TimeR4 (`qianxinying/TimeR4`), PAGE-RAG (`CXY0112/PAGE-RAG`). Deliverable: `reports/02c_extension_audit_2.md`; cập nhật `01`, `02` §5, `03`, `CLAUDE.md`.
+
+- [x] 5/5 repo clone thành công; HEAD trùng fork.
+- [x] License, component map có `path:line` (`check_citations.py` pass).
+- [x] Câu trả lời (f) cho 4 bài + bảng tổng hợp mọi công trình đã audit + gợi ý sơ bộ cập nhật (`02c` §7).
+- [ ] Ghi nhận lỗi quy trình: clone TimeR4 (858 MB data) mà không kiểm dung lượng trước → đã bổ sung quy trình vào `CLAUDE.md` §8.
+- [x] Commit + push → **STOP**.
+
+**Điều chỉnh Phase B đang chờ bạn duyệt** (theo `02c` §7.5): cờ mutable/stable và single-value trong `TinyKG`; perturbation phân biệt temporal
+trên property mutable với giá trị khác trên property stable; thêm metric WFR; slice Ragability (≤ 200 dòng, CC-BY-SA) từ HF.
+
 ---
 
 ## Phase B — PROTOTYPE HARNESS (chạy CPU)

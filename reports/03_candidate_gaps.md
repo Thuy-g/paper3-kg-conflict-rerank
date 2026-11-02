@@ -49,6 +49,13 @@
 | E21 | ConflictRAG đưa giả thuyết (chưa đo) rằng filter của Self-RAG "over-removes contradictory evidence"; taxonomy: factual / temporal / opinion | [paper ConflictRAG tr. 3–4] |
 | E22 | CONFLICTS (Google Research + Bar-Ilan): taxonomy coi khác biệt granularity là "No conflict"; annotate mức query; typing tốt nhất 65,3% | [paper CONFLICTS tr. 2, 4–5, 8] |
 | E23 | ContextConflict: subset `ambiguity` (≈ homonym, 1.000 mẫu) và misinformation có **`accuracy_labels` theo source**; nhưng **không có license** | [data]; `02b_extension_audit.md` §3–4 |
+| E24 | When Facts Change: LLM **nói ra** suy luận về mutability nhưng **không dùng** nó cho câu trả lời; nhắc tới mutability trong prompt không tăng accuracy | [paper When Facts Change tr. 1, 9] |
+| E25 | When Facts Change chỉ xét **một context** (context–parameter); inter-context nằm ngoài phạm vi | [paper When Facts Change tr. 10] |
+| E26 | Danh sách property **mutable / stable** và qualifier P580/P582/P585 có sẵn trong code | `MUTABLE_PROPERTIES` — `third_party/knowledge-conflicts-mutability/data/recent_changes/ds_creation/extract_triples_from_dump.py:13-39`; `STABLE_PROPERTIES` — `third_party/knowledge-conflicts-mutability/data/recent_changes/ds_creation/extract_stable_entities.py:17-44` |
+| E27 | Ragability: gợi ý "có thể có mâu thuẫn" làm tăng detection trên context mâu thuẫn nhưng **giảm đáng kể** kết quả trên context không mâu thuẫn (false alarm); dùng entity hư cấu; corpus CC-BY-SA-4.0 | [paper Ragability tr. 1–3]; HF API `ofai/RagabilityCorpus` |
+| E28 | TimeR4 rerank theo ràng buộc thời gian của **câu hỏi** trên fact TKG, không có khái niệm conflict | `re_rank_single_result` — `third_party/TimeR4/retrival.py:194`; [paper TimeR4 tr. 5–6] |
+| E29 | PAGE-RAG dùng ràng buộc domain/range và gộp entity theo type để **làm sạch graph**, không để typing conflict | `RELATION_CONSTRAINTS` — `third_party/PAGE-RAG/src/algorithm/construction/graph_validation.py:32-46`; `MergeCandidate` — `third_party/PAGE-RAG/src/algorithm/construction/entity_alignment.py:1-8` |
+| E30 | Các relation phổ biến của 2Wiki (date/place of birth/death, father, mother, country of citizenship) đều thuộc nhóm **stable** (E14 + E26) → muốn có perturbation `temporal_scope` thực tế thì cần fact của property **mutable** | [data] + E26 |
 
 ---
 
@@ -152,7 +159,9 @@
    `add_synonymy_edges` — `third_party/MemGraphRAG/code/src/MemGraphRAG.py:1418`); MAGIC (perturb P460 "said to be the same as" như genuine conflict, E13);
    EvoReasoner/EvoKG (arXiv 2509.15464, đã tải qua arXiv và quét): nêu "Oscar Awards lacks temporal specificity unless linked to one of its 100
    historical variants" như một vấn đề **entity grounding cho temporal QA**, không phải typing apparent conflict; T-GRAG (arXiv 2508.01680, đã quét):
-   chữ "granularity" ở đây là retrieval granularity, không có alias; TimeR4 (EMNLP 2024) **chưa đọc được** vì aclanthology.org bị chặn.
+   chữ "granularity" ở đây là retrieval granularity, không có alias; **TimeR4** (EMNLP 2024, đã đọc và audit code): rerank theo ràng buộc thời gian của
+   câu hỏi trên fact TKG, không có conflict (E28); **When Facts Change** (Findings ACL 2026): mutability của fact, một context (E24–E26).
+   **Cập nhật sau `02c`:** phần *temporal/mutability* của G3 được **đưa vào lõi G2** (xem `02c` §7); phần *cross-lingual alias* (G8) để cho bài sau.
    Entity disambiguation có sẵn trong kapipe (BLINK, LLMED) nhưng không có thời gian hiệu lực của alias.
 3. **Bằng chứng còn mở.** E3, E6 (không repo nào xử lý alias); trong 10 PDF không có benchmark nào về false conflict do historical name;
    WebSearch cũng không tìm thấy benchmark như vậy (**[search, UNVERIFIED]**, cần tìm kỹ hơn).
@@ -176,17 +185,22 @@
 | G7 | trung bình (WFR của EvoTrustRAG đã có, nhưng ở mức query) | cao | ngắn nhất | an toàn, hợp PLOS ONE / Sci Rep; đồng thời là động lực cho G2; báo cáo cả FCFR lẫn WFR |
 | G1 | cao | cao | ngắn | dễ bị coi là chủ đề cũ; có rủi ro rò rỉ đáp án |
 | G2+G1 | trung bình | cao | trung bình | khớp tiêu đề "Relation-Aware"; ablation rõ ràng |
-| G3+G8 | trung bình (thiếu benchmark, cần tìm thêm) | trung bình (cần subset Wikidata) | dài | có lợi thế ngôn ngữ; rủi ro LLM đã giải quyết được |
+| G3+G8 | G3 (mutability/temporal): **trung bình**, có động lực rõ (E24–E25); G8 (cross-lingual): trung bình, chưa kiểm | trung bình (cần subset Wikidata trên máy local) | dài | **G3 đưa vào lõi G2**; G8 để bài sau, có lợi thế ngôn ngữ |
 
 Gợi ý sơ bộ (để bạn phản hồi trước Phase B): **G7 → G2+G1** như một chuỗi, trong đó G7 cung cấp động lực và metric, còn G2+G1 là phương pháp.
 G3+G8 có thể là một phần mở rộng (loại alias có thời gian hiệu lực) bên trong G2. Sau audit mở rộng, chuỗi này chính là **phương án A** trong
 `02b_extension_audit.md` §6.5: baseline LLM-typer bắt buộc là prompt của MemGraphRAG, có cascade KG-first, và báo cáo cả FCFR (passage) lẫn WFR (query).
 
+**Gợi ý hiện hành (sau `02c`, thay cho dòng trên):** **G7 → G2⁺**, trong đó G2⁺ = typing KG-first dùng **mutability/uniqueness của property**, qualifier
+thời gian, hierarchy, alias có thời gian hiệu lực, type cho homonym, và bản đồ predicate; G3 (temporal/mutability) nằm trong lõi; G1 chỉ còn là
+ablation; G8 để bài sau. Chi tiết, tiêu chí bác bỏ và phương án dự phòng: `02c_extension_audit_2.md` §7.
+
 ## 3. Việc cần làm để giảm rủi ro novelty (chuyển vào `07`)
 
 1. ~~Đọc full text HVM-GraphRAG, MemGraphRAG, EvoTrustRAG, ConflictRAG~~ **đã làm** (`02b` §5); ~~ConflictQA (2604.11209), T-GRAG (2508.01680),
-   EvoReasoner (2509.15464)~~ **đã quét** qua arXiv. **Còn lại**: Ragability (LREC 2026), "When Facts Change" (Findings ACL 2026), TimeR4 (EMNLP 2024),
-   vì **aclanthology.org bị chặn** (CONNECT 403), cần bạn attach PDF hoặc mở domain; EvidenceConflict (9/2026, trang nrfhh.com) chưa thử.
+   EvoReasoner (2509.15464)~~ **đã quét** qua arXiv; ~~Ragability, "When Facts Change", TimeR4~~ **đã đọc và audit code** (bạn attach PDF và fork;
+   `02c`). **Còn lại**: EvidenceConflict (9/2026, trang nrfhh.com) chưa thử; một lượt tìm novelty có hệ thống cho cụm "mutability + inter-context
+   conflict + reranking" (`02c` §8).
 2. ~~Đọc paper gốc CONFLICTS~~ **đã làm** (E22).
 3. Kiểm tần suất apparent conflict **mức passage** trong CONFLICTS (gán nhãn tay khoảng 50 query) để trả lời câu hỏi "có hiếm không" của G2.
 4. Xin phép tác giả ContextConflict về license dữ liệu trước khi dùng subset ambiguity/temporal/misinformation (E23).

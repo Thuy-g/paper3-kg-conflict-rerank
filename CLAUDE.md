@@ -131,6 +131,9 @@ openai_compat` and `llm.base_url: http://localhost:8000/v1` in the YAML config.
 - Audit branch for this effort: `claude/paper3-audit-20261102` (date fixed at the start, kept for
   all phases; one pull request at the end of Phase C).
 - Commit at every STOP POINT; push with `git push -u origin <branch>`.
+- Before cloning a third-party repo, check its size first (some ship hundreds of MB of data, e.g. TimeR4):
+  `git clone --depth 1 --filter=blob:none --no-checkout <url> third_party/<Repo>` →
+  `git -C third_party/<Repo> ls-tree -r -l HEAD | sort -k4 -n | tail` → `git sparse-checkout set <code dirs>` → `git checkout`.
 - Never commit `third_party/`, `.venv/`, `logs/`, `outputs/`, `data/` (third-party dataset
   slices: licences may forbid redistribution) or secrets. Hand-written fixtures in
   `tests/fixtures/` are fine and must say `"synthetic": true`.
@@ -151,6 +154,10 @@ Venue and arXiv IDs below are as given by the owner; checking them is part of Ph
 | `lei-nlp-lab/context_conflict_emnlp_2026` | `Thuy-g/context_conflict_emnlp_2026` | ContextConflict, EMNLP 2026, arXiv 2609.03148 (no licence; steering code not released) |
 | `Parv17k/decision-models-conflict-typing` | `Thuy-g/decision-models-conflict-typing` | Khatri et al., arXiv 2610.36915 (Apache-2.0) |
 | `XMUDeepLIT/MemGraphRAG` | `Thuy-g/MemGraphRAG` | MemGraphRAG, KDD 2026, arXiv 2606.00610 (MIT) |
+| `jwallat/knowledge-conflicts-mutability` | `Thuy-g/knowledge-conflicts-mutability` | When Facts Change, Findings of ACL 2026 (no licence; mutable/stable property lists) |
+| `OFAI/python-ragability`, `OFAI/python-llms-wrapper` | `Thuy-g/python-ragability`, `Thuy-g/python-llms-wrapper` | Ragability, LREC 2026 (Apache-2.0; corpus `ofai/RagabilityCorpus` CC-BY-SA-4.0) |
+| `qianxinying/TimeR4` | `Thuy-g/TimeR4` | TimeR4, EMNLP 2024 (no licence; repo ships ~745 MB of data) |
+| `CXY0112/PAGE-RAG` | `Thuy-g/PAGE-RAG` | PAGE-RAG, arXiv 2607.19301 (Apache-2.0) |
 
 In cloud sessions the first seven forks are pre-cloned at `/home/user/<Repo>`; the last three are cloned from upstream into
 `third_party/` (HEADs equal the forks, see `reports/02b_extension_audit.md` §2).

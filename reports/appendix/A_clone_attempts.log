@@ -54,3 +54,30 @@ $ git clone --depth 1 https://github.com/XMUDeepLIT/MemGraphRAG third_party/MemG
 Cloning into 'third_party/MemGraphRAG'...
 exit_code=0 elapsed_s=3
 
+--- Phase A++ 2026-11-02T15:13:43Z
+### TimeR4 <- https://github.com/qianxinying/TimeR4
+$ git clone --depth 1 https://github.com/qianxinying/TimeR4 third_party/TimeR4
+Cloning into 'third_party/TimeR4'...
+Updating files:  23% (22/92)Updating files:  25% (23/92)Updating files:  26% (24/92)Updating files:  27% (25/92)Updating files:  28% (26/92)Updating files:  29% (27/92)Updating files:  30% (28/92)Updating files:  31% (29/92)Updating files:  32% (30/92)Updating files:  33% (31/92)Updating files:  34% (32/92)Updating files:  35% (33/92)Updating files:  36% (34/92)Updating files:  38% (35/92)Updating files:  39% (36/92)Updating files:  40% (37/92)Updating files:  41% (38/92)Updating files:  42% (39/92)Updating files:  43% (40/92)Updating files:  44% (41/92)Updating files:  45% (42/92)Updating files:  46% (43/92)Updating files:  47% (44/92)Updating files:  48% (45/92)Updating files:  50% (46/92)Updating files:  51% (47/92)Updating files:  52% (48/92)Updating files:  53% (49/92)Updating files:  54% (50/92)Updating files:  55% (51/92)Updating files:  56% (52/92)Updating files:  57% (53/92)Updating files:  58% (54/92)Updating files:  59% (55/92)Updating files:  60% (56/92)Updating files:  61% (57/92)Updating files:  63% (58/92)Updating files:  64% (59/92)Updating files:  65% (60/92)Updating files:  66% (61/92)Updating files:  67% (62/92)Updating files:  68% (63/92)Updating files:  69% (64/92)Updating files:  70% (65/92)Updating files:  71% (66/92)Updating files:  72% (67/92)Updating files:  73% (68/92)Updating files:  75% (69/92)Updating files:  76% (70/92)Updating files:  77% (71/92)Updating files:  78% (72/92)Updating files:  79% (73/92)Updating files:  80% (74/92)Updating files:  81% (75/92)Updating files:  82% (76/92)Updating files:  83% (77/92)Updating files:  84% (78/92)Updating files:  85% (79/92)Updating files:  86% (80/92)Updating files:  88% (81/92)Updating files:  89% (82/92)Updating files:  90% (83/92)Updating files:  91% (84/92)Updating files:  92% (85/92)Updating files:  93% (86/92)Updating files:  94% (87/92)Updating files:  95% (88/92)Updating files:  96% (89/92)Updating files:  97% (90/92)Updating files:  98% (91/92)Updating files: 100% (92/92)Updating files: 100% (92/92), done.
+exit_code=0 elapsed_s=30
+
+### python-ragability <- https://github.com/OFAI/python-ragability
+$ git clone --depth 1 https://github.com/OFAI/python-ragability third_party/python-ragability
+Cloning into 'third_party/python-ragability'...
+exit_code=0 elapsed_s=0
+
+### python-llms-wrapper <- https://github.com/OFAI/python-llms-wrapper
+$ git clone --depth 1 https://github.com/OFAI/python-llms-wrapper third_party/python-llms-wrapper
+Cloning into 'third_party/python-llms-wrapper'...
+exit_code=0 elapsed_s=0
+
+### knowledge-conflicts-mutability <- https://github.com/jwallat/knowledge-conflicts-mutability
+$ git clone --depth 1 https://github.com/jwallat/knowledge-conflicts-mutability third_party/knowledge-conflicts-mutability
+Cloning into 'third_party/knowledge-conflicts-mutability'...
+exit_code=0 elapsed_s=1
+
+### PAGE-RAG <- https://github.com/CXY0112/PAGE-RAG
+$ git clone --depth 1 https://github.com/CXY0112/PAGE-RAG third_party/PAGE-RAG
+Cloning into 'third_party/PAGE-RAG'...
+exit_code=0 elapsed_s=1
+

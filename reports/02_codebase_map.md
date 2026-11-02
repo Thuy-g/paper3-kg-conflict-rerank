@@ -392,4 +392,4 @@ bị đi trước**; (ii) năm 2026 có nhiều công trình gần (EvoTrustRAG,
 5. ~~Nội dung paper gốc CONFLICTS (Cattan et al. 2025)~~ → **đã đọc** (PDF attach sau Phase A; `02b` §5).
 6. Tiêu chí và APC của IEEE Access / PLOS ONE / Scientific Reports — mới thấy qua snippet tìm kiếm.
 7. ~~Các công trình 2026 chỉ thấy qua tìm kiếm~~ → EvoTrustRAG, HVM-GraphRAG, MemGraphRAG, ConflictRAG **đã đọc full text**; ConflictQA, T-GRAG,
-   EvoReasoner **đã quét** qua arXiv (`02b`, `03`). **Còn lại**: TimeR4, Ragability, "When Facts Change" (aclanthology.org bị chặn), EvidenceConflict.
+   EvoReasoner **đã quét** qua arXiv (`02b`, `03`); TimeR4, Ragability, "When Facts Change" **đã đọc và audit code** (`02c`). **Còn lại**: EvidenceConflict.

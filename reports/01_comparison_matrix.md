@@ -17,12 +17,15 @@
 | 7 | Relink | AAAI 2026 (© AAAI 2026, tr. 1); arXiv 2601.07192v1 | Huang, Bu, He, Zhuo, Wu (HFUT, William & Mary) | ✅ |
 | 8 | ProStruct-RAG | EMNLP 2026, pp. 6749–6771 (README kapipe: 2026.emnlp-main.294) | Nishida (AIST), **Cheng (Kyoto University, NII LLMC)**, Matsumoto (Tohoku U., RIKEN) | ✅ (kapipe) |
 | 9 | ContextConflict | EMNLP 2026, pp. 21142–21169; arXiv 2609.03148 (README) | Yang, Liu, Li, Lei (Northwestern, NYU, U. Florida) | ✅ (audit mở rộng, `02b` §4.1; code steering **chưa công bố**; **không có license**) |
-| 10 | PAGE-RAG | arXiv 2607.19301v1 | Chen, An, Guo, Wang (CUIT, Beihang) | ✗ (github.com/CXY0112/PAGE-RAG, chưa audit) |
+| 10 | PAGE-RAG | arXiv 2607.19301v1 | Chen, An, Guo, Wang (CUIT, Beihang) | ✅ (audit đợt 3, `02c` §3.4; Apache-2.0) |
 | 11 | Knowledge Conflicts for LLMs: A Survey | arXiv 2403.08319v2 | Xu, Qi, Guo, Wang, Wang, Zhang, Xu (Tsinghua, Cambridge, Westlake, CUHK) | — |
 | 12 | MemGraphRAG | KDD 2026 (header tr. 14; README); arXiv 2606.00610v1 | Wu, Xiang, Tang, Chen, Zhang, Su (Xiamen U., Jilin U.) | ✅ (audit mở rộng, `02b` §4.3; MIT) |
 | 13 | HVM-GraphRAG | arXiv 2607.24861v1 | He, Wang, Fan, Li, Zhang, Chang, Wang (Jilin U., PolyU) | ✗ (PDF không có link code) |
 | 14 | EvoTrustRAG | arXiv 2608.07933v1 [cs.CR] | Nie, Li, Wu, Fan, Song, Jiang (UESTC, CAS) | ✗ (PDF không có link code) |
 | 15 | ConflictRAG | arXiv 2605.17301v2 | Wang, Li, Liu, Shu (Zhengzhou U., Taiyuan U. of Tech., Zhejiang U.) | ✗ (PDF không có link code) |
+| 16 | When Facts Change | Findings of ACL 2026, pp. 2154–2184 | Wallat, Sikdar, Nejdl (L3S Research Center) | ✅ (`02c` §3.1; **không có license**) |
+| 17 | Ragability | LREC 2026 | Gross, Petrak, Krenn (OFAI) | ✅ (`02c` §3.2; Apache-2.0; corpus CC-BY-SA-4.0) |
+| 18 | TimeR4 | EMNLP 2024 | Qian, Zhang, Zhao, Zhou, Sui, Zhang, Song (Nankai U., Tiangong U.) | ✅ (`02c` §3.3; **không có license**) |
 
 Lưu ý về tên file: PDF số 5 được đặt tên "Google_Research_CONFLICTS…", nhưng trang 1 ghi tác giả là **các nhà nghiên cứu độc lập**.
 Paper này chỉ **xây dựng trên** benchmark CONFLICTS của Cattan et al. (repo `google-research-datasets/rag_conflicts`).
@@ -62,7 +65,13 @@ Paper này chỉ **xây dựng trên** benchmark CONFLICTS của Cattan et al. (
 | EvoTrustRAG | nguồn gốc conflict: evolution / intervention / unresolved | nhóm fact span-grounded | ◐ (evolution ≈ apparent theo thời gian; intervention ≈ genuine/tấn công) | ✗ | ✗ | ✅ | ✗ | ✗ |
 | ConflictRAG | no-conflict / factual / temporal / opinion | cặp tài liệu (MLP + LLM) | ◐ | ✗ | ✗ | ✅ | ✗ | ✗ |
 
-Bốn dòng cuối đã được **kiểm chứng bằng full text** (và code, riêng MemGraphRAG); chi tiết và trang trích dẫn ở `02b_extension_audit.md` §4.3, §5.
+| When Facts Change | context–parameter, fact **mutable vs. stable** | mức câu hỏi (1 context) | ◐ (mutability là manh mối apparent/genuine, nhưng LLM không dùng) | ✗ | ✗ | ✅ (mutable fact, document date) | ✗ | ✗ |
+| Ragability | inter-context cần implicit reasoning (categorical / numerical / temporal) | cặp hoặc bộ 4 context (yes/no + nội dung) | ◐ (có control "không mâu thuẫn"; đo được false alarm khi có hint) | ✗ | ✗ | ◐ (tag temporal) | ✗ | ✗ |
+| TimeR4 | không có conflict; rerank theo ràng buộc thời gian của câu hỏi | fact TKG | ✗ | ✗ | ✗ | ✅ (time constraint) | ✗ | ✗ |
+| PAGE-RAG | không typing conflict; làm sạch graph bằng domain/range + type | node / edge | ✗ | ◐ (bảo vệ alias trùng tên) | ✗ | ✗ | ◐ (gộp chỉ khi cùng type) | ✗ |
+
+Bốn dòng MemGraphRAG / HVM / EvoTrustRAG / ConflictRAG đã được **kiểm chứng bằng full text** (và code, riêng MemGraphRAG) ở `02b_extension_audit.md`
+§4.3, §5; bốn dòng sau cùng ở `02c_extension_audit_2.md`.
 Hệ quả: taxonomy "granularity tương thích / temporal / mutual" **không còn là điểm mới**; xem phần đánh giá lại G2 trong `03`.
 
 ## 4. Ma trận C — kỹ thuật và khả năng reuse
