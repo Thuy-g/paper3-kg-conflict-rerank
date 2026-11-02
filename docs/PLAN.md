@@ -9,7 +9,7 @@
 | Ràng buộc | Hệ quả cho kế hoạch |
 |---|---|
 | 4 vCPU, ~15 GiB RAM, không GPU | chỉ audit + prototype CPU; LLM mặc định là `MockLLM` |
-| Upstream GitHub trả 403 (`GitHub access to this repository is not enabled for this session`) | Phase A vẫn thử `git clone --depth 1` và ghi nguyên văn lỗi, sau đó dùng các fork `Thuy-g/*` đã attach làm nguồn read-only |
+| Trang web GitHub của upstream trả 403 (`GitHub access to this repository is not enabled for this session`) | **Kết quả Phase A:** `git clone --depth 1` cả 7 upstream đều thành công; HEAD trùng fork `Thuy-g/*` (`reports/02_codebase_map.md` §1) |
 | `arxiv.org` bị chặn (proxy CONNECT 403; WebFetch cũng không resolve được) | không đọc được nội dung paper → claim về paper chỉ dựa vào README/code, còn lại ghi **[UNVERIFIED]** |
 | `www.wikidata.org` bị chặn | `TinyKG` và bảng alias/hierarchy là fixture viết tay, ghi `synthetic` |
 | PyPI, `huggingface.co` truy cập được | cài package được; tiny slice dataset từ HF khả thi (Phase B) |
@@ -64,14 +64,14 @@ Câu hỏi bắt buộc:
   minimal falsifiable experiment; điều gì làm mất novelty.
 
 ### Tiêu chí hoàn thành Phase A
-- [ ] 7/7 repo có trạng thái clone (upstream OK / fork fallback / không truy cập được) kèm lỗi nguyên văn.
-- [ ] Mỗi repo có: LICENSE + hệ quả reuse, commit hash, cây thư mục, component map đủ 6 nhóm.
-- [ ] (a)–(d) có kết luận rõ ràng và trích code `path:line` + tên symbol.
-- [ ] `check_citations.py` pass trên `reports/01–03` (hoặc liệt kê rõ ngoại lệ).
-- [ ] Mọi claim về paper chưa kiểm được đều có **[UNVERIFIED]** (danh sách sẽ chuyển vào `07`).
-- [ ] `03_candidate_gaps.md` đủ 5 gap × 7 trường.
-- [ ] Không file nào trong `third_party/` hay trong các fork bị sửa (`git status` sạch).
-- [ ] Commit + push → **STOP POINT A**.
+- [x] 7/7 repo có trạng thái clone — cả 7 upstream clone thành công (exit 0), HEAD trùng fork.
+- [x] Mỗi repo có: LICENSE + hệ quả reuse, commit hash, cây thư mục, component map đủ 6 nhóm.
+- [x] (a)–(d) có kết luận rõ ràng và trích code `path:line` + tên symbol.
+- [x] `check_citations.py` pass trên `reports/01–03` (104/104 OK).
+- [x] Mọi claim về paper chưa kiểm được đều có **[UNVERIFIED]** (`02` §5, `03` §3).
+- [x] `03_candidate_gaps.md` đủ 5 gap × 7 trường.
+- [x] Không file nào trong `third_party/` hay trong các fork bị sửa (`git status` sạch).
+- [x] Commit + push → **STOP POINT A**.
 
 ---
 

@@ -26,7 +26,7 @@ are in Vietnamese, keeping technical terms in English.
 
 | Where | Spec | Use |
 |---|---|---|
-| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv and Wikidata blocked, GitHub repos outside the session scope return 403 (see `reports/00_environment.md`) | audit, CPU prototype, unit + smoke tests |
+| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv and Wikidata blocked; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1) | audit, CPU prototype, unit + smoke tests |
 | Desktop MSI MEG Vision X AI 2NVZ9-014JP | 1x RTX 5090 (32 GB VRAM), 64 GB RAM, Ubuntu on WSL2 | real experiments; open-weight LLMs via vLLM OpenAI-compatible server at `http://localhost:8000/v1` |
 | MacBook Air M4 | 24 GB unified memory, 512 GB SSD (owner wrote "512 MB"; assumed typo) | local development, CPU tests; no CUDA |
 

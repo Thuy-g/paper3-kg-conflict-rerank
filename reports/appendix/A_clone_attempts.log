@@ -1,0 +1,40 @@
+### TruthfulRAG <- https://github.com/STAIR-BUPT/TruthfulRAG
+$ git clone --depth 1 https://github.com/STAIR-BUPT/TruthfulRAG third_party/TruthfulRAG__upstream
+Cloning into 'third_party/TruthfulRAG__upstream'...
+exit_code=0
+
+### GraphRAG-Benchmark <- https://github.com/GraphRAG-Bench/GraphRAG-Benchmark
+$ git clone --depth 1 https://github.com/GraphRAG-Bench/GraphRAG-Benchmark third_party/GraphRAG-Benchmark__upstream
+Cloning into 'third_party/GraphRAG-Benchmark__upstream'...
+--- resumed 2026-11-02T13:00:33Z after interruption; previous GraphRAG-Benchmark attempt was cut off by the user interrupt (no exit code)
+
+### GraphRAG-Benchmark <- https://github.com/GraphRAG-Bench/GraphRAG-Benchmark
+$ git clone --depth 1 https://github.com/GraphRAG-Bench/GraphRAG-Benchmark third_party/GraphRAG-Benchmark__upstream
+Cloning into 'third_party/GraphRAG-Benchmark__upstream'...
+exit_code=0  elapsed_s=1
+
+### MAGIC <- https://github.com/HYU-NLP/MAGIC
+$ git clone --depth 1 https://github.com/HYU-NLP/MAGIC third_party/MAGIC__upstream
+Cloning into 'third_party/MAGIC__upstream'...
+exit_code=0  elapsed_s=1
+
+### rag_conflicts <- https://github.com/google-research-datasets/rag_conflicts
+$ git clone --depth 1 https://github.com/google-research-datasets/rag_conflicts third_party/rag_conflicts__upstream
+Cloning into 'third_party/rag_conflicts__upstream'...
+exit_code=0  elapsed_s=2
+
+### ArbGraph <- https://github.com/1212Judy/ArbGraph
+$ git clone --depth 1 https://github.com/1212Judy/ArbGraph third_party/ArbGraph__upstream
+Cloning into 'third_party/ArbGraph__upstream'...
+exit_code=0  elapsed_s=0
+
+### Relink <- https://github.com/DMiC-Lab-HFUT/Relink
+$ git clone --depth 1 https://github.com/DMiC-Lab-HFUT/Relink third_party/Relink__upstream
+Cloning into 'third_party/Relink__upstream'...
+exit_code=0  elapsed_s=2
+
+### kapipe <- https://github.com/norikinishida/kapipe
+$ git clone --depth 1 https://github.com/norikinishida/kapipe third_party/kapipe__upstream
+Cloning into 'third_party/kapipe__upstream'...
+exit_code=0  elapsed_s=1
+

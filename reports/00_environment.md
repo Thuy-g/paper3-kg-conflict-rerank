@@ -30,7 +30,7 @@ Hệ quả: mọi thứ trong session này phải chạy được trên **CPU 4 
 | `https://huggingface.co/cross-encoder/ms-marco-MiniLM-L6-v2/resolve/main/config.json` | 307 (redirect) | host model HF truy cập được (chưa tải thử file nào) |
 | `https://datasets-server.huggingface.co/` | 404 ở root | host truy cập được; endpoint `/rows` chưa thử (Phase B) |
 | `https://raw.githubusercontent.com/` | 301 | host truy cập được; quyền theo repo chưa thử |
-| `https://github.com/STAIR-BUPT/TruthfulRAG` | **403**, body: `"GitHub access to this repository is not enabled for this session. Use add_repo to request access. ..."` | repo upstream **nằm ngoài scope** GitHub của session |
+| `https://github.com/STAIR-BUPT/TruthfulRAG` (HTTP GET trang web) | **403**, body: `"GitHub access to this repository is not enabled for this session. Use add_repo to request access. ..."` | trang web/API GitHub của repo ngoài scope bị chặn. **Đính chính ở Phase A:** `git clone --depth 1` 7 repo upstream public đều **thành công** (exit 0) — xem `02_codebase_map.md` §1 |
 | `https://arxiv.org/abs/2511.10375` | **CONNECT 403** (curl); WebFetch: `getaddrinfo ENOTFOUND arxiv.org` | arXiv **bị chặn** bởi network policy |
 | `https://www.wikidata.org/` | **CONNECT 403** | Wikidata **bị chặn** |
 
@@ -44,8 +44,8 @@ Hệ quả cho kế hoạch:
   **[UNVERIFIED]**. Muốn mở: thêm `arxiv.org` vào *Allowed domains* trong Network access của
   cloud environment (xem https://code.claude.com/docs/en/cloud-environments#network-access).
 - **Không truy vấn được Wikidata** → `TinyKG` (Phase C) là fixture viết tay, ghi rõ synthetic.
-- **Upstream GitHub bị 403** → Phase A sẽ thử `git clone --depth 1` đúng như yêu cầu, ghi
-  nguyên văn lỗi, rồi dùng các **fork đã attach** (`Thuy-g/*`) làm nguồn read-only.
+- ~~Upstream GitHub bị 403~~ → **Đính chính (Phase A):** chỉ trang web bị 403; `git clone --depth 1` các repo upstream
+  public chạy được, nên không cần fallback sang fork. Fork chỉ còn dùng để đối chiếu hash.
 
 ## 3. Các fork đã được attach vào session (đã clone sẵn trong `/home/user/`)
 
@@ -60,7 +60,8 @@ Hệ quả cho kế hoạch:
 | `rag_conflicts` | `Thuy-g/rag_conflicts` | `claude/wizardly-cannon-lofwfv` | `81ba921dd684a93db41a7e9dda6b6a7c67348a88` | 2025-06-11 | no | 78M |
 
 Ghi chú:
-- Việc HEAD của fork trùng với HEAD của upstream là **[UNVERIFIED]** (upstream không truy cập được).
+- ~~Việc HEAD của fork trùng với HEAD của upstream là [UNVERIFIED]~~ → **đã kiểm ở Phase A: trùng cả 7 repo**
+  (`02_codebase_map.md` §1).
 - `rag_conflicts/conflicts.jsonl` = 46.7 MB, 458 dòng (~100 KB/dòng) → khi làm tiny slice
   (Phase B) phải giới hạn theo **dung lượng** chứ không chỉ theo số ví dụ (quy tắc ≤ 50 MB tổng).
 - Các fork này sẽ **không bị sửa, commit hay push** (quy tắc 2).
