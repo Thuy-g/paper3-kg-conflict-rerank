@@ -378,7 +378,7 @@ LLM-judge filter) cũng phù hợp; đổi lại, hai venue này ít phổ biế
 cho luận án: **[UNVERIFIED]**.
 
 Rủi ro: (i) nhóm tác giả gốc (RUC AI Box) đã tự nêu hướng "temporal dependencies" [tr. 20] → mở rộng theo trục temporal dễ bị **trùng hoặc
-bị đi trước**; (ii) năm 2026 có nhiều công trình gần (EvoTrustRAG, HVM-GraphRAG, MemGraphRAG… — xem `03`, **[UNVERIFIED]**);
+bị đi trước**; (ii) năm 2026 có nhiều công trình gần (EvoTrustRAG, HVM-GraphRAG, MemGraphRAG… — đã kiểm chứng ở `02b` §5);
 (iii) license (không copy code); (iv) chi phí LLM theo số cặp claim (ước tính ở Phase C, `06`).
 
 ---
@@ -389,6 +389,7 @@ bị đi trước**; (ii) năm 2026 có nhiều công trình gần (EvoTrustRAG,
 2. Repo `RUCAIBox/ArbGraph` và license của nó; ArbGraph có đang submit ACM TOIS không.
 3. vLLM có chấp nhận `seed / presence_penalty / frequency_penalty` từ `ChatOpenAI` không; giới hạn `top_logprobs`; có hỗ trợ OpenAI Batch API (cho kapipe) không.
 4. Dung lượng thật của BAAI/bge-large-en-v1.5.
-5. Nội dung paper gốc CONFLICTS (Cattan et al. 2025) — chỉ biết qua README và paper của Khatri et al. 2026.
+5. ~~Nội dung paper gốc CONFLICTS (Cattan et al. 2025)~~ → **đã đọc** (PDF attach sau Phase A; `02b` §5).
 6. Tiêu chí và APC của IEEE Access / PLOS ONE / Scientific Reports — mới thấy qua snippet tìm kiếm.
-7. Các công trình 2026 chỉ thấy qua tìm kiếm (EvoTrustRAG, HVM-GraphRAG, MemGraphRAG, ConflictRAG, TimeR4, T-GRAG, EvidenceConflict, Ragability…).
+7. ~~Các công trình 2026 chỉ thấy qua tìm kiếm~~ → EvoTrustRAG, HVM-GraphRAG, MemGraphRAG, ConflictRAG **đã đọc full text**; ConflictQA, T-GRAG,
+   EvoReasoner **đã quét** qua arXiv (`02b`, `03`). **Còn lại**: TimeR4, Ragability, "When Facts Change" (aclanthology.org bị chặn), EvidenceConflict.

@@ -5,6 +5,9 @@
 > **đề xuất để bạn chốt trước khi chạy (pre-registration)**, không phải kết quả.
 > Mức bằng chứng: **[code]** đọc trực tiếp; **[paper tr. X]** PDF bạn attach; **[data]** đếm bằng script trên dữ liệu trong `third_party/`;
 > **[search, UNVERIFIED]** chỉ thấy qua snippet WebSearch ngày 2026-11-02.
+> **Cập nhật sau audit mở rộng (`02b_extension_audit.md`)**: đã đọc full text MemGraphRAG, HVM-GraphRAG, EvoTrustRAG, ConflictRAG,
+> CONFLICTS và audit code MemGraphRAG / ContextConflict / decision-model typing. Bằng chứng mới là E16–E23; novelty của G2 và G7 đã được
+> **đánh giá lại** (xem từng mục).
 
 ## 0. Định nghĩa dùng chung
 
@@ -38,37 +41,50 @@
 | E13 | MAGIC `1-single-hop`: 149/208 perturbation là thay relation (phần lớn phủ định / đảo chiều) → genuine tường minh, không có apparent | [data] |
 | E14 | Slice 2WikiMultiHopQA trong Relink: 500 câu × 10 đoạn, có `evidences` triple; relation phổ biến: director, date/place of birth/death, country of citizenship | [data] |
 | E15 | Relink coi *died in* so với *buried in* là "distractor fact" (liên quan nhưng lệch mục tiêu) | [paper Relink tr. 1–2] |
+| E16 | MemGraphRAG (KDD'26) đã có taxonomy **mutual / temporal / granularity** bằng **prompt LLM** lúc dựng graph; LLM tự phán predicate uniqueness | `conflict_detection` — `third_party/MemGraphRAG/code/src/prompts/prompt.py:351-382` [code]; Table 8 [paper MemGraphRAG tr. 14] |
+| E17 | MemGraphRAG chỉ xét cặp fact cùng (subject, relation) → alias của subject, homonym và predicate liên quan nằm ngoài phạm vi | `_conflict_candidates` — `third_party/MemGraphRAG/code/src/MemGraphRAG.py:496-527` [code] |
+| E18 | MemGraphRAG và HVM-GraphRAG **không đo** độ chính xác hay false-positive của detector, chỉ có ablation trên QA | [paper MemGraphRAG tr. 8]; [paper HVM tr. 8] |
+| E19 | HVM-GraphRAG dùng lại cùng taxonomy (prompt ở appendix), chạy lúc dựng graph, dữ liệu QA tài liệu đa phương thức; không có link code | [paper HVM tr. 21, 25–26] |
+| E20 | EvoTrustRAG có **WFR mức query** ("removes at least one evidence item that should remain available"), xoay quanh evolution/intervention; không có alias/granularity/homonym | [paper EvoTrustRAG tr. 5] |
+| E21 | ConflictRAG đưa giả thuyết (chưa đo) rằng filter của Self-RAG "over-removes contradictory evidence"; taxonomy: factual / temporal / opinion | [paper ConflictRAG tr. 3–4] |
+| E22 | CONFLICTS (Google Research + Bar-Ilan): taxonomy coi khác biệt granularity là "No conflict"; annotate mức query; typing tốt nhất 65,3% | [paper CONFLICTS tr. 2, 4–5, 8] |
+| E23 | ContextConflict: subset `ambiguity` (≈ homonym, 1.000 mẫu) và misinformation có **`accuracy_labels` theo source**; nhưng **không có license** | [data]; `02b_extension_audit.md` §3–4 |
 
 ---
 
 ## G2 — KG-schema-aware apparent vs. genuine conflict typing → reranking
 
-1. **Unresolved problem.** Trên fixed pool, các hệ thống hiện có hoặc coi mọi bất đồng là contradiction (ArbGraph: E1, E2), hoặc typing ở
-   mức query (CONFLICTS: E10), hoặc typing theo cặp nhưng chỉ trên trục thời gian (ProStruct: E9). Chưa có cơ chế dùng **KG schema**
-   (alias có thời gian hiệu lực, hierarchy located-in/part-of, qualifier start/end, type P31-like, cặp predicate tương thích) để phân loại
-   **từng passage hoặc cặp passage** thành apparent hay genuine, kèm **KG facts làm lời giải thích**, rồi dùng nhãn đó để rerank sao cho
-   **chỉ phạt genuine**.
-2. **Closest methods.** ProStruct-RAG (LLM typing updates/contradicts theo cặp proposition); CONFLICTS + Khatri et al. (typing 5 lớp mức query);
-   ContextConflict (benchmark có granularity/temporal/ambiguity); ArbGraph (contradiction + trọng tài, không typing); MAGIC (conflict sinh từ KG,
-   chỉ detection); **[search, UNVERIFIED]** HVM-GraphRAG (arXiv 2607.24861) và MemGraphRAG (arXiv 2606.00610) phân loại
-   mutual/temporal/granularity bằng prompt LLM; EvoTrustRAG (arXiv 2608.07933) phân loại nguồn gốc conflict (evolution / intervention / unresolved).
-3. **Bằng chứng còn mở.** E1–E3, E6, E9–E11 (không repo nào đã audit làm KG-schema typing để rerank); E5 (chính ArbGraph gặp apparent conflict);
-   E12 (apparent conflict theo nghĩa rộng **không hiếm** trong pool tự nhiên: 38,6% query CONFLICTS).
+1. **Unresolved problem (đã thu hẹp sau `02b`).** Khung "granularity tương thích / temporal phụ thuộc thời gian / mutual là genuine" **đã có**
+   dưới dạng **prompt LLM ở bước dựng graph** (MemGraphRAG, HVM-GraphRAG: E16, E19). Phần còn mở là:
+   (i) typing **dựa trên KG schema, kiểm chứng được** (uniqueness lấy từ ràng buộc single-value của property thay cho LLM tự phán; containment
+   lấy từ bao đóng P131/P361; thời gian lấy từ qualifier P580/P582; alias có thời gian hiệu lực; homonym qua type P31);
+   (ii) áp dụng **lúc truy vấn trên fixed candidate pool** để **rerank** (không phải sửa index), chỉ phạt genuine, kèm KG facts làm lời giải thích;
+   (iii) thêm các loại họ chưa có: alias/historical name, homonym, predicate_mismatch (E17);
+   (iv) **đo trực tiếp** độ chính xác typing và over-filtering, điều mà MemGraphRAG/HVM chưa làm (E18).
+2. **Closest methods.** **MemGraphRAG** (KDD'26; code MIT; prompt mutual/temporal/granularity + predicate uniqueness — E16) và **HVM-GraphRAG**
+   (cùng taxonomy, đa phương thức, không có code — E19), đây là **gần nhất**; ProStruct-RAG (updates/contradicts theo cặp proposition, E9);
+   CONFLICTS + Khatri et al. (5 lớp mức query, E10/E22); ContextConflict (benchmark có granularity/temporal/ambiguity, E11/E23); ArbGraph (contradiction
+   + trọng tài, không typing); MAGIC (genuine tường minh); EvoTrustRAG (nguồn gốc conflict evolution/intervention/unresolved, E20).
+3. **Bằng chứng còn mở.** E1–E3, E6, E9–E11 (không repo nào rerank fixed pool theo loại conflict); E16–E17 (typing hiện có dựa trên phán đoán LLM,
+   candidate hẹp); E18 (chưa ai đo detector); E5 (chính ArbGraph gặp apparent conflict); E12 (apparent conflict theo nghĩa rộng **không hiếm**:
+   38,6% query CONFLICTS).
 4. **Contribution.** (i) `ConflictTyper` dựa trên KG schema (rule-based, CPU, trả về `{type, evidence: [KG facts], confidence}`; LLM chỉ là
    fallback); (ii) `ConflictAwareReranker` = relevance − λ·penalty, **chỉ** phạt `genuine`; (iii) giao thức perturbation có kiểm soát cho 5 loại
-   apparent + counterfactual với nhãn suy ra từ KG; (iv) đo FCFR/GER so với các filter hiện có.
+   apparent + counterfactual với nhãn suy ra từ KG; (iv) đo FCFR/GER so với các filter hiện có; (v) **cascade KG-first, LLM-fallback** (ý
+   tưởng cascade của Khatri et al., nhưng tầng rẻ là rule KG thay cho decision model hosted) kèm thống kê số lần gọi LLM tiết kiệm được.
 5. **GPU/API.** Typing: CPU. Entity linking và triple extraction: có thể dùng LLM 7–8B qua vLLM (vừa 1× RTX 5090), hoặc **không cần LLM** nếu dùng
    triple có sẵn (2Wiki `evidences`, E14). Không cần API trả phí.
 6. **Minimal falsifiable experiment.** 200–300 câu 2Wiki, pool 10 đoạn gốc + 6 đoạn chèn (1 cho mỗi loại: counterfactual, alias, granularity,
    temporal, homonym, predicate), seed cố định. So sánh BM25, cross-encoder, LLM-judge contradiction filter (prompt kiểu ArbGraph, cài lại),
-   entropy filter (port TruthfulRAG), prompt LLM có typing (kiểu mutual/temporal/granularity), và KG-typed reranker.
+   entropy filter (port TruthfulRAG), **prompt `conflict_detection` của MemGraphRAG** (MIT, dùng nguyên văn làm LLM-typer baseline), và KG-typed reranker.
    **H-G2**: KG-typed reranker giảm FCFR@5 ít nhất **10 điểm %** so với filter tốt nhất trong nhóm LLM, với GER@5 không thấp hơn quá **2 điểm %**.
    **Bác bỏ** nếu không đạt; hoặc nếu prompt LLM có typing đạt macro-F1 typing chênh không quá 2 điểm % với chi phí tương đương (khi đó đóng góp
    chỉ còn ở chi phí và khả năng giải thích).
-7. **Điều gì làm mất novelty.** (a) Full text của HVM-GraphRAG / MemGraphRAG / EvoTrustRAG cho thấy họ đã dùng **KG schema** (không chỉ prompt) và
-   áp vào **reranking/filter** trên pool cố định; (b) prompt LLM có typing ngang bằng KG typing; (c) apparent conflict hiếm trong pool **tự nhiên**
-   ở mức passage (E12 chỉ là mức query, cần kiểm thêm); (d) một bài 2026 khác dùng chính alias/qualifier của Wikidata cho conflict trong RAG
-   (chưa thấy, cần tìm có hệ thống ở Phase C).
+7. **Điều gì làm mất novelty.** (a) **Đã xảy ra một phần**: taxonomy mutual/temporal/granularity không còn mới (E16, E19), nên **không được**
+   trình bày taxonomy này như đóng góp; (b) prompt LLM (MemGraphRAG) có typing ngang bằng KG typing với chi phí tương đương → đóng góp chỉ còn ở
+   khả năng giải thích và tính kiểm chứng; (c) apparent conflict hiếm trong pool **tự nhiên** ở mức passage (E12 chỉ là mức query, cần kiểm thêm);
+   (d) nhóm XMU DeepLIT/JLU (MemGraphRAG, HVM-GraphRAG, GraphRAG-Bench) công bố phiên bản query-time hoặc KG-schema trước ta, rủi ro này **cao** vì
+   nhóm ra bài rất nhanh; (e) một bài khác dùng chính alias/qualifier của Wikidata cho conflict trong RAG (chưa thấy; cần tìm có hệ thống).
 
 ## G7 — Empirical study về over-filtering
 
@@ -77,8 +93,9 @@
    FR/ID/Noise, chứ không có tỉ lệ evidence đúng bị loại theo từng loại apparent.
 2. **Closest methods.** TruthfulRAG (ACC/CPR, Table 3 [paper tr. 7]); ArbGraph (FR, ID, Noise-S/I, Hallu., Faith. [paper tr. 11, 14]; độ chính xác
    từng component trên 200/50 mẫu, Table 4 [tr. 19]); Khatri et al. (planted false source: hit vs. false alarm **mức query**, Table 7 [tr. 9]);
-   MAGIC ghi nhận LLM "over-detection" [paper MAGIC tr. 7]; **[search, UNVERIFIED]** EvoTrustRAG có thể báo cáo "wrong-filtering rate";
-   ConflictRAG (arXiv 2605.17301) ghi nhận filter self-reflection loại cả evidence mâu thuẫn.
+   MAGIC ghi nhận LLM "over-detection" [paper MAGIC tr. 7]; **EvoTrustRAG có WFR, nhưng ở mức query và gắn với evolution/intervention**
+   (E20, đã kiểm); ConflictRAG chỉ **đưa giả thuyết** rằng Self-RAG "over-removes" evidence, không đo (E21); MemGraphRAG đặt ngưỡng
+   `conflict_min_confidence` = 0.85 và dặn "avoid false positives", nhưng không đo false positive (E16, E18).
 3. **Bằng chứng còn mở.** E2 và luật suppress của ArbGraph không xét loại conflict (thua 2 lần → p ≈ 0,17 < 0,3):
    `accept_threshold` — `third_party/ArbGraph/conflict_arbitration.py:205`; E7, E8 (TruthfulRAG loại theo ΔH và giả định tin external);
    chưa paper nào trong 10 PDF báo cáo FCFR theo loại apparent ở mức passage.
@@ -90,8 +107,10 @@
 6. **Minimal falsifiable experiment.** Cùng pool như G2. **H-G7**: với ít nhất 2 trong 3 filter (entropy, arbitration, LLM-judge), FCFR@5 trên
    passage apparent **cao hơn có ý nghĩa** so với passage gold không bị perturb (paired bootstrap hoặc McNemar, p < 0,05).
    **Bác bỏ** nếu không filter nào cho thấy khoảng cách này, tức là over-filtering không đáng kể.
-7. **Điều gì làm mất novelty.** EvoTrustRAG (hoặc paper khác) đã có metric tương đương FCFR **theo loại apparent**; hoặc kết quả là "không có
-   over-filtering", khi đó vẫn publish được dưới dạng negative result (hợp với PLOS ONE) nhưng không còn là động lực cho G2.
+7. **Điều gì làm mất novelty.** Metric WFR (mức query) của EvoTrustRAG **đã tồn tại** (E20), nên FCFR phải được định vị rõ là metric **mức
+   passage, theo từng loại apparent**, và phải trích dẫn WFR (báo cáo cả hai); một paper khác đã có metric tương đương FCFR theo loại apparent
+   (chưa thấy); hoặc kết quả là "không có over-filtering", khi đó vẫn publish được dưới dạng negative result (hợp với PLOS ONE) nhưng không còn là
+   động lực cho G2.
 
 ## G1 — KG-consistency reranker training-free
 
@@ -129,9 +148,12 @@
 1. **Unresolved problem.** Historical name (Edo → Tokyo năm 1868, Bombay → Mumbai năm 1995, Saigon → Ho Chi Minh City năm 1976 — kiến thức
    phổ thông, **cần đối chiếu Wikidata**, hiện bị chặn) và tên đa ngôn ngữ (東京 / Tokyo, Sài Gòn / Saigon) tạo ra apparent conflict **phụ thuộc
    thời gian**: một tên chỉ hợp lệ trong một khoảng. Cần **alias resolution có thời gian hiệu lực** và đa ngôn ngữ.
-2. **Closest methods.** ProStruct-RAG (timestamp, không alias: E9); MAGIC (perturb P460 "said to be the same as" như genuine conflict, E13);
-   **[search, UNVERIFIED]** một paper temporal-KG cho rằng tên như "Oscar Awards" chỉ rõ nghĩa khi gắn với biến thể lịch sử (arXiv 2509.15464?);
-   T-GRAG (arXiv 2508.01680); TimeR4. Entity disambiguation có sẵn trong kapipe (BLINK, LLMED) nhưng không có thời gian hiệu lực của alias.
+2. **Closest methods.** ProStruct-RAG (timestamp, không alias: E9); MemGraphRAG (synonym edge dựa trên embedding, không có thời gian hiệu lực:
+   `add_synonymy_edges` — `third_party/MemGraphRAG/code/src/MemGraphRAG.py:1418`); MAGIC (perturb P460 "said to be the same as" như genuine conflict, E13);
+   EvoReasoner/EvoKG (arXiv 2509.15464, đã tải qua arXiv và quét): nêu "Oscar Awards lacks temporal specificity unless linked to one of its 100
+   historical variants" như một vấn đề **entity grounding cho temporal QA**, không phải typing apparent conflict; T-GRAG (arXiv 2508.01680, đã quét):
+   chữ "granularity" ở đây là retrieval granularity, không có alias; TimeR4 (EMNLP 2024) **chưa đọc được** vì aclanthology.org bị chặn.
+   Entity disambiguation có sẵn trong kapipe (BLINK, LLMED) nhưng không có thời gian hiệu lực của alias.
 3. **Bằng chứng còn mở.** E3, E6 (không repo nào xử lý alias); trong 10 PDF không có benchmark nào về false conflict do historical name;
    WebSearch cũng không tìm thấy benchmark như vậy (**[search, UNVERIFIED]**, cần tìm kỹ hơn).
 4. **Contribution.** Bảng alias có `valid_from`/`valid_to` và đa ngôn ngữ (Wikidata labels/aliases + official name có qualifier — mã property
@@ -150,19 +172,21 @@
 
 | Gap | Novelty risk | Tính khả thi trên 1× RTX 5090 | Thời gian tới kết quả đầu tiên (ước đoán) | Ghi chú |
 |---|---|---|---|---|
-| G2 | trung bình–cao (HVM-GraphRAG, MemGraphRAG, EvoTrustRAG chưa đọc) | cao (typing chạy CPU) | ngắn | cần chứng minh hơn hẳn prompt LLM có typing |
-| G7 | trung bình (EvoTrustRAG có thể có WFR) | cao | ngắn nhất | an toàn, hợp PLOS ONE / Sci Rep; đồng thời là động lực cho G2 |
+| G2 | **cao** nếu trình bày taxonomy như đóng góp (đã có trong MemGraphRAG/HVM); **trung bình** nếu định vị là KG-schema typing kiểm chứng được + query-time reranking + loại mới + đo trực tiếp | cao (typing chạy CPU) | ngắn | phải vượt prompt `conflict_detection` của MemGraphRAG |
+| G7 | trung bình (WFR của EvoTrustRAG đã có, nhưng ở mức query) | cao | ngắn nhất | an toàn, hợp PLOS ONE / Sci Rep; đồng thời là động lực cho G2; báo cáo cả FCFR lẫn WFR |
 | G1 | cao | cao | ngắn | dễ bị coi là chủ đề cũ; có rủi ro rò rỉ đáp án |
 | G2+G1 | trung bình | cao | trung bình | khớp tiêu đề "Relation-Aware"; ablation rõ ràng |
 | G3+G8 | trung bình (thiếu benchmark, cần tìm thêm) | trung bình (cần subset Wikidata) | dài | có lợi thế ngôn ngữ; rủi ro LLM đã giải quyết được |
 
 Gợi ý sơ bộ (để bạn phản hồi trước Phase B): **G7 → G2+G1** như một chuỗi, trong đó G7 cung cấp động lực và metric, còn G2+G1 là phương pháp.
-G3+G8 có thể là một phần mở rộng (loại alias có thời gian hiệu lực) bên trong G2.
+G3+G8 có thể là một phần mở rộng (loại alias có thời gian hiệu lực) bên trong G2. Sau audit mở rộng, chuỗi này chính là **phương án A** trong
+`02b_extension_audit.md` §6.5: baseline LLM-typer bắt buộc là prompt của MemGraphRAG, có cascade KG-first, và báo cáo cả FCFR (passage) lẫn WFR (query).
 
 ## 3. Việc cần làm để giảm rủi ro novelty (chuyển vào `07`)
 
-1. Đọc full text HVM-GraphRAG (2607.24861), MemGraphRAG (2606.00610), EvoTrustRAG (2608.07933), ConflictRAG (2605.17301), EvidenceConflict,
-   Ragability (LREC 2026), ConflictQA (2604.11209), "When Facts Change" (Findings ACL 2026), T-GRAG (2508.01680), TimeR4 (EMNLP 2024).
-   Cần bạn mở `arxiv.org` trong network settings, hoặc attach PDF.
-2. Đọc paper gốc CONFLICTS (Cattan et al. 2025): định nghĩa chính xác các loại và quy trình annotate.
+1. ~~Đọc full text HVM-GraphRAG, MemGraphRAG, EvoTrustRAG, ConflictRAG~~ **đã làm** (`02b` §5); ~~ConflictQA (2604.11209), T-GRAG (2508.01680),
+   EvoReasoner (2509.15464)~~ **đã quét** qua arXiv. **Còn lại**: Ragability (LREC 2026), "When Facts Change" (Findings ACL 2026), TimeR4 (EMNLP 2024),
+   vì **aclanthology.org bị chặn** (CONNECT 403), cần bạn attach PDF hoặc mở domain; EvidenceConflict (9/2026, trang nrfhh.com) chưa thử.
+2. ~~Đọc paper gốc CONFLICTS~~ **đã làm** (E22).
 3. Kiểm tần suất apparent conflict **mức passage** trong CONFLICTS (gán nhãn tay khoảng 50 query) để trả lời câu hỏi "có hiếm không" của G2.
+4. Xin phép tác giả ContextConflict về license dữ liệu trước khi dùng subset ambiguity/temporal/misinformation (E23).

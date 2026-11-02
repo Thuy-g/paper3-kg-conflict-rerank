@@ -38,7 +38,11 @@ Proxy status (`$HTTPS_PROXY/__agentproxy/status` → `recentRelayFailures`) ghi:
 `connect_rejected — gateway answered 403 to CONNECT (policy denial or upstream failure)` cho
 `arxiv.org:443` và `www.wikidata.org:443`.
 
-Hệ quả cho kế hoạch:
+**Cập nhật 2026-11-02 (sau khi owner thêm `arxiv.org` vào Allowed domains):** `curl https://arxiv.org/abs/…` và `/pdf/…` → **200**;
+`export.arxiv.org` vẫn CONNECT 403; tool WebFetch vẫn báo `getaddrinfo ENOTFOUND arxiv.org`; `aclanthology.org` → CONNECT 403
+(chi tiết ở `02b_extension_audit.md` §1). Như vậy: **đọc arXiv bằng `curl` từ sandbox**; paper trên ACL Anthology cần owner attach PDF.
+
+Hệ quả cho kế hoạch (bản gốc Phase 0):
 - **Không đọc được paper trên arXiv** trong session này → các claim về nội dung paper (section,
   công thức trong paper, venue) chỉ được kiểm qua README/code trong repo; phần còn lại ghi
   **[UNVERIFIED]**. Muốn mở: thêm `arxiv.org` vào *Allowed domains* trong Network access của

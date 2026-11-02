@@ -38,3 +38,19 @@ $ git clone --depth 1 https://github.com/norikinishida/kapipe third_party/kapipe
 Cloning into 'third_party/kapipe__upstream'...
 exit_code=0  elapsed_s=1
 
+--- Phase A-extension 2026-11-02T14:29:02Z
+### context_conflict_emnlp_2026 <- https://github.com/lei-nlp-lab/context_conflict_emnlp_2026
+$ git clone --depth 1 https://github.com/lei-nlp-lab/context_conflict_emnlp_2026 third_party/context_conflict_emnlp_2026
+Cloning into 'third_party/context_conflict_emnlp_2026'...
+exit_code=0 elapsed_s=2
+
+### decision-models-conflict-typing <- https://github.com/Parv17k/decision-models-conflict-typing
+$ git clone --depth 1 https://github.com/Parv17k/decision-models-conflict-typing third_party/decision-models-conflict-typing
+Cloning into 'third_party/decision-models-conflict-typing'...
+exit_code=0 elapsed_s=1
+
+### MemGraphRAG <- https://github.com/XMUDeepLIT/MemGraphRAG
+$ git clone --depth 1 https://github.com/XMUDeepLIT/MemGraphRAG third_party/MemGraphRAG
+Cloning into 'third_party/MemGraphRAG'...
+exit_code=0 elapsed_s=3
+

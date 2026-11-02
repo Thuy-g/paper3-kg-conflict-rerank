@@ -26,7 +26,7 @@ are in Vietnamese, keeping technical terms in English.
 
 | Where | Spec | Use |
 |---|---|---|
-| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv and Wikidata blocked; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1) | audit, CPU prototype, unit + smoke tests |
+| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv reachable with `curl` (WebFetch still fails); Wikidata and aclanthology.org blocked; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1, `reports/02b_extension_audit.md` §1) | audit, CPU prototype, unit + smoke tests |
 | Desktop MSI MEG Vision X AI 2NVZ9-014JP | 1x RTX 5090 (32 GB VRAM), 64 GB RAM, Ubuntu on WSL2 | real experiments; open-weight LLMs via vLLM OpenAI-compatible server at `http://localhost:8000/v1` |
 | MacBook Air M4 | 24 GB unified memory, 512 GB SSD (owner wrote "512 MB"; assumed typo) | local development, CPU tests; no CUDA |
 
@@ -148,5 +148,9 @@ Venue and arXiv IDs below are as given by the owner; checking them is part of Ph
 | `1212Judy/ArbGraph` | `Thuy-g/ArbGraph` | ArbGraph, arXiv 2604.18362 (fork `readme.md:73`: "This is a research prototype and may require GPU for efficient execution") |
 | `DMiC-Lab-HFUT/Relink` | `Thuy-g/Relink` | Relink |
 | `norikinishida/kapipe` | `Thuy-g/kapipe` | ProStruct-RAG, EMNLP 2026 |
+| `lei-nlp-lab/context_conflict_emnlp_2026` | `Thuy-g/context_conflict_emnlp_2026` | ContextConflict, EMNLP 2026, arXiv 2609.03148 (no licence; steering code not released) |
+| `Parv17k/decision-models-conflict-typing` | `Thuy-g/decision-models-conflict-typing` | Khatri et al., arXiv 2610.36915 (Apache-2.0) |
+| `XMUDeepLIT/MemGraphRAG` | `Thuy-g/MemGraphRAG` | MemGraphRAG, KDD 2026, arXiv 2606.00610 (MIT) |
 
-In cloud sessions the forks are pre-cloned at `/home/user/<Repo>`.
+In cloud sessions the first seven forks are pre-cloned at `/home/user/<Repo>`; the last three are cloned from upstream into
+`third_party/` (HEADs equal the forks, see `reports/02b_extension_audit.md` §2).

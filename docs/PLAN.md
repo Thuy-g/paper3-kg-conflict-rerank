@@ -73,6 +73,19 @@ Câu hỏi bắt buộc:
 - [x] Không file nào trong `third_party/` hay trong các fork bị sửa (`git status` sạch).
 - [x] Commit + push → **STOP POINT A**.
 
+### Phase A+ — audit mở rộng (yêu cầu thêm sau STOP POINT A)
+
+Phạm vi: audit 3 repo (`lei-nlp-lab/context_conflict_emnlp_2026`, `Parv17k/decision-models-conflict-typing`, `XMUDeepLIT/MemGraphRAG`), đọc 5 PDF
+mới (CONFLICTS, ConflictRAG, HVM-GraphRAG, MemGraphRAG, EvoTrustRAG), trả lời câu hỏi mở rộng thành bài journal OA. Deliverable:
+`reports/02b_extension_audit.md`, cùng cập nhật `00`, `01`, `02` §5 và `03` (đánh giá lại novelty của G2/G7).
+
+- [x] 3/3 repo clone thành công; HEAD trùng fork (`git ls-remote`).
+- [x] License, cây thư mục, component map 6 nhóm có `path:line` (`check_citations.py` pass).
+- [x] Kiểm chứng các mục [search, UNVERIFIED] của Phase A bằng full text.
+- [x] Câu trả lời (e) cho từng repo + khuyến nghị tổng hợp.
+- [ ] Tính lại số liệu của decision-model typing từ output đã lưu — **bị chặn** (auto-mode classifier không cho chạy code bên thứ ba ở cloud).
+- [x] Commit + push → **STOP**.
+
 ---
 
 ## Phase B — PROTOTYPE HARNESS (chạy CPU)

@@ -11,14 +11,18 @@
 | 1 | TruthfulRAG | AAAI 2026 (© AAAI 2026, tr. 1); arXiv 2511.10375v1 | Liu, Shang, Zhang (BUPT) | ✅ |
 | 2 | GraphRAG-Bench ("When to use Graphs in RAG") | "Published as a conference paper at ICLR 2026"; arXiv 2506.05690v3 | Xiang, Wu, Zhang, Chen, Hong, Huang, Su (Xiamen U., PolyU) | ✅ |
 | 3 | MAGIC | Findings of EMNLP 2025 (README; ACL Anthology 2025.findings-emnlp.466) | Lee, Lee, Kim (Hanyang U., KT) | ✅ (chỉ dữ liệu) |
-| 4 | CONFLICTS ("DRAGged into CONFLICTS") | arXiv 2506.08500 (README); paper **không attach** | Cattan et al. (repo thuộc `google-research-datasets`; đơn vị tác giả chưa kiểm) | ✅ (chỉ dữ liệu) |
-| 5 | "Do We Need an LLM to Know Why Sources Conflict?" (conflict typing bằng decision model) | arXiv 2610.36915v1 (27/10/2026) | Khatri, Jain, Kapoor, Sah (**Independent Researchers**) | ✗ (github.com/Parv17k/decision-models-conflict-typing, chưa audit) |
+| 4 | CONFLICTS ("DRAGged into CONFLICTS") | arXiv 2506.08500v2 (PDF đã attach sau Phase A) | Cattan, Jacovi, Ram, Herzig, Aharoni, Goldshtein, Ofek, Szpektor, Caciularu (**Google Research**, Bar-Ilan U.) | ✅ (chỉ dữ liệu) |
+| 5 | "Do We Need an LLM to Know Why Sources Conflict?" (conflict typing bằng decision model) | arXiv 2610.36915v1 (27/10/2026) | Khatri, Jain, Kapoor, Sah (**Independent Researchers**) | ✅ (audit mở rộng, `02b` §4.2) |
 | 6 | ArbGraph | arXiv 2604.18362v1; template ACM TOIS (Vol. 1 No. 1, DOI placeholder) | Niu, Wang, Ren, Fang, Zhao (Renmin U., CMU) | ✅ |
 | 7 | Relink | AAAI 2026 (© AAAI 2026, tr. 1); arXiv 2601.07192v1 | Huang, Bu, He, Zhuo, Wu (HFUT, William & Mary) | ✅ |
 | 8 | ProStruct-RAG | EMNLP 2026, pp. 6749–6771 (README kapipe: 2026.emnlp-main.294) | Nishida (AIST), **Cheng (Kyoto University, NII LLMC)**, Matsumoto (Tohoku U., RIKEN) | ✅ (kapipe) |
-| 9 | ContextConflict | EMNLP 2026, pp. 21142–21169 | Yang, Liu, Li, Lei (Northwestern, NYU, U. Florida) | ✗ (repo và dataset HF chưa audit) |
+| 9 | ContextConflict | EMNLP 2026, pp. 21142–21169; arXiv 2609.03148 (README) | Yang, Liu, Li, Lei (Northwestern, NYU, U. Florida) | ✅ (audit mở rộng, `02b` §4.1; code steering **chưa công bố**; **không có license**) |
 | 10 | PAGE-RAG | arXiv 2607.19301v1 | Chen, An, Guo, Wang (CUIT, Beihang) | ✗ (github.com/CXY0112/PAGE-RAG, chưa audit) |
 | 11 | Knowledge Conflicts for LLMs: A Survey | arXiv 2403.08319v2 | Xu, Qi, Guo, Wang, Wang, Zhang, Xu (Tsinghua, Cambridge, Westlake, CUHK) | — |
+| 12 | MemGraphRAG | KDD 2026 (header tr. 14; README); arXiv 2606.00610v1 | Wu, Xiang, Tang, Chen, Zhang, Su (Xiamen U., Jilin U.) | ✅ (audit mở rộng, `02b` §4.3; MIT) |
+| 13 | HVM-GraphRAG | arXiv 2607.24861v1 | He, Wang, Fan, Li, Zhang, Chang, Wang (Jilin U., PolyU) | ✗ (PDF không có link code) |
+| 14 | EvoTrustRAG | arXiv 2608.07933v1 [cs.CR] | Nie, Li, Wu, Fan, Song, Jiang (UESTC, CAS) | ✗ (PDF không có link code) |
+| 15 | ConflictRAG | arXiv 2605.17301v2 | Wang, Li, Liu, Shu (Zhengzhou U., Taiyuan U. of Tech., Zhejiang U.) | ✗ (PDF không có link code) |
 
 Lưu ý về tên file: PDF số 5 được đặt tên "Google_Research_CONFLICTS…", nhưng trang 1 ghi tác giả là **các nhà nghiên cứu độc lập**.
 Paper này chỉ **xây dựng trên** benchmark CONFLICTS của Cattan et al. (repo `google-research-datasets/rag_conflicts`).
@@ -53,12 +57,13 @@ Paper này chỉ **xây dựng trên** benchmark CONFLICTS của Cattan et al. (
 | ProStruct-RAG | quan hệ proposition | cặp (updates / contradicts / supports / NOREL) | ✅ **trên trục thời gian** (updates = apparent, contradicts = genuine) | ✗ | ✗ | ✅ (timestamp = ngày xuất bản) | ✗ | ✗ |
 | PAGE-RAG | — (độ tin cậy, abstain) | — | — | — | — | — | — | — |
 | Survey | CM / IC / IM; nguyên nhân misinformation, outdated | khái niệm | ◐ | ✗ | ✗ | ◐ | ✗ | ✗ |
-| [search] HVM-GraphRAG, MemGraphRAG | mutual / temporal / granularity bằng prompt LLM | cặp fact | ◐ | ? | ◐ | ◐ | ? | ? |
-| [search] EvoTrustRAG | nguồn gốc conflict: evolution / intervention / unresolved | cặp | ◐ | ? | ? | ◐ | ? | ? |
+| MemGraphRAG | triple–triple lúc **dựng graph** (prompt LLM, ngưỡng confidence 0.85) | cặp triple cùng (subject, relation) | ✅ **ở mức prompt LLM**: mutual = genuine, granularity = tương thích, temporal phụ thuộc thời gian; LLM tự phán predicate uniqueness | ◐ (synonym edge theo embedding, không có thời gian hiệu lực) | ✅ (LLM phán containment, ví dụ city–country) | ✅ (LLM phán thời gian chồng lấn) | ✗ | ✗ |
+| HVM-GraphRAG | như MemGraphRAG, cho tài liệu đa phương thức | nhóm triple | ✅ (cùng taxonomy, prompt ở appendix) | ✗ | ✅ (containment/hypernymy) | ✅ | ✗ | ✗ |
+| EvoTrustRAG | nguồn gốc conflict: evolution / intervention / unresolved | nhóm fact span-grounded | ◐ (evolution ≈ apparent theo thời gian; intervention ≈ genuine/tấn công) | ✗ | ✗ | ✅ | ✗ | ✗ |
+| ConflictRAG | no-conflict / factual / temporal / opinion | cặp tài liệu (MLP + LLM) | ◐ | ✗ | ✗ | ✅ | ✗ | ✗ |
 
-Hai dòng **[search]** là **[UNVERIFIED]**: chỉ dựa trên snippet WebSearch
-([HVM-GraphRAG](https://arxiv.org/pdf/2607.24861), [MemGraphRAG](https://arxiv.org/pdf/2606.00610), [EvoTrustRAG](https://arxiv.org/pdf/2608.07933)).
-Đây là các ứng viên rủi ro novelty cao nhất, cần đọc full text ở Phase C (xem `03`, `07`).
+Bốn dòng cuối đã được **kiểm chứng bằng full text** (và code, riêng MemGraphRAG); chi tiết và trang trích dẫn ở `02b_extension_audit.md` §4.3, §5.
+Hệ quả: taxonomy "granularity tương thích / temporal / mutual" **không còn là điểm mới**; xem phần đánh giá lại G2 trong `03`.
 
 ## 4. Ma trận C — kỹ thuật và khả năng reuse
 
@@ -71,17 +76,20 @@ Hai dòng **[search]** là **[UNVERIFIED]**: chỉ dựa trên snippet WebSearch
 | ArbGraph | **không có** | HF local (mặc định Qwen3-4B-Instruct-2507) | GPU khuyến nghị (readme dòng 73) | ✗ (LongFact không kèm) | **Baseline** trọng tài: cài đặt lại từ paper, không copy code |
 | Relink | MIT | OpenAI client với `base_url` → vLLM ✅; embedding mặc định là API trả phí | Neo4j + Redis + path scorer đã train | 500 mẫu 2WikiMultiHopQA (có `evidences` triple), HotpotQA, MuSiQue… | **Nguồn dữ liệu** (slice 2Wiki); ý tưởng predicate-distractor; không dùng làm baseline trực tiếp (quá nặng) |
 | kapipe | Apache-2.0 | `OpenAI()` theo env → vLLM ✅ cho `generate`; Batch API ? | GPU cho model HF | nhiều script tiền xử lý dataset | **Thư viện**: BM25/Contriever, entity disambiguation (BLINK), docRE, relation extractor của ProStruct (baseline typing temporal), metric ranking |
+| MemGraphRAG | MIT (code kế thừa HippoRAG) | `CacheOpenAI(base_url=…)` → vLLM ✅; pin `vllm==0.6.6.post1`, `torch==2.5.1` (RTX 5090: **[UNVERIFIED]**) | LLM cho OpenIE + schema + detect/resolve; embedding bge-large | không có pool; corpus HotpotQA/2Wiki/MuSiQue theo paper | **Baseline LLM-typer** (prompt `conflict_detection`); module conflict cắm vào được |
+| ContextConflict | **không có license** (cả repo lẫn HF card) | `AsyncOpenAI(base_url=…)` → vLLM ✅; steering cần HF hook (không qua vLLM) | 8B–20B cho phân tích/steering | 5.781 mẫu; ambiguity (≈ homonym), temporal, misinformation (nhãn theo source) | **Dữ liệu đánh giá** (sau khi xin phép); steering **không có code** |
+| decision-models typing | Apache-2.0 | Vercel AI Gateway viết cứng (**trả phí**) | CPU để phân tích lại output đã lưu | output 13 hệ trên CONFLICTS (dev/test cố định), `plants.json` | **Khung đánh giá** (split, metric, `plant`, cascade); typer local phải tự cài |
 
 ## 5. Nhận định chính
 
-1. **Chưa thấy KG-schema typing để rerank** trong 7 repo đã audit. Typing hiện có thuộc các dạng: (i) **mức query** bằng LLM hoặc decision model
+1. **Chưa thấy KG-schema typing để rerank** trong 10 repo đã audit. Typing hiện có thuộc các dạng: (i) **mức query** bằng LLM hoặc decision model
    (CONFLICTS, Khatri et al.); (ii) **theo cặp trên trục thời gian** bằng LLM (ProStruct-RAG); (iii) **benchmark** theo loại, đánh giá bằng
-   summarization (ContextConflict); (iv) theo snippet tìm kiếm là prompt LLM kiểu mutual/temporal/granularity (HVM-GraphRAG, MemGraphRAG,
-   **[UNVERIFIED]**). Không cái nào dùng alias table có thời gian hiệu lực, hierarchy P131/P361, qualifier P580/P582, hay type P31 làm **bằng chứng
-   kiểm chứng được**.
-2. **Các filter conflict đã audit đều "mù" với apparent conflict**: entropy filter của TruthfulRAG, trọng tài của ArbGraph và scorer của Relink
-   đều không có nhánh "conflict này chỉ là bề ngoài". Rủi ro over-filtering vì vậy là **có thật về mặt cấu trúc**, nhưng chưa ai đo bằng metric
-   passage-level theo từng loại apparent (EvoTrustRAG có thể có "wrong-filtering rate": **[UNVERIFIED]**).
+   summarization (ContextConflict); (iv) **prompt LLM mutual/temporal/granularity lúc dựng graph** (MemGraphRAG, HVM-GraphRAG; đã kiểm). Không cái
+   nào dùng alias table có thời gian hiệu lực, hierarchy P131/P361, qualifier P580/P582, ràng buộc single-value hay type P31 làm **bằng chứng kiểm
+   chứng được**, và không cái nào rerank fixed pool theo loại conflict.
+2. **Các filter conflict đã audit đều "mù" với apparent conflict hoặc dựa vào phán đoán LLM**: entropy filter của TruthfulRAG, trọng tài của
+   ArbGraph và scorer của Relink không có nhánh "conflict này chỉ là bề ngoài"; MemGraphRAG/HVM có nhánh đó nhưng không đo độ chính xác. Chưa ai
+   đo over-filtering ở **mức passage theo từng loại apparent**; metric gần nhất là **WFR mức query** của EvoTrustRAG (đã kiểm).
 3. **Các giả định trái ngược nhau**: TruthfulRAG tin external context (bộ `*_negative` lấy đáp án counterfactual làm gold), ArbGraph tin
    consensus/credibility, còn CONFLICTS tùy loại conflict. Paper 3 cần một setting có **cả misinformation lẫn apparent conflict** để so sánh công bằng.
 4. **Dữ liệu cho prototype đã có sẵn trong repo**: 2WikiMultiHopQA (Relink, có triple → hợp với KG), CONFLICTS (pool tự nhiên), MAGIC (genuine
