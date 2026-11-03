@@ -3,6 +3,6 @@
    focus: apparent vs. genuine evidence conflicts (aliases/historical names,
    granularity, temporal scope, homonyms) on fixed candidate evidence pools.
    Constraints: single RTX 5090 (32 GB VRAM) + 64 GB RAM, Ubuntu WSL2,
-   local open-weight LLMs via vLLM; paid APIs only with explicit budget.
+   local open-weight LLMs via vLLM and Macbook Air M4 (RAM 24 GB and SSD 512 GB); paid APIs only with explicit budget.
    Upstream (read-only): STAIR-BUPT/TruthfulRAG, GraphRAG-Bench/GraphRAG-Benchmark,
    HYU-NLP/MAGIC, google-research-datasets/rag_conflicts.
