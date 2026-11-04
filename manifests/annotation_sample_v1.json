@@ -1,0 +1,4556 @@
+{
+  "committed": "metadata only (IDs, strata, text hashes); texts stay in data/ (gitignored)",
+  "config": {
+    "annotators": {
+      "primary": "A1",
+      "secondary": "A2"
+    },
+    "double_annotation": {
+      "n": 120
+    },
+    "main": {
+      "conflicts": {
+        "complementary": {
+          "census": true,
+          "per_query_cap": 8
+        },
+        "misinformation": {
+          "census": true,
+          "per_query_cap": 9
+        },
+        "no_conflict": {
+          "per_query": 3,
+          "queries": 25
+        },
+        "outdated": {
+          "fill": true,
+          "per_query": 3
+        }
+      },
+      "conflicts_total": 300,
+      "twowiki": {
+        "per_query": 4,
+        "queries": 25,
+        "supporting_per_query": 2
+      }
+    },
+    "manifest": "manifests/annotation_sample_v1.json",
+    "out_dir": "data/annotation/v1",
+    "pilot": {
+      "conflicts": {
+        "complementary": {
+          "per_query": 4,
+          "queries": 1
+        },
+        "misinformation": {
+          "per_query": 5,
+          "queries": 1
+        },
+        "no_conflict": {
+          "per_query": 3,
+          "queries": 3
+        },
+        "outdated": {
+          "per_query": 3,
+          "queries": 4
+        }
+      },
+      "twowiki": {
+        "items": 10,
+        "per_query": 4,
+        "supporting_per_query": 2
+      }
+    },
+    "sample_version": "v1",
+    "seed": 20261104,
+    "sources": {
+      "conflicts": {
+        "max_chars": 2000,
+        "path": "../rag_conflicts/conflicts.jsonl",
+        "require_reference_answer": true,
+        "text_field": "short_text"
+      },
+      "twowiki": {
+        "path": "../Relink/data/wikiMQA/dataset/samples.json"
+      }
+    }
+  },
+  "counts": {
+    "double_by_stratum": {
+      "conflicts:complementary": 13,
+      "conflicts:misinformation": 11,
+      "conflicts:no_conflict": 23,
+      "conflicts:outdated": 44,
+      "twowiki:bridge_comparison": 7,
+      "twowiki:comparison": 6,
+      "twowiki:compositional": 14,
+      "twowiki:inference": 2
+    },
+    "double_items": 120,
+    "main_by_stratum": {
+      "conflicts:complementary": 44,
+      "conflicts:misinformation": 35,
+      "conflicts:no_conflict": 75,
+      "conflicts:outdated": 146,
+      "twowiki:bridge_comparison": 24,
+      "twowiki:comparison": 20,
+      "twowiki:compositional": 48,
+      "twowiki:inference": 8
+    },
+    "main_items": 400,
+    "main_questions": 109,
+    "pilot_by_stratum": {
+      "conflicts:complementary": 4,
+      "conflicts:misinformation": 5,
+      "conflicts:no_conflict": 9,
+      "conflicts:outdated": 12,
+      "twowiki:comparison": 2,
+      "twowiki:compositional": 4,
+      "twowiki:inference": 4
+    },
+    "pilot_items": 40,
+    "pilot_questions": 12
+  },
+  "created_utc": "2026-11-04T09:51:26Z",
+  "frame_counts": {
+    "conflicts_queries_by_stratum": {
+      "complementary": 7,
+      "misinformation": 5,
+      "no_conflict": 161,
+      "opinions": 2,
+      "outdated": 62
+    },
+    "twowiki_queries_by_type": {
+      "bridge_comparison": 115,
+      "comparison": 107,
+      "compositional": 229,
+      "inference": 49
+    }
+  },
+  "items": [
+    {
+      "double": false,
+      "item_id": "it_00788b3b478c",
+      "pid": "r6",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "1a2c7a408d2fcce99f3f1da0bdcae6ed78ff308df1ce6decf43d2aa0a799b6fc"
+    },
+    {
+      "double": false,
+      "item_id": "it_00808d537886",
+      "pid": "r3",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "600b20a07baecb3ac55cc054a4285c8559d171443b0709f01457f8e6c6f7a10f"
+    },
+    {
+      "double": false,
+      "item_id": "it_01a7907a7ffb",
+      "pid": "r1",
+      "qid": "conflicts-21",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "cb855c67a6e212ea2b6d4951e22c84bea6bec8a5103b825749a472a8bb737bb2"
+    },
+    {
+      "double": false,
+      "item_id": "it_02b111c815c7",
+      "pid": "r2",
+      "qid": "conflicts-448",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c64c3032b126910b6fedf17053a5cfa3671fbf844b660ed68eb367689ab312f5"
+    },
+    {
+      "double": false,
+      "item_id": "it_02e8792b280f",
+      "pid": "p8",
+      "qid": "1b1b8ed6085111ebbd58ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "ded7a2deb94ac754a9ca6550bab2646f92920d4ae41fb51189c7858342f51da3"
+    },
+    {
+      "double": false,
+      "item_id": "it_0407559ec2fb",
+      "pid": "r8",
+      "qid": "conflicts-191",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "e36cbd0f100ad9433320861c593b63f0ad714b6117d8d8f9da06524a317a107a"
+    },
+    {
+      "double": true,
+      "item_id": "it_041a3a5a593a",
+      "pid": "r9",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "df58b3398847738c78542b14cd86b9b0413985b683dc6a8a34d4754debdf42f0"
+    },
+    {
+      "double": false,
+      "item_id": "it_053f57c1dff4",
+      "pid": "r3",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "1ad3c484a29642c1b6fb1f67bf319ab50d064244c7a37f674eee642e3b192a4e"
+    },
+    {
+      "double": false,
+      "item_id": "it_0639860f83f4",
+      "pid": "r3",
+      "qid": "conflicts-289",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "a8fb17438b24c3a7d21028579a575704b3ea20df9aca82adacda88ad39e18d77"
+    },
+    {
+      "double": true,
+      "item_id": "it_07afc49ec569",
+      "pid": "r4",
+      "qid": "conflicts-192",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "97d4d7b3768ae19ff93c7b9cb8365d27545a9438587cfc5a8fe08f6c05c450f2"
+    },
+    {
+      "double": false,
+      "item_id": "it_083cc9199f1b",
+      "pid": "r2",
+      "qid": "conflicts-7",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "2569a355589a01a938d85b33fb7dffb9be1998c9d7e5f1915d2fe014e31c7202"
+    },
+    {
+      "double": false,
+      "item_id": "it_085d1024ba05",
+      "pid": "r5",
+      "qid": "conflicts-452",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "b60fc53082cfc5855809a0f0e2f039e96a77ee9a46e8f5b0324e2b4201911c11"
+    },
+    {
+      "double": false,
+      "item_id": "it_0a26b312231b",
+      "pid": "p3",
+      "qid": "32d8b8ce0bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "173be8ad0597ec7aba638b9f5f9bff9a2a51280605f885949f6c9a62cd2bfc59"
+    },
+    {
+      "double": false,
+      "item_id": "it_0a613e87a486",
+      "pid": "r2",
+      "qid": "conflicts-99",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "0e6168e39343d6ea6a0a499c7e45acb7a9accffb780430ac86867190bd2b316c"
+    },
+    {
+      "double": false,
+      "item_id": "it_0ae669620cee",
+      "pid": "r5",
+      "qid": "conflicts-192",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "b2de1742af0c20f48a149eebf567c23d40a11da08a7db6e58b4b6799500fcefe"
+    },
+    {
+      "double": false,
+      "item_id": "it_0ca5707f74bd",
+      "pid": "r5",
+      "qid": "conflicts-220",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e0165f90019b0e549834ecab85c12df135d4fd7bbbcae5a1892b74253a2040f2"
+    },
+    {
+      "double": false,
+      "item_id": "it_0cb3825f184e",
+      "pid": "r2",
+      "qid": "conflicts-343",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "1dd64c7d3ca9ab3024cf803c15343e6ef2ba204dec50b4a2ab889e0e50cc4d13"
+    },
+    {
+      "double": true,
+      "item_id": "it_0db9f434fb31",
+      "pid": "p9",
+      "qid": "d407f25408dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "d2fc127f2ecb3aca8cb68b8dfab74c16fa4f12003779742f4c917fc348194f09"
+    },
+    {
+      "double": true,
+      "item_id": "it_0de0a24f0dbb",
+      "pid": "r8",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "cc1ae6ee7b9a91704835c1c9a946115272eba7b3dbafef399884c9c00bd8cd4c"
+    },
+    {
+      "double": true,
+      "item_id": "it_0e1a38ba5b8b",
+      "pid": "r0",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "7d9d32216dab4c7cabd7f71260cef03b92a31d63c10b2d2c720747ff861c1d15"
+    },
+    {
+      "double": true,
+      "item_id": "it_0e21417d0ac3",
+      "pid": "r0",
+      "qid": "conflicts-123",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "768ccf0807e5a17892cfc506831af937015860055644034c40ae4b857e148645"
+    },
+    {
+      "double": false,
+      "item_id": "it_0e49ac1934d4",
+      "pid": "r5",
+      "qid": "conflicts-427",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "e296dde59b04e34c301c0db1982fbd468cb8f6245298502e81b8be42f19f4466"
+    },
+    {
+      "double": false,
+      "item_id": "it_0f7c9876b1e7",
+      "pid": "r7",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "f37c63098b26250814a25f14f9c0fbc78516f60c5d0e0d01b468da96606217b8"
+    },
+    {
+      "double": true,
+      "item_id": "it_0ff75c64fa39",
+      "pid": "r2",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "8680b61f749617f5111782ef237a95f8e952f88f10a156041aee9d9c1ed099bd"
+    },
+    {
+      "double": false,
+      "item_id": "it_109a411fc889",
+      "pid": "r0",
+      "qid": "conflicts-448",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "677a058ff17b66b3e533962d6473fec51b13a5d950bb0e5604f8edd5f29689df"
+    },
+    {
+      "double": false,
+      "item_id": "it_10de077e1271",
+      "pid": "r7",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "d9b95c7f59036165ef9b0419c8e5b138c6bf64d77492b8f6e901a39e8dcaea5b"
+    },
+    {
+      "double": false,
+      "item_id": "it_126469e72719",
+      "pid": "p4",
+      "qid": "93e6f2c60bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "ff425b7ad7eca91134b9c18c145059444bcbc5ec5f769544f7d586c37963f801"
+    },
+    {
+      "double": false,
+      "item_id": "it_1329e42c69e1",
+      "pid": "p4",
+      "qid": "dd52f36a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "0f6afa650c51edae7349c46c4cfa7d0c33e5b07309c4ecb4b8ec289d83904d4a"
+    },
+    {
+      "double": false,
+      "item_id": "it_133f5f3d0663",
+      "pid": "p2",
+      "qid": "59a656ac0baf11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "6bd433984c4678357e393e364bd6fd68de1f2ea126a71cce6283c401a41b5e32"
+    },
+    {
+      "double": true,
+      "item_id": "it_144dda733156",
+      "pid": "p0",
+      "qid": "1b1b8ed6085111ebbd58ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "9a3e0bd9f985742dcc31b6c53bae9b33316b143d49ad015521cc74e56a5d0bff"
+    },
+    {
+      "double": false,
+      "item_id": "it_1459c5d98819",
+      "pid": "p8",
+      "qid": "277abef40bda11eba7f7acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "c451eb4c0186c94785ef6340b5427df53167ded9b41f87518e618c4965c5cc0d"
+    },
+    {
+      "double": false,
+      "item_id": "it_149dff2f5a19",
+      "pid": "r1",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "55f879039dbc5b12556b30abd1d425bb2ec253f32b774c4f6e1191e1aec0f5b1"
+    },
+    {
+      "double": false,
+      "item_id": "it_16230a13df6f",
+      "pid": "r4",
+      "qid": "conflicts-149",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "5368d8fb7f2967c652eb4af7e77f05fb8669aaee11300b34e9d95eb939cae118"
+    },
+    {
+      "double": false,
+      "item_id": "it_1661087ade20",
+      "pid": "r0",
+      "qid": "conflicts-379",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "24cfae6d9134be91ab7779c23311feeb521b91fc853b9f41f6077a777388470e"
+    },
+    {
+      "double": true,
+      "item_id": "it_16a59e754773",
+      "pid": "p7",
+      "qid": "405499140bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "026ee9c8e0453fd1e6e6e5863558d58011430a463cd87bd8508fb73cabe769dc"
+    },
+    {
+      "double": true,
+      "item_id": "it_17d3f50c4994",
+      "pid": "r2",
+      "qid": "conflicts-289",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "082f086c3ddf9e8c82a223b4c304c19a3110da70006556a6a182d7eb8214cbc6"
+    },
+    {
+      "double": false,
+      "item_id": "it_17f49dce992b",
+      "pid": "r6",
+      "qid": "conflicts-356",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "5fd03990fb2d9b44f7dcbc38345e5f1b1d8eb0fc42eb52794b1c858b6f3a33f7"
+    },
+    {
+      "double": false,
+      "item_id": "it_1829a2b79043",
+      "pid": "r6",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "96b81038662fc12a99e74b8f954f9b7a672b70cbc30941b3c687c74f523602fd"
+    },
+    {
+      "double": true,
+      "item_id": "it_195658f23fda",
+      "pid": "r1",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "ba66032579c80007d63b0fa179063f03f581b61d31b62833a6b26e941a8780de"
+    },
+    {
+      "double": false,
+      "item_id": "it_1974e6a6fa09",
+      "pid": "r7",
+      "qid": "conflicts-380",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d514dff68ec63cea8852a8f6b9a62f3e9dfcdb5dd9caecfc9fd467dda530ef83"
+    },
+    {
+      "double": true,
+      "item_id": "it_1a44bb0c605e",
+      "pid": "r4",
+      "qid": "conflicts-369",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "3abdc4126b4c2a9e5752de00178ddcf7f18a9eabfda8992e4724e70f6effbf2e"
+    },
+    {
+      "double": true,
+      "item_id": "it_1ab4224fc610",
+      "pid": "p1",
+      "qid": "ec95927a0bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "d704f678fb6b19661f896cd69d78d64b02b34e703efda5d65f2d150821f6d844"
+    },
+    {
+      "double": false,
+      "item_id": "it_1b6ebac91397",
+      "pid": "r9",
+      "qid": "conflicts-100",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "0e6d15bf356707137d5026c1b93886d0cdddeb54ef03762e5e2e07b338defd3b"
+    },
+    {
+      "double": true,
+      "item_id": "it_1c05c8f46138",
+      "pid": "r3",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "7f2d8716b6905d37feb1c784f88791f6b2ad9f7cd509b20af6cc7b1eebd0f997"
+    },
+    {
+      "double": true,
+      "item_id": "it_1ccc70d4c0c2",
+      "pid": "r0",
+      "qid": "conflicts-452",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "8ce27d1606cd157648557d0c5cf9fd4e365849d192c0b065778efad82226614a"
+    },
+    {
+      "double": true,
+      "item_id": "it_1e958e94bea2",
+      "pid": "r3",
+      "qid": "conflicts-123",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d2b986b22fa70ee11828b37c817a9695f19127fe3bdb5ef0bb03287a1f0030cc"
+    },
+    {
+      "double": false,
+      "item_id": "it_1ea55c42cf31",
+      "pid": "r5",
+      "qid": "conflicts-90",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "41fc69645762bd942c85fc9c0fb13dc253648924e24d8444289b876cb8c1b524"
+    },
+    {
+      "double": false,
+      "item_id": "it_1efa7bd9747a",
+      "pid": "p8",
+      "qid": "f27e01300bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "c13d63248e22f124d7ae6d0be2fdb647471e7f2fb89990bc954415b0ca736693"
+    },
+    {
+      "double": false,
+      "item_id": "it_1f48e276c148",
+      "pid": "r2",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "40b2fecb309758d9c4ec9577658fd45e236ebdeafc389d569d0a852944a8b84b"
+    },
+    {
+      "double": false,
+      "item_id": "it_20246dbc7f8e",
+      "pid": "r3",
+      "qid": "conflicts-112",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "26c04eb79b5c9f387f3e60c7b5c48dc5f651befb37fb45e1c1f50aa6c538ff32"
+    },
+    {
+      "double": false,
+      "item_id": "it_20791e697d37",
+      "pid": "r3",
+      "qid": "conflicts-90",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "4bbfc448c59baf562d5e086790ba0b470d3a4c1fb3528d236c0945579965b03f"
+    },
+    {
+      "double": true,
+      "item_id": "it_208212bbab79",
+      "pid": "r6",
+      "qid": "conflicts-230",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a3e7edbcf83c4f674de8b2bff73e6a80905902f600b9375345313707caad6be7"
+    },
+    {
+      "double": false,
+      "item_id": "it_20d1db45e0fb",
+      "pid": "r8",
+      "qid": "conflicts-18",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "504fd552198dce59e19640f73e8acde4fcf7085a15a39c371aa9ff9020bc85dc"
+    },
+    {
+      "double": false,
+      "item_id": "it_215b6a10ac5e",
+      "pid": "r7",
+      "qid": "conflicts-440",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e12d02008fe2ee9a76c24b31e6a449f9875be32574407519b59d5b652249115b"
+    },
+    {
+      "double": true,
+      "item_id": "it_21692fa16f2d",
+      "pid": "p7",
+      "qid": "5baaafa8084a11ebbd56ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "a916725c28e95f8fef6bf0c9f3c952b67f1d249f3d2d390b227b28fb20a85bd5"
+    },
+    {
+      "double": false,
+      "item_id": "it_21b0417f41bb",
+      "pid": "r4",
+      "qid": "conflicts-342",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "171fe68896829f3314d3ed910142a90d460af9eb9d5d2bb5fa0c9b2b3b99b332"
+    },
+    {
+      "double": false,
+      "item_id": "it_22b80eb3ca2d",
+      "pid": "r1",
+      "qid": "conflicts-387",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e75dffe1052d8eca911c14b48a234cf2ff5db01ab265dc83ee50250baee7d157"
+    },
+    {
+      "double": true,
+      "item_id": "it_240c12cae164",
+      "pid": "p1",
+      "qid": "b9ae783c089d11ebbd78ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "1105d474fa73dd7e8dba02016fd21ce2373ec0b2921ecf557da1c39d13185399"
+    },
+    {
+      "double": false,
+      "item_id": "it_255efa880f6c",
+      "pid": "r6",
+      "qid": "conflicts-427",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "68148bc80e53a43f43221c8100f6131230f15e352c09a9b52a85eb2387f28029"
+    },
+    {
+      "double": false,
+      "item_id": "it_259486ee039e",
+      "pid": "r8",
+      "qid": "conflicts-273",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ec6436b3192b0bd53ea6514bca413bd52eedaecf947ba57cfce6561c650e309f"
+    },
+    {
+      "double": true,
+      "item_id": "it_2597cb5b04e3",
+      "pid": "r0",
+      "qid": "conflicts-31",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9de33e6b457b92eccb8e547b0cf55773db38bb2ec7f2377b5b2c5ba37db6870e"
+    },
+    {
+      "double": true,
+      "item_id": "it_25b6a5e43e58",
+      "pid": "r8",
+      "qid": "conflicts-84",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "97a4d1126cf2b8fbd3a6eaa763d1a938fc2559f31380488ffe4a5603bb02f934"
+    },
+    {
+      "double": false,
+      "item_id": "it_26a3f5c7fc6b",
+      "pid": "r7",
+      "qid": "conflicts-369",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "06c67a76d3f74722eb676b1ae7a5c5d9613dbba4b1e0ea00964fb5a19a2546ad"
+    },
+    {
+      "double": false,
+      "item_id": "it_271623d3ef5a",
+      "pid": "p0",
+      "qid": "ff8987ca0bae11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "a45dbedfbfed4f0a2c3871a94fabf5e1bbf2761f56810ba3ea6be576ed94ff7a"
+    },
+    {
+      "double": false,
+      "item_id": "it_2747a5580c06",
+      "pid": "r5",
+      "qid": "conflicts-18",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "796ee0b7f0950b58464a3a89f47225f5004e9630161fd60fe12ca431c9082738"
+    },
+    {
+      "double": false,
+      "item_id": "it_2762b87f432f",
+      "pid": "r4",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "23dbc79a77388ab42681e6b47a34d59da74b2a727b753a8c73a6c11cf8de7e5e"
+    },
+    {
+      "double": true,
+      "item_id": "it_279c79db3d47",
+      "pid": "r4",
+      "qid": "conflicts-372",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "c76c040aaf9751b08b92f70596f5e0453c3b2a5d876712b1869becf436876193"
+    },
+    {
+      "double": false,
+      "item_id": "it_2859b5229861",
+      "pid": "p3",
+      "qid": "ff8987ca0bae11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "85a69d27d07fda09fe305763d99e2b93925f30c6e2becf22f18dc2eea8397a00"
+    },
+    {
+      "double": false,
+      "item_id": "it_287dd9362769",
+      "pid": "p2",
+      "qid": "c3bed13408fc11ebbdadac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "7194c549204407c1a75f9cd1ca980a92ec133cf95b2b76d3b2e7ee7a9da6700e"
+    },
+    {
+      "double": true,
+      "item_id": "it_28b0e432b2da",
+      "pid": "r6",
+      "qid": "conflicts-455",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "4a77d488977c82ff435cbf58c9885ba8befebb3705268350431c2cd4c875bdec"
+    },
+    {
+      "double": false,
+      "item_id": "it_28ca261643f3",
+      "pid": "r0",
+      "qid": "conflicts-80",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "03673389e78d8b88fb03377888ebe0d1f92422050320c19c9de8425825393b14"
+    },
+    {
+      "double": false,
+      "item_id": "it_2999a723752c",
+      "pid": "r5",
+      "qid": "conflicts-379",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "881deaa20fad9dc18854950ed9756a5d009cf3215f116442771c085134cd39fe"
+    },
+    {
+      "double": false,
+      "item_id": "it_2bc05a109927",
+      "pid": "r2",
+      "qid": "conflicts-235",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "8bb3a61a7aadd6ae1f4447cdb29e4e0917cb84ac2b5522c273f7a2c6ff055aad"
+    },
+    {
+      "double": false,
+      "item_id": "it_2c800bc5415a",
+      "pid": "r1",
+      "qid": "conflicts-273",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "670bc4e597f7f7ecf01aef646e23d13fdaab5f75ad9fb772fde0faa4cf415a20"
+    },
+    {
+      "double": false,
+      "item_id": "it_2d9187325744",
+      "pid": "r0",
+      "qid": "conflicts-86",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "5faebdd9969102b7a61091d43c31074f1cca64b7286f7ea244808799b9ea0305"
+    },
+    {
+      "double": false,
+      "item_id": "it_2e0e6fdb9773",
+      "pid": "r7",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "3f667f74e296f298b15cc6312c882d92e88d0d47e07bf9c6c4890f5c1ce22eb6"
+    },
+    {
+      "double": false,
+      "item_id": "it_2e3a48e68466",
+      "pid": "r6",
+      "qid": "conflicts-211",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "c495f3b6cb3cddce53b92a88bda60c4b7a57e707fb5e1749a09ca3a5c10d828d"
+    },
+    {
+      "double": false,
+      "item_id": "it_2f6bd0b0d76f",
+      "pid": "r5",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "a77fd14e7df39760f7c8a2e378c2fd8add92153d819d8b8756264292be6bf307"
+    },
+    {
+      "double": true,
+      "item_id": "it_302076ec18a4",
+      "pid": "r1",
+      "qid": "conflicts-113",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "e1919dfc1473bb6524d1ac0665d85eb83d575539e6ac1817799c56985f5e4628"
+    },
+    {
+      "double": false,
+      "item_id": "it_304d9bd359e4",
+      "pid": "p9",
+      "qid": "93e6f2c60bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "c7cf3c553963e71f2890b9c138e9535821b84ad6c80d5ef701196e86d560631e"
+    },
+    {
+      "double": false,
+      "item_id": "it_30b37e7bb7d5",
+      "pid": "p7",
+      "qid": "ec95927a0bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "4f4ebbf502e3e4a73ecb5ca7d80e2a39a7d9456a8a523963a67d044714f8d3c3"
+    },
+    {
+      "double": true,
+      "item_id": "it_310fdfcfd877",
+      "pid": "r3",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "e9221bd942efb1471375b4158cd4a3b665114cebd67b598ce943c1321423890b"
+    },
+    {
+      "double": false,
+      "item_id": "it_31d3b9d30e08",
+      "pid": "r7",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "7a3224341b0e60e2f993227b1e066df9082de02982f269f02aa253aff800c93a"
+    },
+    {
+      "double": true,
+      "item_id": "it_3219f0942827",
+      "pid": "p6",
+      "qid": "5baaafa8084a11ebbd56ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "e956d1ec15031593b0d158a47ef802601ebb39767a0785d82c0471282bb62aca"
+    },
+    {
+      "double": true,
+      "item_id": "it_3301bca4faa2",
+      "pid": "r13",
+      "qid": "conflicts-433",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "bde072aa6c17b47b24bc4f4eeb1569af3a5386c9a5e4666d6b2bafa7eaf3a08e"
+    },
+    {
+      "double": false,
+      "item_id": "it_3487c51bc588",
+      "pid": "p4",
+      "qid": "5baaafa8084a11ebbd56ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "280479c88b80d32f0109d8a92822303e46b1f3f33a5560dee3cf53bfce1fbb64"
+    },
+    {
+      "double": false,
+      "item_id": "it_34bbb4cb58b0",
+      "pid": "r0",
+      "qid": "conflicts-249",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "8c476bbda0eab0f97e6a56ed2ccc7326880f3d9ce2341c7284131d50bfa360a2"
+    },
+    {
+      "double": false,
+      "item_id": "it_34d79f29d3cb",
+      "pid": "r5",
+      "qid": "conflicts-93",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "bb550cb079d4f004c650cde3266597c18ffe1917deeda713ff418185653d1bde"
+    },
+    {
+      "double": false,
+      "item_id": "it_3679ff537e9d",
+      "pid": "r0",
+      "qid": "conflicts-381",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a6edcb29938d0e5be03d7969c6d7518f74ba1da6804aece880e463fbc2468e61"
+    },
+    {
+      "double": false,
+      "item_id": "it_372e9a4d7733",
+      "pid": "p3",
+      "qid": "d407f25408dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "ba2de5d8560e8f9e7cd5ebe12f462d560cdae44211f1d5ebebc44af5ad225253"
+    },
+    {
+      "double": false,
+      "item_id": "it_37b755b7fa33",
+      "pid": "r0",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "7814b7cdce2b7146b9b6e4f0c6638b86c319f10923231412b67de4d1bb375677"
+    },
+    {
+      "double": false,
+      "item_id": "it_386eea3b8e9f",
+      "pid": "r8",
+      "qid": "conflicts-416",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "f8a93e5657d8fdb5925a9494177ab52626d6326256be16c5988cae4e289d2c1d"
+    },
+    {
+      "double": true,
+      "item_id": "it_3874d9b84b7c",
+      "pid": "r4",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "8799229c5ba1101d8ae621de8f21bff1b5220d4d1ab9e5c74cd4bf3d9e005ca4"
+    },
+    {
+      "double": false,
+      "item_id": "it_39399acb5be9",
+      "pid": "r6",
+      "qid": "conflicts-138",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "6c643487f507c63baeec25571c5dcfa5f3bb5b80968ca17ea56f2a387d20fb6a"
+    },
+    {
+      "double": true,
+      "item_id": "it_3957bb0f5780",
+      "pid": "r3",
+      "qid": "conflicts-190",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "547bcc495a7286f84a27f4e12c436816b5e5f4d9730d1e3faaf2385e961fd5e2"
+    },
+    {
+      "double": true,
+      "item_id": "it_39a019c264cd",
+      "pid": "r3",
+      "qid": "conflicts-332",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9b042e01063fe5b121c381bb3be455135f9348ea584c746682332893471e8e8c"
+    },
+    {
+      "double": false,
+      "item_id": "it_39acac480779",
+      "pid": "r5",
+      "qid": "conflicts-403",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "dc0dbc7b1e5b4d509dfefeb9188da6edfc7e3917487bcb8a501b3c7d52e33e26"
+    },
+    {
+      "double": false,
+      "item_id": "it_3a1347a34126",
+      "pid": "p6",
+      "qid": "d5e6d5ba089011ebbd72ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "6de52d59952e44df7a761c49427a4962c1f2a7dbee1ab0b7d954aec075cf873c"
+    },
+    {
+      "double": false,
+      "item_id": "it_3b1e008b9031",
+      "pid": "p6",
+      "qid": "360766220bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "ee5f0a2c4bb1abb8bcaca73d8fcb1586fc4cbbd3bc8f518e52bac6aab4d97d87"
+    },
+    {
+      "double": false,
+      "item_id": "it_3cb28d3dfe92",
+      "pid": "r7",
+      "qid": "conflicts-138",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "7509cd44300b7d033b7f201a020c4750b8f38c37af38c6e0d97d68d95b4ed27f"
+    },
+    {
+      "double": true,
+      "item_id": "it_3cc2c0c44086",
+      "pid": "r1",
+      "qid": "conflicts-286",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "575b81d78f135aaab89b701c20c1d720f113e36cdec0c219e6489064c4ef4e12"
+    },
+    {
+      "double": true,
+      "item_id": "it_3d5932637a8a",
+      "pid": "p1",
+      "qid": "d5e6d5ba089011ebbd72ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "2d20ca6a4865a99aeb7125412983572158e2dbd4ad00f560a587d245b0879f04"
+    },
+    {
+      "double": false,
+      "item_id": "it_3eca33b08ce7",
+      "pid": "r8",
+      "qid": "conflicts-220",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "be874180e88d9e4212f01cb766eea0c46be05601065e1aff47be0b3219692fc1"
+    },
+    {
+      "double": false,
+      "item_id": "it_3efa2edc2cc4",
+      "pid": "p8",
+      "qid": "625c4c9e0bdb11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9ae245ec3b74459aed04d3591cabfc2d88e503e601c95200593b874d7af081cd"
+    },
+    {
+      "double": false,
+      "item_id": "it_3f0874035291",
+      "pid": "r6",
+      "qid": "conflicts-372",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "d76575faa23265776978d07e81112e33cbaf72b05cca8d30cd8cca0365ec356f"
+    },
+    {
+      "double": false,
+      "item_id": "it_3f0f63208c74",
+      "pid": "r8",
+      "qid": "conflicts-100",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "ac8f4fdc8f6c497d36ace469085089fbc281cd311094b91106a52b5c828cda76"
+    },
+    {
+      "double": false,
+      "item_id": "it_3f3d1e984db5",
+      "pid": "r3",
+      "qid": "conflicts-384",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "05c882bf66d5e725070f65dac1648bb5fe09a4e0951f54f6e7e8ab037c3b6687"
+    },
+    {
+      "double": false,
+      "item_id": "it_3fe62fc7ead3",
+      "pid": "r7",
+      "qid": "conflicts-312",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "23e5516ce24d7c3b3e7d1e07af8ad5a23a2cbc99783d7a4a406a02d22dd2181e"
+    },
+    {
+      "double": true,
+      "item_id": "it_4059cd35d758",
+      "pid": "r0",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "edaf2be9240dcf4fbfb8d49ee99d83a09e07a971f2458f66ac9cf021404ee080"
+    },
+    {
+      "double": false,
+      "item_id": "it_40610af55edd",
+      "pid": "r3",
+      "qid": "conflicts-286",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "71e1e35953c3ddd079622bb166e2a92a984fbaa6fa333926dd0429c9f461a2a7"
+    },
+    {
+      "double": false,
+      "item_id": "it_40775ab51d41",
+      "pid": "p1",
+      "qid": "8715eeb808e411ebbda4ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "8714e527f530cf1c91c20675012e9aa28fc1a87330e66a69252843fd98824e3c"
+    },
+    {
+      "double": false,
+      "item_id": "it_4092b66f477f",
+      "pid": "r2",
+      "qid": "conflicts-304",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4e93d9ea5e02ec8d42233e92ae0a5edc80f406856a3dd93f2d52a5f6fd31a371"
+    },
+    {
+      "double": false,
+      "item_id": "it_41899deb30be",
+      "pid": "r5",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "b30380e14055457159b4f8ebb8397ec20e37c1f65c8d0115504a67d0232a6cc1"
+    },
+    {
+      "double": true,
+      "item_id": "it_41e67b1e4a6e",
+      "pid": "r8",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "c0b04e3249b93f17dd587140b70bff93e91381e16fe76632d196d431ce1dae1f"
+    },
+    {
+      "double": false,
+      "item_id": "it_43be83bd79e3",
+      "pid": "r6",
+      "qid": "conflicts-273",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "bca82106cafc23b8d28b3e07631db894c5121c905d0f4ccdd97667506571098d"
+    },
+    {
+      "double": false,
+      "item_id": "it_43f4c60fbf24",
+      "pid": "r4",
+      "qid": "conflicts-93",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "69da13203df0dc4128cff937e47df66b2e8bfe493023af2e950fba7ba1cb867c"
+    },
+    {
+      "double": false,
+      "item_id": "it_4460d935c6f6",
+      "pid": "r5",
+      "qid": "conflicts-408",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "1aae8d4fe8374b1d039d43caa22a162afeff8fa44e0b36c586dbf5d285ae7734"
+    },
+    {
+      "double": true,
+      "item_id": "it_448d35656f1f",
+      "pid": "p0",
+      "qid": "27c5abf80bda11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "664accd551a3f1dfdd95e55c32c60cdc2e1ec7933555b873950ba1c5b1ed668a"
+    },
+    {
+      "double": false,
+      "item_id": "it_45011bf403f7",
+      "pid": "r1",
+      "qid": "conflicts-112",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "70c94593d6e8e38dd3bb6e753efddc13d268ba01f30ee36ee37c7cbd5dac2f96"
+    },
+    {
+      "double": false,
+      "item_id": "it_472dbeb1ad32",
+      "pid": "r6",
+      "qid": "conflicts-147",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "91f0be3ec94436e7ec79dc5eb7d1a0ee68b555f85cdf8584bf120ee8ecbff91c"
+    },
+    {
+      "double": false,
+      "item_id": "it_475ba0b41a07",
+      "pid": "p8",
+      "qid": "32d8b8ce0bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "bd90ca111dcff0a41fc5a72ced4757dbf39dc7ec97ae51f2ec8c4adcbe16753e"
+    },
+    {
+      "double": true,
+      "item_id": "it_4792f165d34b",
+      "pid": "r0",
+      "qid": "conflicts-342",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "8aa269029fc356c08a685e68c00ee0f4a926b077e26cc3fda86b255d9d7c2d4c"
+    },
+    {
+      "double": false,
+      "item_id": "it_4810b95eb62f",
+      "pid": "r4",
+      "qid": "conflicts-405",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "69f933b40cff53feea484f438d5c9c38c74b84db026c9b85a44b62f9e5740e24"
+    },
+    {
+      "double": false,
+      "item_id": "it_485050a58d3d",
+      "pid": "r6",
+      "qid": "conflicts-381",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d8043f81c8f603c81825f90b2355368c24e39373a80f8904bf4a405c5e49a78c"
+    },
+    {
+      "double": true,
+      "item_id": "it_489255304cf5",
+      "pid": "r7",
+      "qid": "conflicts-149",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "39103263ed7568ca309e2694704994dbb36bbd2b52c92696cc43fb5737e4a688"
+    },
+    {
+      "double": false,
+      "item_id": "it_491d6a7f9c47",
+      "pid": "r1",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "67ea31c6beb4d05cc54fc1413fe4a48143975d78468f963af44f9ff71e004c5c"
+    },
+    {
+      "double": false,
+      "item_id": "it_493fe55d2f00",
+      "pid": "r6",
+      "qid": "conflicts-440",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c262453061f2fe1d0e92d856c44757be4e8cfdfd8e4cee6d7d88f0f074ed3f87"
+    },
+    {
+      "double": false,
+      "item_id": "it_49b7eaa5d899",
+      "pid": "p9",
+      "qid": "360766220bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "813a8ff2b00f417272d0e494f5dfa6757d439f6771e4b9b03b4346fcfa63ac13"
+    },
+    {
+      "double": false,
+      "item_id": "it_49c1e124823d",
+      "pid": "r2",
+      "qid": "conflicts-93",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "adb30b0dfab773d69e76482c9af7de01b767ee0d4ec43a2396fa1b84845ab969"
+    },
+    {
+      "double": false,
+      "item_id": "it_4b28fc54f082",
+      "pid": "r1",
+      "qid": "conflicts-395",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7c9f4a253f6d9fe955e3824f4d8b9a30a79246dd8ef48852d4b7fbb455bfb2b8"
+    },
+    {
+      "double": true,
+      "item_id": "it_4bce3a5f6eff",
+      "pid": "p5",
+      "qid": "8b566ac00bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "095dc2ae66e8fdd087e46e630f7be259ba7a61b4fe03905821fa9552d5d3c206"
+    },
+    {
+      "double": false,
+      "item_id": "it_4c9bccb230bf",
+      "pid": "r4",
+      "qid": "conflicts-129",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "82f3c3691b1c7c0e4be00f08e7582a44d04581ed8735c8dfb5d432ea34840297"
+    },
+    {
+      "double": false,
+      "item_id": "it_4cd26b4e18dc",
+      "pid": "r8",
+      "qid": "conflicts-78",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "e6e1e27c197f7c98353e7038bb23511023ece32257995e64721cfc382ceb801b"
+    },
+    {
+      "double": false,
+      "item_id": "it_4cd3f74df1ad",
+      "pid": "r8",
+      "qid": "conflicts-310",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "39a95fb687c8a696241301553da471a9bbe5dcadb6dddd81d009f42eab1f95d6"
+    },
+    {
+      "double": true,
+      "item_id": "it_4cff03c16616",
+      "pid": "p3",
+      "qid": "d61c419e08dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "3c33e73777b2f9b1098c7d02487735cd8608ddde23b3ec8654a907184623f71e"
+    },
+    {
+      "double": false,
+      "item_id": "it_4dd8087796de",
+      "pid": "r0",
+      "qid": "conflicts-191",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "f9686fc88b4808c3bffc9e5ec2613960e247aa680721ea89342eb1b7ff364109"
+    },
+    {
+      "double": false,
+      "item_id": "it_4e084df706ce",
+      "pid": "r5",
+      "qid": "conflicts-373",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4a78dcc68a1842f51821c9e3ce87fead8d3a8f82f65696806a077ae7fe3572f3"
+    },
+    {
+      "double": false,
+      "item_id": "it_4e0ff1861094",
+      "pid": "r1",
+      "qid": "conflicts-100",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4b34818b2e299549b21dffff76d7e090f5f9c2fd0bd3cbb88eea8dcc7ab2f05a"
+    },
+    {
+      "double": false,
+      "item_id": "it_4e290b726fb8",
+      "pid": "r4",
+      "qid": "conflicts-7",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "947a7ff87b479ff387259fa7f800e313569d126ea8d46b05afe25809ae60eb97"
+    },
+    {
+      "double": true,
+      "item_id": "it_4e38409c4473",
+      "pid": "r5",
+      "qid": "conflicts-230",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c4878aff768d17110498157f0b908349e741ee47c2a674e02ef7d9cda301afe0"
+    },
+    {
+      "double": false,
+      "item_id": "it_4eaaa4f50eac",
+      "pid": "r4",
+      "qid": "conflicts-31",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a224beb2af2e5a26dc53c0c6a68c0bc5706618f2a68092fab25eedefa0ab324a"
+    },
+    {
+      "double": false,
+      "item_id": "it_4f44bf404fc1",
+      "pid": "r6",
+      "qid": "conflicts-389",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "5d64deecb20734c7b9ba0e1fb3eaf9f706ee4bad7767687c4b652a6f315a6d7d"
+    },
+    {
+      "double": false,
+      "item_id": "it_4f6c928008c9",
+      "pid": "p2",
+      "qid": "405499140bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "0b3613923e8fa791b627787889ed6eac8d1652eceff0247c8b6191abcb8cebd1"
+    },
+    {
+      "double": false,
+      "item_id": "it_4f81fe69ae9d",
+      "pid": "r2",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "6e14f4156f5afc6b877b9cbce7c42089db3990e391154c2a9a4a2820cf8f87d9"
+    },
+    {
+      "double": false,
+      "item_id": "it_4f91fa30db35",
+      "pid": "r4",
+      "qid": "conflicts-171",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "073f080ad7ab870db7dc4840b3fa9da09926c2a43980ca50deef5bc5919fff2d"
+    },
+    {
+      "double": false,
+      "item_id": "it_4fb1eb954285",
+      "pid": "p6",
+      "qid": "4c793c4008b911ebbd88ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "d9fe6ac96455bc6711f27429269148f7fa6330c7d6f4b44612de89014e5ef8fe"
+    },
+    {
+      "double": false,
+      "item_id": "it_5029efa711b7",
+      "pid": "r8",
+      "qid": "conflicts-86",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "271035513b6d545e79e10dc7b4db54eff38734d2f20cb86f5e580b075703b092"
+    },
+    {
+      "double": true,
+      "item_id": "it_51315f18e10f",
+      "pid": "r2",
+      "qid": "conflicts-342",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "c52c5a6dd5073a44239aa2cd86674f93fef31b6c59ae952f55ddcdf11f52dfb3"
+    },
+    {
+      "double": false,
+      "item_id": "it_52565fdfc37b",
+      "pid": "p6",
+      "qid": "277abef40bda11eba7f7acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "a34ee355dbf5db193668e33a74bd28b898ac865d52fcce0cb612a9763fda80a1"
+    },
+    {
+      "double": false,
+      "item_id": "it_52e055cf01ca",
+      "pid": "r5",
+      "qid": "conflicts-133",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "c7189fb3788058dec32180e2c6ee072a42ed5f83d660adaba27e1836f9b8b885"
+    },
+    {
+      "double": false,
+      "item_id": "it_535fedb8780b",
+      "pid": "r1",
+      "qid": "conflicts-129",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9378894396c47ddda2bec9ded20c3e39ab63efd18ad5f6236f717e9a0ec80dba"
+    },
+    {
+      "double": true,
+      "item_id": "it_536f2ea6666b",
+      "pid": "r3",
+      "qid": "conflicts-84",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "50cd9686bb8de0f848a932898f68a15b616389c66020c638356d11dfd3b4f5a3"
+    },
+    {
+      "double": false,
+      "item_id": "it_539041434d8a",
+      "pid": "r1",
+      "qid": "conflicts-7",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "cc835c83a5767f4bf466e4f06e3b3d6e09c915637325a98321b1821a962ada5a"
+    },
+    {
+      "double": false,
+      "item_id": "it_53956a5b88dd",
+      "pid": "p4",
+      "qid": "b9ae783c089d11ebbd78ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "c93476be0e04ece9082b904cc4c85ef4815fd943185b990fdcac024141f622fd"
+    },
+    {
+      "double": false,
+      "item_id": "it_53a7d59de218",
+      "pid": "p5",
+      "qid": "5baaafa8084a11ebbd56ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "3dfd3496a7fb7fca48e20a1d670b52b189ce982a56d4c0f2cfa9fb4b5fb33a05"
+    },
+    {
+      "double": false,
+      "item_id": "it_545ecdcd7068",
+      "pid": "p1",
+      "qid": "b63d5d17088a11ebbd6fac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "57a9ee6846e84f3b67b7ed0738e06361af936ce134a026b5edd0d09ed68d65da"
+    },
+    {
+      "double": true,
+      "item_id": "it_55d5dfb641ac",
+      "pid": "p3",
+      "qid": "dd52f36a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "095dc2ae66e8fdd087e46e630f7be259ba7a61b4fe03905821fa9552d5d3c206"
+    },
+    {
+      "double": true,
+      "item_id": "it_55d7e6524098",
+      "pid": "r4",
+      "qid": "conflicts-297",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "6f5c26c970c59959a6c5b91dc026f95bb4bb68e24fa3da43c95d3f689ffb563b"
+    },
+    {
+      "double": true,
+      "item_id": "it_5607159b0d83",
+      "pid": "p8",
+      "qid": "405499140bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "f320a4ef3068751e5cc39a07de5366a71ba0b0e80a4ebc9773ae1d766a9b9a6a"
+    },
+    {
+      "double": false,
+      "item_id": "it_5616b811276f",
+      "pid": "r0",
+      "qid": "conflicts-252",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e3ffb0f4f99d5fa6c42277f4822c82f758581beaf898c4f1e4d461d643a6bf2a"
+    },
+    {
+      "double": false,
+      "item_id": "it_562cb11f3443",
+      "pid": "r5",
+      "qid": "conflicts-416",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "90f0619e0f7ac1f6ccfb45fcac89bfc71e0a1fb5393264f3a210d05c91720d24"
+    },
+    {
+      "double": false,
+      "item_id": "it_56d10fadb28f",
+      "pid": "p5",
+      "qid": "7dbaf10a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9129377a893126d0f856a41260f2a44047fc59ec70310bdac1f4e773d081f7d4"
+    },
+    {
+      "double": false,
+      "item_id": "it_577d4cb2978a",
+      "pid": "p8",
+      "qid": "4c793c4008b911ebbd88ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "025446252a460303a06c3815498eacec42681c3eaf0cd01e66d220671a439440"
+    },
+    {
+      "double": false,
+      "item_id": "it_58daf9e2164a",
+      "pid": "p0",
+      "qid": "d61c419e08dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "ec093077c81db3837bd87c65c6d18541c13073e4fea14604c3f957b5a5e28414"
+    },
+    {
+      "double": true,
+      "item_id": "it_58e2c62cd9c5",
+      "pid": "r8",
+      "qid": "conflicts-448",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "2ca5ff97b5e6ba6f860713fcd53b300d7e3b3ae19230967ee01c65c23ada0bbe"
+    },
+    {
+      "double": false,
+      "item_id": "it_58e6d400a606",
+      "pid": "p4",
+      "qid": "277abef40bda11eba7f7acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9c8339d79b38b351b2862956400657409c955f973e35dbdfb5ff266bf35b4383"
+    },
+    {
+      "double": false,
+      "item_id": "it_590810edbe31",
+      "pid": "r5",
+      "qid": "conflicts-80",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d74720fd8db352c53b10d1f8c0ab0265d8d9e19d8a53729c70cec55430911d82"
+    },
+    {
+      "double": false,
+      "item_id": "it_592fcd495afd",
+      "pid": "r5",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "9c4ae304b3044d7700b26cdb7c5091bf63b27f1f7f0faa22b57284fc39e0a534"
+    },
+    {
+      "double": false,
+      "item_id": "it_5a5f6d2a7e15",
+      "pid": "r5",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "a1b40a3895cd226a3539d11d297fd799c21fda7c97bb443025ee6feb4b8dc5aa"
+    },
+    {
+      "double": false,
+      "item_id": "it_5d58088051dc",
+      "pid": "p6",
+      "qid": "93e6f2c60bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "1d3f3dd1cb7ca6bcedba5852953f59a28ce394153dc492bb43c07d788e0693c2"
+    },
+    {
+      "double": true,
+      "item_id": "it_5d6e6fb26cc9",
+      "pid": "r5",
+      "qid": "conflicts-381",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7d7cb82df6c270078c763d26b50f09075fed9321c4968a707829389b2e11356b"
+    },
+    {
+      "double": true,
+      "item_id": "it_5d852b526f1c",
+      "pid": "p9",
+      "qid": "8715eeb808e411ebbda4ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "04abce41de776db5362ef5f512fe1416dc2b9372412166d1cc1432ec95fd19d1"
+    },
+    {
+      "double": false,
+      "item_id": "it_5f406f7b479c",
+      "pid": "r0",
+      "qid": "conflicts-21",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "bea420cc324476e6c7ff7f6bfe87b83e28baa6a1757e1f1d1cbb611ba010f4df"
+    },
+    {
+      "double": false,
+      "item_id": "it_5fc861d71a40",
+      "pid": "r7",
+      "qid": "conflicts-300",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a3f40b6584651da9c51d9449efc7b736adb37332be8f21ae5bd8b1e9154a80da"
+    },
+    {
+      "double": true,
+      "item_id": "it_5ffce3ea132a",
+      "pid": "p7",
+      "qid": "d5e6d5ba089011ebbd72ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "ba1e4a56f90d54c49b0c1e68723bf328b4e0ec01c0e9b89b9906bcc0db716da3"
+    },
+    {
+      "double": false,
+      "item_id": "it_600f95ced602",
+      "pid": "r2",
+      "qid": "conflicts-115",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "adbab2cf32458273f29d58dbad1ff7cbf34a4849a8c83164ff4967046d26472b"
+    },
+    {
+      "double": false,
+      "item_id": "it_6079f6076169",
+      "pid": "r2",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "dab55248d512fd23a427c1615d2baedef9b8406103103be168da36bf7698f206"
+    },
+    {
+      "double": true,
+      "item_id": "it_61017de26b9b",
+      "pid": "r4",
+      "qid": "conflicts-190",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "f31667d3fc840a50cebd9994447c4f65abeb553f9107159ba8e3cd6a57cb2285"
+    },
+    {
+      "double": true,
+      "item_id": "it_612c86c18bb1",
+      "pid": "r0",
+      "qid": "conflicts-338",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "fd7f55edb0684881622f6a8a037704db9b7d7e46bcb54907b00ea9824eead7ad"
+    },
+    {
+      "double": true,
+      "item_id": "it_6234d7816f55",
+      "pid": "r7",
+      "qid": "conflicts-115",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c1422d32d44f4ce69cf791514085382b856adb82c69fc6d36ae131ae26969cc0"
+    },
+    {
+      "double": false,
+      "item_id": "it_62ddb058982e",
+      "pid": "p3",
+      "qid": "7dbaf10a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "5ed64b11bcda8ab7b1324f302047e6f99449cf325fcfb14727d15d04a790231c"
+    },
+    {
+      "double": true,
+      "item_id": "it_636b563be403",
+      "pid": "p9",
+      "qid": "c3bed13408fc11ebbdadac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "6e8e5fa3227b66093d5de4147c0cb91161448e5cb53fd04944993612c8672a31"
+    },
+    {
+      "double": false,
+      "item_id": "it_64026894fd4f",
+      "pid": "r9",
+      "qid": "conflicts-440",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "012f618cc4691ca4b302aa9f5938533ab1d8245eb90189b89eeed92f5075ce88"
+    },
+    {
+      "double": false,
+      "item_id": "it_642cdfd6e4d0",
+      "pid": "r5",
+      "qid": "conflicts-167",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "92d52f140fc7b24e5c069c837f66686bfb48fcc3dc640ef51d53986d65d38b86"
+    },
+    {
+      "double": false,
+      "item_id": "it_6458b8ae3bca",
+      "pid": "r6",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "d23a3b7db77df4dc6a4a781d6e33e909a76cc90c675f084ae5fe8445a88220c7"
+    },
+    {
+      "double": false,
+      "item_id": "it_653722e9e3e2",
+      "pid": "p9",
+      "qid": "b9ae783c089d11ebbd78ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "4ea532958e5c1c3285743bea19818868da0e6fccf54f7277373968d04dc81dd4"
+    },
+    {
+      "double": false,
+      "item_id": "it_660a02dcc6d2",
+      "pid": "r5",
+      "qid": "conflicts-194",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "04171c67433a9fb416eedbe00290095eae4dc63c8e550157ee6bad0a5314d5d3"
+    },
+    {
+      "double": true,
+      "item_id": "it_666b2a979f8d",
+      "pid": "p3",
+      "qid": "6ce16be80bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "1a2475d4d4baa022919821ab19bdbb29c209d1b4d1d9fc50a8bc05986fb67c16"
+    },
+    {
+      "double": false,
+      "item_id": "it_67d46942a177",
+      "pid": "r5",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "fcad7ec00e0c93df7606167a8d6ce30181329e4bc154e59d11a0237b525d75de"
+    },
+    {
+      "double": false,
+      "item_id": "it_6880617b550e",
+      "pid": "r7",
+      "qid": "conflicts-211",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "79fb8db636dffed17cb2dc9227c11f8ede2c1f008670fcc3ea086a69a53e0f3d"
+    },
+    {
+      "double": false,
+      "item_id": "it_6940c65c3655",
+      "pid": "r8",
+      "qid": "conflicts-393",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "72dbc898ca548049022f8d0bac5712c8e06d0442568a5f64f6cb221f1e16613d"
+    },
+    {
+      "double": false,
+      "item_id": "it_6a8c75b46748",
+      "pid": "p4",
+      "qid": "360766220bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "7f8b7d2887b36fb909d057146047b36b9190c35e4773d2fcf93e8e1506c9b7c1"
+    },
+    {
+      "double": false,
+      "item_id": "it_6ae4a01240b1",
+      "pid": "p3",
+      "qid": "158d265809b111ebbdb0ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "8fa8185ce0ebe5a8ff2739df79db366574e1c3debc6625c2921c4a3ce1b29fff"
+    },
+    {
+      "double": true,
+      "item_id": "it_6b8d3ea0e45d",
+      "pid": "r6",
+      "qid": "conflicts-276",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7810922884c5c53c709b3dbf78e1c5a1a3f4036ecf1c67f597282889723a92cf"
+    },
+    {
+      "double": false,
+      "item_id": "it_6bba201ec899",
+      "pid": "r7",
+      "qid": "conflicts-12",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "2f095f7c33f4bb01ea84b2911bc26e0da87f416fc31aa00e505616ad8e875c7a"
+    },
+    {
+      "double": true,
+      "item_id": "it_6bd0daf3527b",
+      "pid": "p8",
+      "qid": "7dbaf10a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "ec6204a2abd144d8ebb764ff10823ce11af56330d567f73bc184c66aed53bb2b"
+    },
+    {
+      "double": false,
+      "item_id": "it_6bec2ef8307b",
+      "pid": "r0",
+      "qid": "conflicts-350",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "bd97c383b426aef99ba76dee12c5d672630920802e90dc3ca2e272a4145e824f"
+    },
+    {
+      "double": true,
+      "item_id": "it_6c1e7bad5728",
+      "pid": "r9",
+      "qid": "conflicts-297",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "165de8171ad8a9d84187b6191c225d4c26aef3c126952decee3e580ab8fbae92"
+    },
+    {
+      "double": true,
+      "item_id": "it_6c4d2f2138c6",
+      "pid": "r2",
+      "qid": "conflicts-332",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7901646ec4b6891b2ddd5adc901780b6b65299cc1147104a5839c8799066b15b"
+    },
+    {
+      "double": true,
+      "item_id": "it_6dee9adfbbc4",
+      "pid": "r0",
+      "qid": "conflicts-113",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4d8abb3f3d366f86e6f9b60a27218d430b40e21d971680d27d685aac0c0458ce"
+    },
+    {
+      "double": false,
+      "item_id": "it_6e1a10f96ed7",
+      "pid": "r0",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "4505a14fe3d56a7cd2a8a243a09416c171110def2ae75fdcf36b0a9915688100"
+    },
+    {
+      "double": false,
+      "item_id": "it_6e2bf9e3da50",
+      "pid": "p1",
+      "qid": "7dbaf10a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9d66cd9536cf0bd035d4e0155d4c73736ca05e177dd4da860827455cf76c5ab1"
+    },
+    {
+      "double": false,
+      "item_id": "it_6ebe0ed664e8",
+      "pid": "p2",
+      "qid": "65645b8c0bb011ebab90acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "a140647535aeefbc29ec91419e3b8db2a7e7d3855d01608a9efa686036f1e860"
+    },
+    {
+      "double": true,
+      "item_id": "it_6ed1502a4398",
+      "pid": "r5",
+      "qid": "conflicts-190",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ea97e6ae6a640a362ab0937eaf6f6fc42fb748affd7fe8b1c6abe779da83f617"
+    },
+    {
+      "double": false,
+      "item_id": "it_6f084fe86101",
+      "pid": "r4",
+      "qid": "conflicts-408",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "a3b1e910e5f819cb91ca8ab844a208ec5a4ec952e3023f111ecf4de3aff43e18"
+    },
+    {
+      "double": false,
+      "item_id": "it_6f1d8c95fe2a",
+      "pid": "r3",
+      "qid": "conflicts-148",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "cbf626fb78bb47b4ff8e86a511fd0b2726dc2950faa2f769e38a28b3e75fe0b1"
+    },
+    {
+      "double": false,
+      "item_id": "it_6faf2c74ed99",
+      "pid": "r1",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "e9b54240c31d2f8393e43478415f28eb3511575513b194e123ccfe4d2fe154c3"
+    },
+    {
+      "double": false,
+      "item_id": "it_7077b61253f0",
+      "pid": "p3",
+      "qid": "360766220bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "e47fa3bfe37da4efd27a7e710c4f107e0f8d5bb8de9583464a3decbf9f6402b7"
+    },
+    {
+      "double": false,
+      "item_id": "it_71014511d39d",
+      "pid": "r2",
+      "qid": "conflicts-56",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "11632981917dee575e7263d5b9e8fda8b40078b17410bc152be73cd3732ea737"
+    },
+    {
+      "double": false,
+      "item_id": "it_714b46b9be2f",
+      "pid": "p0",
+      "qid": "f27e01300bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "663d7c3207e673736c3e801c2ac79c8422f9f81f890ee8fbd0ed4569126e8b40"
+    },
+    {
+      "double": true,
+      "item_id": "it_73717662800e",
+      "pid": "p0",
+      "qid": "93e6f2c60bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "10449645a8fb8c238d788f7622702b1f26533fc701a848f5322a900091869752"
+    },
+    {
+      "double": false,
+      "item_id": "it_74886bdaa30f",
+      "pid": "r0",
+      "qid": "conflicts-289",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "82e2c54607a3c8355af598819daee8fc627bb40335e95ad8c71e42a1a216c3c3"
+    },
+    {
+      "double": false,
+      "item_id": "it_74cab5c92127",
+      "pid": "r3",
+      "qid": "conflicts-454",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "58ca3119363e5ead07da6b498502ec529d9bdff8d454553fd466125aae4309a3"
+    },
+    {
+      "double": false,
+      "item_id": "it_766ea58b567c",
+      "pid": "p1",
+      "qid": "277abef40bda11eba7f7acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "4d8617d97f08c239ea0f86d1205724927f922ce945037088a01888e734ed139f"
+    },
+    {
+      "double": true,
+      "item_id": "it_76f4e90d1cfe",
+      "pid": "r15",
+      "qid": "conflicts-433",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ac61e5eefc092fc1bd6a41dc4353dbcd7d12455f4702ccf55f1906bd038c4be6"
+    },
+    {
+      "double": true,
+      "item_id": "it_77009c1d004d",
+      "pid": "r7",
+      "qid": "conflicts-84",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "2d8ae8d3f9ee679a049275075048b3234da381de95eabdb034d739f222bef6af"
+    },
+    {
+      "double": true,
+      "item_id": "it_77e916df69d3",
+      "pid": "r6",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "b1dbddd3aabf10ee73e0791d3de5fb6093d607ed3195235b01c3aca980650cf7"
+    },
+    {
+      "double": false,
+      "item_id": "it_77ea6a489834",
+      "pid": "p5",
+      "qid": "d407f25408dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "3644a01652bdbf3584ddfa38d297331e2b6306e455ff46e01515b9e44951f1c9"
+    },
+    {
+      "double": true,
+      "item_id": "it_7844fbff79bf",
+      "pid": "p3",
+      "qid": "c3bed13408fc11ebbdadac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "c75b7ed2f4c8b57a4f117c54a541c0273ba1ee0b014c6ac8d3135368beb51acc"
+    },
+    {
+      "double": false,
+      "item_id": "it_786784073fb8",
+      "pid": "r1",
+      "qid": "conflicts-229",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "2dea23d782a5179431d14861bdd7f05e863d7079c7dcc04a217bdaaa1714aaed"
+    },
+    {
+      "double": false,
+      "item_id": "it_79cf8e9d599a",
+      "pid": "p0",
+      "qid": "d407f25408dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "8714e527f530cf1c91c20675012e9aa28fc1a87330e66a69252843fd98824e3c"
+    },
+    {
+      "double": false,
+      "item_id": "it_7ab698854634",
+      "pid": "r4",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "ce2f89af5a9c66e590d14ff233109dbf47269d667152637c646ae064d0423b17"
+    },
+    {
+      "double": false,
+      "item_id": "it_7ad732a9b500",
+      "pid": "r1",
+      "qid": "conflicts-356",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "02c0f1abd9d2c033d2fe5338ba37aa3421c816c937588ff9cee0a41a10433dde"
+    },
+    {
+      "double": true,
+      "item_id": "it_7b15f1a0ab12",
+      "pid": "r3",
+      "qid": "conflicts-304",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "3f30e06f831ff6923e7378024550a2b3dcab6c8bd183017453bbd41fe8488997"
+    },
+    {
+      "double": false,
+      "item_id": "it_7b3869e37e32",
+      "pid": "r2",
+      "qid": "conflicts-71",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "036cd7dc210a1c602b35aedc4d79e6bef6dfa09fcab9f158df80c5d814f80cc9"
+    },
+    {
+      "double": false,
+      "item_id": "it_7bed34193e41",
+      "pid": "r3",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "7216af9b25120b0b92075c9be69b190e274e21d5e2ed8669d6a9e6e3798de887"
+    },
+    {
+      "double": false,
+      "item_id": "it_7e32aa413ed7",
+      "pid": "p0",
+      "qid": "65645b8c0bb011ebab90acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "daf56d5f8e64266a4bfc82b33e77b203466760c7d43e40514599a99cfc76ab18"
+    },
+    {
+      "double": false,
+      "item_id": "it_7e43028ca32e",
+      "pid": "p6",
+      "qid": "59a656ac0baf11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "34672965bcc17c1b3bf25275aec0d9f99253b2f228891deafc4ca30460fe5122"
+    },
+    {
+      "double": false,
+      "item_id": "it_7f6a7834fe19",
+      "pid": "r6",
+      "qid": "conflicts-12",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e2353cb2ec899f3071b170c38363c5a777ad0d6bcc23dfcddb66fee070486021"
+    },
+    {
+      "double": false,
+      "item_id": "it_80f5a988e769",
+      "pid": "r8",
+      "qid": "conflicts-133",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4b9221cc6892b5ff6339add1018fa349ad12d730a489adf48ac9465d67bba6b1"
+    },
+    {
+      "double": true,
+      "item_id": "it_8108b0a3e15c",
+      "pid": "r2",
+      "qid": "conflicts-149",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "f0c35445943466df1dd367b73e4e32b13fdc0eb883d368eaed50df014d9727e5"
+    },
+    {
+      "double": false,
+      "item_id": "it_812f9a55f2d5",
+      "pid": "r3",
+      "qid": "conflicts-408",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "a8d2b9143c5bd3e52cbcf70629df84107ae7298ac6c902b069f2502ff83d2148"
+    },
+    {
+      "double": false,
+      "item_id": "it_8168e843f36d",
+      "pid": "p5",
+      "qid": "6ce16be80bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "06e35b85f6cc1e71787f9fd9fc174da086d40dd39ff40e365088d152346b488e"
+    },
+    {
+      "double": false,
+      "item_id": "it_81fe70e9389b",
+      "pid": "r0",
+      "qid": "conflicts-312",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "1de6da87d18bfce3bf6220a454ee1fbd568f402221b2b696eeba621373cd0211"
+    },
+    {
+      "double": false,
+      "item_id": "it_82f4f88f0870",
+      "pid": "p2",
+      "qid": "625c4c9e0bdb11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "0b3613923e8fa791b627787889ed6eac8d1652eceff0247c8b6191abcb8cebd1"
+    },
+    {
+      "double": true,
+      "item_id": "it_83928ab7f855",
+      "pid": "r7",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "205a4c3b5cd207dc2ed432f492dd1ea3d15cceab326ef0ea3b9558bbd5e3f3e4"
+    },
+    {
+      "double": false,
+      "item_id": "it_83a858019e4f",
+      "pid": "r5",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "0699a1d47b4879ec9bd1026b9b4301b0d2055e1ce2ee8e72f4a9cd171c04543c"
+    },
+    {
+      "double": false,
+      "item_id": "it_842b2b13bf1f",
+      "pid": "r4",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "290aa3806802c438067468622d70c25c7275055996211d0549cb583025a96475"
+    },
+    {
+      "double": true,
+      "item_id": "it_842d7ff216a8",
+      "pid": "p7",
+      "qid": "f27e01300bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "3c94481fc7bb7d41ccf5799135adb5adfd07f822be1a945b201de64d0a4b8899"
+    },
+    {
+      "double": false,
+      "item_id": "it_85a9ce29909d",
+      "pid": "r2",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "cea9155182ffc8ca6ed4bef9f01e955b41f5af587b81233935714da84521d4c5"
+    },
+    {
+      "double": false,
+      "item_id": "it_860eed2fa2bd",
+      "pid": "r4",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "de7237846cf3d930e41e8225cd11b8043bc2e4b8cab32c19077f17f73e8ee4dc"
+    },
+    {
+      "double": false,
+      "item_id": "it_8626e88c50cd",
+      "pid": "r6",
+      "qid": "conflicts-298",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4a5c5453a5782ff97d2e4a2e59684f6817465db50deddcb07a5b3f8d901f599d"
+    },
+    {
+      "double": false,
+      "item_id": "it_86d4eda3b3b9",
+      "pid": "r0",
+      "qid": "conflicts-427",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "26cf2d70daa59f6051defc5c893aa5703ef1ebee6b6ed798503ba4a0b2244c9a"
+    },
+    {
+      "double": false,
+      "item_id": "it_86dbbd57a623",
+      "pid": "r2",
+      "qid": "conflicts-31",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "56a6ab8bdf0c71a9817ce5eb50c5a72ad7fa93ef0abf8e1fd24334a364419700"
+    },
+    {
+      "double": true,
+      "item_id": "it_86e21b46e184",
+      "pid": "r8",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "9f9af10a54a189c45a4c52385a905cdf8566824cc41729ebdd59d66795ff7f71"
+    },
+    {
+      "double": false,
+      "item_id": "it_88b316bd1e06",
+      "pid": "r7",
+      "qid": "conflicts-230",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a649a6ce0d47cb48b2b703d5fa1d82e0a929311740d6170ff7bbc9516f77c593"
+    },
+    {
+      "double": false,
+      "item_id": "it_891dee94c108",
+      "pid": "r7",
+      "qid": "conflicts-298",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "a4db45009dd567a20a9d992607c8c2766911c7d3b6e448b0d3fa8cd078864f2a"
+    },
+    {
+      "double": false,
+      "item_id": "it_89dcf0e6defc",
+      "pid": "r4",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "6f93813084c0536f229f552d4774daf305853f7565a0f8a415692a802caa4047"
+    },
+    {
+      "double": false,
+      "item_id": "it_8a72698816d7",
+      "pid": "r2",
+      "qid": "conflicts-403",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "b920f5416b763da63b4422884fd72c83b1cc1791f83efc98963a78bfcb1536ac"
+    },
+    {
+      "double": false,
+      "item_id": "it_8abdeb085111",
+      "pid": "r6",
+      "qid": "conflicts-300",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "da3e775737d4fe82bfb47f21b4ca9f0fa69d4759b431ec8e4c8ea11b27afc418"
+    },
+    {
+      "double": false,
+      "item_id": "it_8b96cd871483",
+      "pid": "r4",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "389e4a5bbb8f81e05345c6445b289f2c70c5cdb3b0d400df79e4d51322d71db9"
+    },
+    {
+      "double": true,
+      "item_id": "it_8c4f0ebadefb",
+      "pid": "r7",
+      "qid": "conflicts-252",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ac925542d144d81e448e7c74ee7850ecbe7cf662c4445b3a0f11537592d83af0"
+    },
+    {
+      "double": true,
+      "item_id": "it_8d3314363c74",
+      "pid": "r6",
+      "qid": "conflicts-183",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "9b8a397cea4f4a47810fedf5fce728f58adca35909afce04b56aaeb42c412d9a"
+    },
+    {
+      "double": false,
+      "item_id": "it_8d87c898fdd8",
+      "pid": "r1",
+      "qid": "conflicts-133",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "f1d129489d55ed5d6c1a09bf9bdcbe259657580659263cda7b886352fc505372"
+    },
+    {
+      "double": false,
+      "item_id": "it_8dbd226ea893",
+      "pid": "r8",
+      "qid": "conflicts-21",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "3dc53bd1a951e51dbb28321758641ab378ea7c84950d45edfd17e83db2e01873"
+    },
+    {
+      "double": false,
+      "item_id": "it_8dcae7cf1881",
+      "pid": "r8",
+      "qid": "conflicts-252",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7eda71109be8ccae19299674f695488c24612e84415c87a1e39f03da3af2f5c2"
+    },
+    {
+      "double": true,
+      "item_id": "it_8e357d74ae8e",
+      "pid": "r9",
+      "qid": "conflicts-395",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7b661fff5864d1f3ea1b076abdb1508030c191fd723a2bf8194e302d61758eda"
+    },
+    {
+      "double": false,
+      "item_id": "it_8e39da80e6dd",
+      "pid": "r3",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "ec0b364cb94c776a2973021d27d8311c306bd2f546878fffe92270b2b1aa6d78"
+    },
+    {
+      "double": true,
+      "item_id": "it_8f35ba79882f",
+      "pid": "r3",
+      "qid": "conflicts-338",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "91d631f5414d73a2db66ad101fca0e248059b5407988e3f4ce8dfc8ab9fe4484"
+    },
+    {
+      "double": false,
+      "item_id": "it_8fbef5d50caa",
+      "pid": "r4",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "a4be94c0b97bec4f4da0a6f611e84c448b2efc3315ec4c595d1720bcdeb67e1d"
+    },
+    {
+      "double": false,
+      "item_id": "it_8fcd4caabdc3",
+      "pid": "p6",
+      "qid": "625c4c9e0bdb11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "745c9acd6dbfa743a5acdc364414babe2921f7e9cfe5bea896e59f4f9955c362"
+    },
+    {
+      "double": true,
+      "item_id": "it_8fd36b6ba8fc",
+      "pid": "r8",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "fc2719e8b274467f1a2f6c28cb59b2f5a9e6bdaf14faaf9cfab3eb88d31615de"
+    },
+    {
+      "double": true,
+      "item_id": "it_9060d5a5427c",
+      "pid": "p2",
+      "qid": "32d8b8ce0bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "69e2caab66fd6968aa5c5d91f1b47cf8844dbf5d934c18b139fa552a1d65f50b"
+    },
+    {
+      "double": false,
+      "item_id": "it_909d9baa509c",
+      "pid": "r2",
+      "qid": "conflicts-373",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "be3f835acaefb56d338734a1377afd4f13743081cc87da17370bb80b6ea41cda"
+    },
+    {
+      "double": true,
+      "item_id": "it_917d9a0944ec",
+      "pid": "r2",
+      "qid": "conflicts-435",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9da7770dc988e90cda670ca35f18d2d6a685185fd2bf686349516468396c26a2"
+    },
+    {
+      "double": false,
+      "item_id": "it_91c784f70871",
+      "pid": "r2",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "a9770649666a8568bad8068b74ebfb0fed6b226456749951b7c304fb1f6802fa"
+    },
+    {
+      "double": false,
+      "item_id": "it_92788b679e20",
+      "pid": "p9",
+      "qid": "4c793c4008b911ebbd88ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "f81b3ef7ecdc45ea214d641d7fc3141436b060f6626844e6714a88794cbc2a07"
+    },
+    {
+      "double": false,
+      "item_id": "it_93495136f496",
+      "pid": "r2",
+      "qid": "conflicts-389",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "ebac8aabce1bbdaa6a70f78a7bf9f7fd8332f258ced6bb96458c51ccbc7896e2"
+    },
+    {
+      "double": false,
+      "item_id": "it_93f326ee17bb",
+      "pid": "p0",
+      "qid": "6ce16be80bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "e27700e6e43db0279890754d08628db78a9cff55643fc6e736c8bc7fc61afd95"
+    },
+    {
+      "double": true,
+      "item_id": "it_942c598de70c",
+      "pid": "r4",
+      "qid": "conflicts-257",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "5b1e7b66e73ca374495e36dc6717506ae013c510cc0f1cb43c4769aa51daf401"
+    },
+    {
+      "double": true,
+      "item_id": "it_9485228535cb",
+      "pid": "r3",
+      "qid": "conflicts-124",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ac40e64308ad840b8b21b507c9351387fb7b0fc709d5ca7b5dbb0e13eb918513"
+    },
+    {
+      "double": true,
+      "item_id": "it_94cf9bce5061",
+      "pid": "p3",
+      "qid": "8715eeb808e411ebbda4ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "c526aa66065ef7b760e76c1e0c961a7fc39d88629d4b40fa5068a120a6042b33"
+    },
+    {
+      "double": false,
+      "item_id": "it_94eb20440d55",
+      "pid": "p4",
+      "qid": "b63d5d17088a11ebbd6fac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "fa719812e06edc1356491718a798b0a2e8e04b8c6654fb6d87ea9f5ebd11da78"
+    },
+    {
+      "double": false,
+      "item_id": "it_94ec264d244f",
+      "pid": "r3",
+      "qid": "conflicts-7",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "27eed16f1f4cf96f81141cd5fb7b8c22b90c214b8117061d44e32888b9e2cd4d"
+    },
+    {
+      "double": false,
+      "item_id": "it_9658042bb228",
+      "pid": "r0",
+      "qid": "conflicts-151",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "eb2553198c24ed6d52fdd13b249528aaf1f02f88e9ee151dfa848de9d8ec3d87"
+    },
+    {
+      "double": true,
+      "item_id": "it_97b18b46e693",
+      "pid": "r1",
+      "qid": "conflicts-151",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "43abb9b76b920d79d6cbf868a193309e5181a63c9396a3f49d11590ba85a2a2e"
+    },
+    {
+      "double": false,
+      "item_id": "it_98dbda7be206",
+      "pid": "r7",
+      "qid": "conflicts-297",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "071fba606dee2b82e58e947155ab72e139ee7f34cfa1d5b8f7b67f561222540e"
+    },
+    {
+      "double": true,
+      "item_id": "it_998856f9b595",
+      "pid": "r6",
+      "qid": "conflicts-151",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "494551868b0582581ef5d3d2982878ebc7443b68c5d1cc2280a9d5a852620400"
+    },
+    {
+      "double": false,
+      "item_id": "it_9b282f98df8a",
+      "pid": "p5",
+      "qid": "65645b8c0bb011ebab90acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "0b116b5cde53462f71d6c6baeab830d548fe253d7fcaa358f772178cf723e959"
+    },
+    {
+      "double": false,
+      "item_id": "it_9b627c68d366",
+      "pid": "p4",
+      "qid": "d61c419e08dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "3537f80448e44fe63bdc8287a2e187879469a0934c1361218b2f8bc67786cd9d"
+    },
+    {
+      "double": false,
+      "item_id": "it_9c4923858b0e",
+      "pid": "r7",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "07fb951e2428920f4f21385954e4f76edf0607d21aec006a8073e04e3e419a47"
+    },
+    {
+      "double": false,
+      "item_id": "it_9c693845c8e4",
+      "pid": "r4",
+      "qid": "conflicts-387",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ca0eb36752bcc1515583de3ac866b5d4e4eb3b578e9e23134e26b8a03c06246d"
+    },
+    {
+      "double": false,
+      "item_id": "it_9c968140ef9e",
+      "pid": "r0",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "062a7b4cd5ac93397521a82a64cf2b30034fef979a990c4c0739d78f28d9e94a"
+    },
+    {
+      "double": false,
+      "item_id": "it_9d047111fe21",
+      "pid": "p4",
+      "qid": "158d265809b111ebbdb0ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "b8b4c19519b30e02d3c69cc4b63a8968d9865ca0426019216498797e140e1123"
+    },
+    {
+      "double": false,
+      "item_id": "it_9db6bb6deb34",
+      "pid": "r3",
+      "qid": "conflicts-115",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "00b8e0816d6e5d042a449fc96c5f996c7ba2d2cb382ae2f6d097f57c5cd142b7"
+    },
+    {
+      "double": false,
+      "item_id": "it_9f7736987919",
+      "pid": "p1",
+      "qid": "158d265809b111ebbdb0ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "8764acf3e3f9096c91e9e413f6b540c2dbe901293928fc0ee5686e8350602d7d"
+    },
+    {
+      "double": false,
+      "item_id": "it_9fae8c981d2a",
+      "pid": "r4",
+      "qid": "conflicts-249",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "44f74e4b0754e993f9854f0ee3f5af37e564afc61afd1b34b02be004de9ade7a"
+    },
+    {
+      "double": true,
+      "item_id": "it_9fcc7e184272",
+      "pid": "r0",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "16fb0221210dc7fafc1f1e5184ba3b60af5472c61bcbe52f1df66b5e6ebfa9b5"
+    },
+    {
+      "double": false,
+      "item_id": "it_a12e574b4935",
+      "pid": "r5",
+      "qid": "conflicts-316",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "3d88c0904588c2f5c8853cdf20ad2f57487b71865aedde721a06128f4f855439"
+    },
+    {
+      "double": false,
+      "item_id": "it_a167c7f467cd",
+      "pid": "r1",
+      "qid": "conflicts-403",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a4d533ad4536b12913b08f70be7f29f393428c916527fe8dcea4d483e8a7551e"
+    },
+    {
+      "double": false,
+      "item_id": "it_a16857b64990",
+      "pid": "r7",
+      "qid": "conflicts-80",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "655b5b30eaa074e2a1173406a731fc0747608c6f5da56fba7869549fb1f6eb85"
+    },
+    {
+      "double": false,
+      "item_id": "it_a1abb844f82c",
+      "pid": "r7",
+      "qid": "conflicts-454",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "887c3a00a071dc0b7381ff1127d01745a4828fe5fb6a0d69cc21143fdcf7573d"
+    },
+    {
+      "double": false,
+      "item_id": "it_a1e5a995ce70",
+      "pid": "r2",
+      "qid": "conflicts-123",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "00c3753f456d07c1b32ea7a36e27b3ddf358c4bb039d0f2c663cd93953115bfb"
+    },
+    {
+      "double": true,
+      "item_id": "it_a27fbc0e4d08",
+      "pid": "r3",
+      "qid": "conflicts-300",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ec6836526bd5eccfff8953c18c4b4bf4b92e6bf6c31b5a14c528c0656ccd54ac"
+    },
+    {
+      "double": false,
+      "item_id": "it_a2afdc13cf44",
+      "pid": "p1",
+      "qid": "d94b8e3708e911ebbda7ac1f6bf848b6",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "0772e19294a36aed946f0340cc15ef21f79fce2aed11a4b20992ea42c92605d7"
+    },
+    {
+      "double": true,
+      "item_id": "it_a39ecd7d67db",
+      "pid": "r1",
+      "qid": "conflicts-379",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "48d35a3e77c0bc12fdc63f904ce7b957f83bb8297c4bfaf903055c4711e2828d"
+    },
+    {
+      "double": true,
+      "item_id": "it_a3ce03ff81ce",
+      "pid": "p5",
+      "qid": "27c5abf80bda11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "0dd375a49e1d88e6b9c4ae84e3758ccbd080fd433ce79eb0fc84216da15e0010"
+    },
+    {
+      "double": false,
+      "item_id": "it_a5dd2a6af7b2",
+      "pid": "r5",
+      "qid": "conflicts-56",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "0b3bb2ae2be34b99973d910f42cee6272f3ecfa938a27428dba9211049dc49ef"
+    },
+    {
+      "double": false,
+      "item_id": "it_a663bca6c61b",
+      "pid": "r8",
+      "qid": "conflicts-372",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "102c45863768d8b98f4004bdbbbd1a17faa9b1e0ec7acbf34a3a00dd24c3c85f"
+    },
+    {
+      "double": false,
+      "item_id": "it_a6eab6c8dea0",
+      "pid": "r7",
+      "qid": "conflicts-103",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "04a45d4661b5b3f760e8856e57c7c066b38d89e8174c0d22961066f8421cefc5"
+    },
+    {
+      "double": true,
+      "item_id": "it_a7ed5076ff25",
+      "pid": "p8",
+      "qid": "ff8987ca0bae11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "1bd411648fd8575b2550518d47ad5d3b065ba30506d2e10690ef1b8f9293a6e9"
+    },
+    {
+      "double": false,
+      "item_id": "it_a8053ff18542",
+      "pid": "r1",
+      "qid": "conflicts-452",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "79f3465f23068076861862e56bd9e38b086611dca938d2dac6363246b72b7a0e"
+    },
+    {
+      "double": true,
+      "item_id": "it_a8d64a77cd85",
+      "pid": "r1",
+      "qid": "conflicts-183",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "665774fd64e6182e661d4b662ee6d31e31b6706583c9d9f5f2d17a79b38d82a5"
+    },
+    {
+      "double": false,
+      "item_id": "it_a911f448266e",
+      "pid": "r5",
+      "qid": "conflicts-356",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "79adbae93b3a39e4e784faa5e8bef762bab26615d1928d449608076ba3160ad3"
+    },
+    {
+      "double": false,
+      "item_id": "it_aa022b407390",
+      "pid": "r4",
+      "qid": "conflicts-167",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "684e62a162d4e9aa069622192ddf05f6d20352e97b7c6259bf86535d29602e68"
+    },
+    {
+      "double": false,
+      "item_id": "it_ac45ffd4d7ee",
+      "pid": "r9",
+      "qid": "conflicts-71",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "61529022d51777e4648bfafb367a6b7edf0a38fcbfeb60668ffa0820b74ecbc4"
+    },
+    {
+      "double": false,
+      "item_id": "it_ac744117edae",
+      "pid": "r8",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "662c1569bbf57bca02e9881610543e4b4e97b76814d990a117526fbf726ff783"
+    },
+    {
+      "double": false,
+      "item_id": "it_acdcc06b5da3",
+      "pid": "r2",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "a5623c201de505841ca693a5339297a8a764a52639a67458a6b3083147300212"
+    },
+    {
+      "double": false,
+      "item_id": "it_ad0c189eb966",
+      "pid": "p1",
+      "qid": "c3bed13408fc11ebbdadac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "71047e3e1cbb10800b31fc2bf4c84863aca4065f3d05092f3350af31360254a2"
+    },
+    {
+      "double": false,
+      "item_id": "it_ad2ce81dcf16",
+      "pid": "r3",
+      "qid": "conflicts-167",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "87436a5ab2884763adc3368443d1219c6b6bc937e58d0383319397f276cc9707"
+    },
+    {
+      "double": false,
+      "item_id": "it_ae3ea46f2e80",
+      "pid": "r1",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "02dde9d664c1d69d6628d4c1637314b80094686f796fd0a5f857748f36d018ce"
+    },
+    {
+      "double": false,
+      "item_id": "it_aedce2999571",
+      "pid": "r8",
+      "qid": "conflicts-384",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "e7b759df8c688c43b8b7c49e720cf46a18fd631dd4704e99e8233b7891afa2a3"
+    },
+    {
+      "double": false,
+      "item_id": "it_af6fbd34fabf",
+      "pid": "r4",
+      "qid": "conflicts-310",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7a9662c77af8970406a090b149830dc636d296822a4c44181be1b9c5ed19d43d"
+    },
+    {
+      "double": false,
+      "item_id": "it_afcaab238748",
+      "pid": "r2",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "30c4a731181d5963bbad2c1fabd1200059469c985c6fb99fee8b7a3760475e8f"
+    },
+    {
+      "double": false,
+      "item_id": "it_b17a7d096fa2",
+      "pid": "r6",
+      "qid": "conflicts-416",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "cb88abc52ae2426ccc71970e97e706a41b14edc0ae365165fde3384a676717ea"
+    },
+    {
+      "double": false,
+      "item_id": "it_b2e9b6704020",
+      "pid": "p9",
+      "qid": "b63d5d17088a11ebbd6fac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "eade62558678cad9240524f0ad196f1d3f084e5358ecd51df861a650d6b16c9e"
+    },
+    {
+      "double": false,
+      "item_id": "it_b32f769f2559",
+      "pid": "p4",
+      "qid": "ec95927a0bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "3a5adb07bb14363e64736350618807bb92172878cc236482e517cfb0c4864a9e"
+    },
+    {
+      "double": false,
+      "item_id": "it_b43a38b38a05",
+      "pid": "r4",
+      "qid": "conflicts-384",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ad825f806a52f8db3d113523f0d3704f0be8d73ecb1f066a5cc2ee5a101bb149"
+    },
+    {
+      "double": false,
+      "item_id": "it_b467eadc9a1d",
+      "pid": "r2",
+      "qid": "conflicts-18",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "f4bcf84984b03fd81c7364c65448a210b50e9db7019f0c416e88fb2ea7ea4fdd"
+    },
+    {
+      "double": true,
+      "item_id": "it_b48ebd3f8afc",
+      "pid": "r4",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "cc31804a66634de07e5ee8c245acb7d99d3c06ab3d10a1fdc1626e24215b27f7"
+    },
+    {
+      "double": false,
+      "item_id": "it_b4f09e44b811",
+      "pid": "r2",
+      "qid": "conflicts-395",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "82fcac39bf34b7fd764cf8dacaa4d0bdee20e586f5750dc0c455e468c90f32aa"
+    },
+    {
+      "double": false,
+      "item_id": "it_b524f9e8cf0f",
+      "pid": "p9",
+      "qid": "dd52f36a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "37bae618ffb430ee70ac29c537bef14cb7973f55d6604e808aef2797c12434d1"
+    },
+    {
+      "double": false,
+      "item_id": "it_b5f0ed716099",
+      "pid": "r0",
+      "qid": "conflicts-402",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "0a039013986f171709819e3b3acccc5fbab46fdb12aae9781499823f9969e9e8"
+    },
+    {
+      "double": false,
+      "item_id": "it_b6bd97b4bf49",
+      "pid": "p4",
+      "qid": "ff8987ca0bae11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "e7d1530971876fdfe3f52ebde7b016df58af6ac83070593e1feaa228559f7103"
+    },
+    {
+      "double": true,
+      "item_id": "it_b6d773d3ac39",
+      "pid": "r4",
+      "qid": "conflicts-312",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "910906f9e84df538b5b9f2154a85bfda9a8d1ce84f9195c1d4239831671b0929"
+    },
+    {
+      "double": false,
+      "item_id": "it_b75a425d74d4",
+      "pid": "p2",
+      "qid": "b63d5d17088a11ebbd6fac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "07dc1a94dec809b99e9984d18d0e08d5d265f8700ca9ae2b062e424c5a121636"
+    },
+    {
+      "double": true,
+      "item_id": "it_b7bb1324f0ba",
+      "pid": "r1",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "80008f450f96618117ca34bdb1842bdbbd2033c1fab93e9a6a7d63bf261850bb"
+    },
+    {
+      "double": true,
+      "item_id": "it_b80d4515a512",
+      "pid": "r7",
+      "qid": "conflicts-192",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "3beed2a1d546e4383c54d931c120cad55531cbe5782967041b9632f5e6751b88"
+    },
+    {
+      "double": false,
+      "item_id": "it_b930ef842dab",
+      "pid": "r7",
+      "qid": "conflicts-124",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "8b9ec8abdc5c06e35bd491eb5fed909a7cfe29c16ae2dbe4a3ecf6d6214defc9"
+    },
+    {
+      "double": false,
+      "item_id": "it_b94ced00228e",
+      "pid": "r8",
+      "qid": "conflicts-112",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a9c881dadb0ba497d8d4b7d7f7cab18f917d9045707b1025157fb394815e34dc"
+    },
+    {
+      "double": false,
+      "item_id": "it_ba2134b27687",
+      "pid": "r0",
+      "qid": "conflicts-90",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "850793ee8c984f4cc0df370ae5e0c626287143755af12d3e9a2413110c4ed32b"
+    },
+    {
+      "double": true,
+      "item_id": "it_bac228a9e56b",
+      "pid": "p9",
+      "qid": "27c5abf80bda11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "a174d5bd2fe85bd52fc890622178ff3cccbb5c008cf4beabb38ac0f9bdd94654"
+    },
+    {
+      "double": false,
+      "item_id": "it_bacc5afffc88",
+      "pid": "r9",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "544cb9ea8186eb4a9e2016ca73f599cddba7c060df72d3b7c5358633d421f933"
+    },
+    {
+      "double": false,
+      "item_id": "it_bb7e4fe4e8c3",
+      "pid": "r2",
+      "qid": "conflicts-405",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "4873f7cda3910dddd23fb2c21739c37b7d8574654967ff1735d81b96455f3593"
+    },
+    {
+      "double": false,
+      "item_id": "it_bbb7a1ac910f",
+      "pid": "r8",
+      "qid": "conflicts-235",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "58717bc3f95724fc875a04d927011ec2794b631342c24019ae46e3dee09b0692"
+    },
+    {
+      "double": false,
+      "item_id": "it_bc49fdd34648",
+      "pid": "r3",
+      "qid": "conflicts-249",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c67997dea60e7bd00019472940eebf44c5d572c3672b7fd71ec3835e9fb967b2"
+    },
+    {
+      "double": true,
+      "item_id": "it_beaec0cdd043",
+      "pid": "p2",
+      "qid": "ec95927a0bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "095dc2ae66e8fdd087e46e630f7be259ba7a61b4fe03905821fa9552d5d3c206"
+    },
+    {
+      "double": true,
+      "item_id": "it_beef20bb5017",
+      "pid": "r0",
+      "qid": "conflicts-229",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "0f32ff25be168d9c109e36c4c65d1f91f29e94da9b5868db13db026fd3ec684a"
+    },
+    {
+      "double": false,
+      "item_id": "it_bf77ba2289ea",
+      "pid": "r8",
+      "qid": "conflicts-298",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "f54a41da375d79c0374214a9d32ba367e2306c576e0afe82def044a7fe803bb6"
+    },
+    {
+      "double": true,
+      "item_id": "it_c070d88a59df",
+      "pid": "r4",
+      "qid": "conflicts-211",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "9ba601220d96843b3b55b4dcfa1f9d81587909544ca7566381fdc91571fa5c3e"
+    },
+    {
+      "double": true,
+      "item_id": "it_c09d8d5da173",
+      "pid": "r4",
+      "qid": "conflicts-138",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "ff1d09e4e99b1436aa19bd6b95988746a5da06ded3b6c9fa0a358039cb594af8"
+    },
+    {
+      "double": true,
+      "item_id": "it_c0cc686421b8",
+      "pid": "r8",
+      "qid": "conflicts-276",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "2327f4246b2161a1175d2613d8928cce687b4ff2d8251950d9041d7286e37e12"
+    },
+    {
+      "double": true,
+      "item_id": "it_c16274bf2c61",
+      "pid": "r3",
+      "qid": "conflicts-349",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "ab76aac183604fd8ed8266a2a4b61c7bf7785eeb7f2597ce71931b3e460a511c"
+    },
+    {
+      "double": false,
+      "item_id": "it_c245cd4d5061",
+      "pid": "p2",
+      "qid": "dd52f36a0bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "298623f90f3865ad6dc68ffaedaa10ff4f01e9cbe3f88991caa000ded05685c0"
+    },
+    {
+      "double": false,
+      "item_id": "it_c2790d6ffcfa",
+      "pid": "r1",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "7437bb7144f54f26a8dd817ed4b871132b13a29256898858e23640b53ee49299"
+    },
+    {
+      "double": false,
+      "item_id": "it_c32576c52c33",
+      "pid": "r4",
+      "qid": "conflicts-433",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "da6e3e7005f00d2950d5bdc01e4fb6aa8649878b3eb9ef9be28c454ef4fcbaea"
+    },
+    {
+      "double": false,
+      "item_id": "it_c3c3d3732d6e",
+      "pid": "r3",
+      "qid": "conflicts-350",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "5966855d03dee972b899696c66df23a43840fd21d029d9aebff06c91f4c3032a"
+    },
+    {
+      "double": false,
+      "item_id": "it_c4b55a8999eb",
+      "pid": "r3",
+      "qid": "conflicts-99",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "45eecf62a24f2cf30b476dd16636007a5ae0d82317ed44cfb1f299032166c75d"
+    },
+    {
+      "double": false,
+      "item_id": "it_c4b7da1854f3",
+      "pid": "r5",
+      "qid": "conflicts-350",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "23556b1c3ed47d789afed52e1e65e4b4b30f188f1b3e769e01627290b2dba489"
+    },
+    {
+      "double": true,
+      "item_id": "it_c4bdd2b8e29a",
+      "pid": "r3",
+      "qid": "conflicts-343",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "19243fbe1d4b5b482ec8cfef5c106bd8598d936e10a7f5b5f7b8a9b135d0ea9d"
+    },
+    {
+      "double": false,
+      "item_id": "it_c4fa593e70ac",
+      "pid": "r2",
+      "qid": "conflicts-129",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "6fdca08c7bec08dc06858081869fa76fae4967bd20bab8e540d0098be7a346a6"
+    },
+    {
+      "double": true,
+      "item_id": "it_c827713527bb",
+      "pid": "r6",
+      "qid": "conflicts-393",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "97bdfe8b9c0ebda054c1f7e5b518395dc057432a31eac5ab8ec021c0f341078b"
+    },
+    {
+      "double": false,
+      "item_id": "it_c8c19460c72a",
+      "pid": "r0",
+      "qid": "conflicts-387",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "4258e8f77388fd4222acbc887d9f9d60919e4d37c5379caab4830a0b818afc2e"
+    },
+    {
+      "double": false,
+      "item_id": "it_c9e68d704789",
+      "pid": "p0",
+      "qid": "8b566ac00bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "f60f0e8c028b41c3129aada08812f8bb4cfe7413384a6dad0d22f7231dad0999"
+    },
+    {
+      "double": false,
+      "item_id": "it_ca6cc90e12d2",
+      "pid": "r7",
+      "qid": "conflicts-148",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "ef9d14776690797ae0586446379a96a409c4d605c34afa4ea38620e19b3b496d"
+    },
+    {
+      "double": false,
+      "item_id": "it_cb89fe4ee971",
+      "pid": "r8",
+      "qid": "conflicts-103",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d1979c16f5d361ac42a20fdd737adaf4c4cfaa2f606caa7b9c66164dee76b0d6"
+    },
+    {
+      "double": false,
+      "item_id": "it_cb9201124fa2",
+      "pid": "r0",
+      "qid": "conflicts-199",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "fd07ea1f2c7a700e958683ed27bd5ec90e913e47ee2fee8e59fa212fe7ac0f20"
+    },
+    {
+      "double": false,
+      "item_id": "it_cbf1929dacf4",
+      "pid": "p5",
+      "qid": "b9ae783c089d11ebbd78ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "88b86bc0654f1e3302cd2a1f646a8eb252d214148c946e5cbb2bc70c42ae93b4"
+    },
+    {
+      "double": false,
+      "item_id": "it_cc8ecfaddf5b",
+      "pid": "r6",
+      "qid": "conflicts-191",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "a605c345167a4f4c4ac6ca798d432f0bfc85fa73d30827053dc58334586bb584"
+    },
+    {
+      "double": false,
+      "item_id": "it_cda3b5649cf6",
+      "pid": "r1",
+      "qid": "conflicts-56",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "efe3a6344dd7ef22043e1f447f05eff75c2e7a58623e072a4f0a11f2a53a0702"
+    },
+    {
+      "double": false,
+      "item_id": "it_ce08bbf2e27c",
+      "pid": "r5",
+      "qid": "conflicts-7",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "b09d93fda2ad71b8d76f812eb290d9814ae0402d3a62c16504e64c578680b32b"
+    },
+    {
+      "double": true,
+      "item_id": "it_ce881f45dc41",
+      "pid": "r6",
+      "qid": "conflicts-99",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "3246ee58cf72cf565f9f837ee508101c23a7267604eb128363de496595a3482c"
+    },
+    {
+      "double": false,
+      "item_id": "it_ce9e1b8f81ed",
+      "pid": "r0",
+      "qid": "conflicts-194",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "4f136dbab302a5b8646aed60266d2a229237f16446bcf44c4ba4f910247244fc"
+    },
+    {
+      "double": false,
+      "item_id": "it_cee5e10756d9",
+      "pid": "r1",
+      "qid": "conflicts-310",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d2f4d6d9312997e2e58acfa2a6aa130c8af77b92f7f2b7f3439237658cdfe007"
+    },
+    {
+      "double": false,
+      "item_id": "it_d14c7a05390d",
+      "pid": "r6",
+      "qid": "conflicts-349",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "aca3d6972ec5b0bc409872b0c52ca5fc012abc1ca1765a31fa43e296c0e31fbf"
+    },
+    {
+      "double": false,
+      "item_id": "it_d19338f9dc53",
+      "pid": "p0",
+      "qid": "8715eeb808e411ebbda4ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "cb31eb5acaf6e6b43eb23b4b7d8a0df2846c29a256851a146fbc8ec050fabd1e"
+    },
+    {
+      "double": false,
+      "item_id": "it_d1a8a83cbe73",
+      "pid": "p6",
+      "qid": "405499140bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "eeeabe51f4230bf7ed34ececa1741d956940a0cb7a5021adccbf62c8624d4e09"
+    },
+    {
+      "double": false,
+      "item_id": "it_d2d93bc7b58e",
+      "pid": "r6",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "feaf2d38820871b7a440364b63b1fc1e87146581093f8e909ac7790f5b8b9e2b"
+    },
+    {
+      "double": false,
+      "item_id": "it_d38ba505cd30",
+      "pid": "r5",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "12d157d45f3020da07cec8b73de27bb7bd25093d48b8a634c3a9fa62bd201ef3"
+    },
+    {
+      "double": false,
+      "item_id": "it_d437356037d2",
+      "pid": "r1",
+      "qid": "conflicts-147",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "b0eefcddd3e75776c4b14d2bfd8292166b298e634ae34a6d1eb0fd37f53ff193"
+    },
+    {
+      "double": false,
+      "item_id": "it_d551d5b887d9",
+      "pid": "r2",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "46e3dd4d06123b022f23c3b93ca9c2fc0322e4a01febb47e3b39b449f172a089"
+    },
+    {
+      "double": false,
+      "item_id": "it_d5656c6b5e0e",
+      "pid": "r0",
+      "qid": "conflicts-405",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "d6d4a8cf7c769d5650ae06a527636e268a44fe40bd8f6402df9101f2800681de"
+    },
+    {
+      "double": false,
+      "item_id": "it_d628046231c8",
+      "pid": "p0",
+      "qid": "d94b8e3708e911ebbda7ac1f6bf848b6",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "ff23b12b4111b5637279252ccf4de99a19a5810688457632c12c465858f795a2"
+    },
+    {
+      "double": false,
+      "item_id": "it_d74ea3cc4ebb",
+      "pid": "r0",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "73660e9c70c3e8d492f39834ac98e1f543d7de24d71dc98284c919b9eeeefbac"
+    },
+    {
+      "double": false,
+      "item_id": "it_d7973a99a356",
+      "pid": "p6",
+      "qid": "1b1b8ed6085111ebbd58ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "97ec2e11a3e4ac3f22d024d1a640c6c90ecf73f1ea1abf9b457c792ccbb8ef5d"
+    },
+    {
+      "double": false,
+      "item_id": "it_d86bc501997a",
+      "pid": "r6",
+      "qid": "conflicts-171",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "f63d5e933390f90c5aafd2ece6014a57fdcca550a325eeb4029649517f0e4dca"
+    },
+    {
+      "double": false,
+      "item_id": "it_d88e65390596",
+      "pid": "r1",
+      "qid": "conflicts-148",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "2ab521e5255e7811dae27afe98796ac50509eaac0c69e0de6a689041044879d0"
+    },
+    {
+      "double": true,
+      "item_id": "it_d9fe989e8ce7",
+      "pid": "r3",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "80c23ad7eaca6e73333264b3f225a770cfcb6447d717745e0ae8893ac7ea9ecb"
+    },
+    {
+      "double": false,
+      "item_id": "it_da03429eaf95",
+      "pid": "r3",
+      "qid": "conflicts-191",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "195d4ea90741e0052ec5e1678eb693c015ba5682e12742ae3cb410d35d2dbd00"
+    },
+    {
+      "double": false,
+      "item_id": "it_da70b063c7fb",
+      "pid": "r5",
+      "qid": "conflicts-155",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "3ee27bd77d995bb5db63dc71fc72326326137416c3a861abc231627801dae557"
+    },
+    {
+      "double": false,
+      "item_id": "it_daf23935cf9a",
+      "pid": "r2",
+      "qid": "conflicts-171",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "5b1c47cf3679114db37ad261966ca938d29ce79a7a709a34f2dcc14a4a2a4c15"
+    },
+    {
+      "double": false,
+      "item_id": "it_dbf4d41e5c56",
+      "pid": "r4",
+      "qid": "conflicts-229",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "edb5c3b654c6cad34035344d468d5fe3c2c9a476fabb8435e748ca16b4e7bbda"
+    },
+    {
+      "double": false,
+      "item_id": "it_dc15cc20b493",
+      "pid": "r5",
+      "qid": "conflicts-71",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "24365138225a85390a19b648d0c4260773bfa6ddc72d7101415335bf49c04fd6"
+    },
+    {
+      "double": false,
+      "item_id": "it_dc443f4fbce5",
+      "pid": "r0",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "acdec6a43123efaece9398c124ccc420b79af2ee84d806d636a876a7f2f9fa45"
+    },
+    {
+      "double": false,
+      "item_id": "it_dd5466576c45",
+      "pid": "r4",
+      "qid": "conflicts-78",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "314029712a63b19cedaf73e660e6a66854d48ae598dc8b6e0544c98ca419ed7c"
+    },
+    {
+      "double": true,
+      "item_id": "it_dd91cdcec3e2",
+      "pid": "r6",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "d25c5f6caecd20191b64ca7a8fcb96b3e25e6e76cf96617a9b905ade7bb59c2c"
+    },
+    {
+      "double": false,
+      "item_id": "it_de56998f9f79",
+      "pid": "r5",
+      "qid": "conflicts-163",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "88d36c5fc0d0611d42a51925d8dae109a2171e49f2bfdcd8bdff8e6b2815923f"
+    },
+    {
+      "double": false,
+      "item_id": "it_df55d8b0879a",
+      "pid": "r0",
+      "qid": "conflicts-332",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "95e31ff68618d115626dc3b87c920aed9a5039624d0a93fa0d8cda08bf7dba5b"
+    },
+    {
+      "double": true,
+      "item_id": "it_dffbab324407",
+      "pid": "r6",
+      "qid": "conflicts-124",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "fab0b129cd9fb953e7ff5c6b7ede547584381b4ff71b05903de0fc1182f0e8fe"
+    },
+    {
+      "double": false,
+      "item_id": "it_e05aaf82fee2",
+      "pid": "p2",
+      "qid": "158d265809b111ebbdb0ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "4e9ca49b6b50572852260ae3c820ec82a703954939df40781781668f420ce785"
+    },
+    {
+      "double": true,
+      "item_id": "it_e0721ffa2b05",
+      "pid": "r3",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "0e2226ae6b88d8b13c64f04b7535a42af69f41e1ea37cff3622be66b4c7780d5"
+    },
+    {
+      "double": false,
+      "item_id": "it_e11de737519e",
+      "pid": "r0",
+      "qid": "conflicts-393",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "5e1fb010eadd1c6e5c319d7589300ea0d70984ea63585a9d34132e59ec705aae"
+    },
+    {
+      "double": true,
+      "item_id": "it_e12986e9b783",
+      "pid": "r5",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "75cffb1dee1b774b6c8e4653898bb5cd6457a46aa5c5c7b7f85f69de27080d93"
+    },
+    {
+      "double": false,
+      "item_id": "it_e295a0e711c4",
+      "pid": "p9",
+      "qid": "1b1b8ed6085111ebbd58ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:comparison",
+      "text_sha256": "3fb61de5db41991c8fff16ec6e1e4701772cd85e9690132cb88df813b314f0c0"
+    },
+    {
+      "double": false,
+      "item_id": "it_e3f465748bb1",
+      "pid": "r3",
+      "qid": "conflicts-194",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "1ce1e04bae1f3eda66149fdfcf057705982f900a79f2c90beb3499b68d2559f5"
+    },
+    {
+      "double": false,
+      "item_id": "it_e5003b62f3c9",
+      "pid": "r1",
+      "qid": "conflicts-355",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "31b715915eb6173aaf3ef4adeb11ad6cec0286a87f245bd4f924f8b172d3589b"
+    },
+    {
+      "double": false,
+      "item_id": "it_e566e095f0d6",
+      "pid": "p9",
+      "qid": "8b566ac00bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "745c9acd6dbfa743a5acdc364414babe2921f7e9cfe5bea896e59f4f9955c362"
+    },
+    {
+      "double": false,
+      "item_id": "it_e68571408627",
+      "pid": "r2",
+      "qid": "conflicts-86",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "0721461d835f2d594548c4448abb0233e502248d571e372069ad31a02d76c885"
+    },
+    {
+      "double": false,
+      "item_id": "it_e81843e7f987",
+      "pid": "r6",
+      "qid": "conflicts-438",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "d16da8eb0c1d1a1696d65883267ceaffb52ea75c6fb01e7526318418dd18437e"
+    },
+    {
+      "double": false,
+      "item_id": "it_e8b26d689c2b",
+      "pid": "r3",
+      "qid": "conflicts-369",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "35eda51edaf0244c746e066e9a6cbceb8eb8beffe618d39897e1014afea330bb"
+    },
+    {
+      "double": false,
+      "item_id": "it_e962535806af",
+      "pid": "p2",
+      "qid": "4c793c4008b911ebbd88ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "5558df6f526634fd94ed40e8ac5a6fd5c415cbb05d5fac7409986918ac9db475"
+    },
+    {
+      "double": false,
+      "item_id": "it_ea819e39f1a2",
+      "pid": "p2",
+      "qid": "f27e01300bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9bc59f8a0ac28767436c3fffbf87c10d77ca7d7b7b877fef90285a166b73c2f4"
+    },
+    {
+      "double": true,
+      "item_id": "it_eaaec6684028",
+      "pid": "r7",
+      "qid": "conflicts-286",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "c41d624673252867f17d898873c7d30db4adbf380c430be1c8a98edf380efa60"
+    },
+    {
+      "double": false,
+      "item_id": "it_eb378e2ef704",
+      "pid": "p6",
+      "qid": "6ce16be80bdd11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "9cb2eec3cb259449b9c7de584ca262ab2b25873845e9f7f411579b321eaa6a7f"
+    },
+    {
+      "double": true,
+      "item_id": "it_eb92bd4b467b",
+      "pid": "r0",
+      "qid": "conflicts-103",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "cc0700293a392601bd4770f60760c7cd3d23655e30f9b05a6434c914b5794627"
+    },
+    {
+      "double": false,
+      "item_id": "it_ec6432846378",
+      "pid": "r3",
+      "qid": "conflicts-147",
+      "set": "pilot",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "4c677e85a2d9bcbd42fba0ae86cf3df006e45c0f23ecafbdd1fd289678be3755"
+    },
+    {
+      "double": false,
+      "item_id": "it_ed8034c98903",
+      "pid": "r0",
+      "qid": "conflicts-435",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "dc1f52278a91c83a74e1ea44a7cd255e37b1456e37299b2332d25f3de3d8b418"
+    },
+    {
+      "double": false,
+      "item_id": "it_eddc9f2aa1d9",
+      "pid": "r2",
+      "qid": "conflicts-454",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "b1977bf3e159512311efc5d9129385ed59d45dff572a63a457fab64cde84f6d6"
+    },
+    {
+      "double": false,
+      "item_id": "it_ee27807bac59",
+      "pid": "p8",
+      "qid": "27c5abf80bda11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "403ea51df786d923cd6e45e832071c9f9ab651aec2edfa4ea5329b81f42e0a15"
+    },
+    {
+      "double": false,
+      "item_id": "it_ee79d4144b7b",
+      "pid": "p6",
+      "qid": "32d8b8ce0bde11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "65e4349a8c1fe139da398055b7567c65d93fca21239e699a2d5eafdac022bf1e"
+    },
+    {
+      "double": true,
+      "item_id": "it_eee2fc926c34",
+      "pid": "r5",
+      "qid": "conflicts-455",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9407f516ef128b7b8194b79669f6afb1005bab316b33aca92869dbaf3eaacd29"
+    },
+    {
+      "double": false,
+      "item_id": "it_eeeaf578afd1",
+      "pid": "p5",
+      "qid": "d5e6d5ba089011ebbd72ac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "372c15716a59dae955242c0d54d07ce6ef29992ab4e388cffe821795483ad4da"
+    },
+    {
+      "double": false,
+      "item_id": "it_ef208e1466f3",
+      "pid": "r2",
+      "qid": "conflicts-349",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "3fda7eeb0b0065563022c4db7eb48426e83df500ffb6f974a5f09ec4e93d411e"
+    },
+    {
+      "double": false,
+      "item_id": "it_f098799abb2c",
+      "pid": "p3",
+      "qid": "8b566ac00bdc11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "d765af41b06939306d74654ce3ecfb78bbf7b0e7d7e22f59d8a27d7127889bdf"
+    },
+    {
+      "double": false,
+      "item_id": "it_f0f6ad2d21ea",
+      "pid": "r5",
+      "qid": "conflicts-78",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "5bcaa7322b973d3a90010b27b53c72420b6f668c3ff0cc2cf283916920ce7788"
+    },
+    {
+      "double": false,
+      "item_id": "it_f10a84634b1f",
+      "pid": "r4",
+      "qid": "conflicts-435",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "110a4fe290e8d2aea67faa6c39be052d2519292d3f4e7114508d76dff0e7c458"
+    },
+    {
+      "double": false,
+      "item_id": "it_f11886396004",
+      "pid": "r5",
+      "qid": "conflicts-12",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "c90dc428be8de3486061e206506c6a40222f48301a74df3774ec9470b242eb88"
+    },
+    {
+      "double": true,
+      "item_id": "it_f191e3164b4e",
+      "pid": "r0",
+      "qid": "conflicts-276",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "199ff39a3f88af94a4a50aeff87f7f8b4772ec193ab0a9b334002075ec56f0cb"
+    },
+    {
+      "double": true,
+      "item_id": "it_f277debf69ce",
+      "pid": "r3",
+      "qid": "conflicts-422",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:misinformation",
+      "text_sha256": "dc9e39661c69b95c63f26ef910cbb3b2bd920f5b03751149021fc383f46fb28c"
+    },
+    {
+      "double": true,
+      "item_id": "it_f2b112e4e2b3",
+      "pid": "p5",
+      "qid": "59a656ac0baf11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "b9cbe796f4250c61a0653016b8566ad84fc38638b28fa8d6c6bf1e8800c59c50"
+    },
+    {
+      "double": true,
+      "item_id": "it_f2c97828feba",
+      "pid": "r7",
+      "qid": "conflicts-455",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "9b329b29047b950ef5e9ffe2a3286d8710d244df610423077ed933950216a620"
+    },
+    {
+      "double": true,
+      "item_id": "it_f3659df5c943",
+      "pid": "r0",
+      "qid": "conflicts-380",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "7c427dc992a7b5d493b758a3585e7309dbbb2981285f2b710d5da058f91dfbd0"
+    },
+    {
+      "double": false,
+      "item_id": "it_f4a8c79ccfd0",
+      "pid": "r2",
+      "qid": "conflicts-183",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "1c388fd50a86fa8ca6d3e34697dfd1b780c61b512d8b1a7773ab5932d4c43479"
+    },
+    {
+      "double": true,
+      "item_id": "it_f55676402b8e",
+      "pid": "r6",
+      "qid": "conflicts-343",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "a4c9c5bee70d6d3c6be9fceb00f76a6d3b3c7db2d699afb2e70822ca18ab72d7"
+    },
+    {
+      "double": false,
+      "item_id": "it_f5bae4b02689",
+      "pid": "r8",
+      "qid": "conflicts-380",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "0492394fac39572f64a2d92206ddf368303c4e82cf6a903f652334c873dd2e3b"
+    },
+    {
+      "double": true,
+      "item_id": "it_f5e77dfba41c",
+      "pid": "r2",
+      "qid": "conflicts-113",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "655cd9ef787503f8e5cf1ae9d9850c5ca86e7811459027c207659dc1a168bdd2"
+    },
+    {
+      "double": false,
+      "item_id": "it_f5fd000ef095",
+      "pid": "r1",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "ce5141afd8e204853effb33c5865d87ab4d9040bd1c52a9e0e51bc3e0c28f705"
+    },
+    {
+      "double": false,
+      "item_id": "it_f67071f3e654",
+      "pid": "r4",
+      "qid": "conflicts-235",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "229131eba721c33e35c5925c99bb321c636566ed2df0e0c6fe3342e0eda2d661"
+    },
+    {
+      "double": false,
+      "item_id": "it_f8a1c36ede8c",
+      "pid": "r1",
+      "qid": "conflicts-2",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "b8e028770f5192b1d7ac4a56963fcb6175385a545b69bf2a2be759defdf40eaf"
+    },
+    {
+      "double": false,
+      "item_id": "it_f8d08cee43b8",
+      "pid": "r3",
+      "qid": "conflicts-316",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "480ce009c04961b807bd9109b83273e3ed772f100f048df025fecfc32d0bc409"
+    },
+    {
+      "double": false,
+      "item_id": "it_f92b71ff8672",
+      "pid": "p5",
+      "qid": "625c4c9e0bdb11eba7f7acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:compositional",
+      "text_sha256": "a736d47bf530126fd0a82e6ae6b6400290efd8eede5693ca2fb686c00bf4399e"
+    },
+    {
+      "double": false,
+      "item_id": "it_f97ddad0a4f3",
+      "pid": "r4",
+      "qid": "conflicts-338",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "9d270b9b62a9c8e281d1619fc814fce5f7880d7f45c9b861f692178e0bf42a20"
+    },
+    {
+      "double": false,
+      "item_id": "it_fb028f5109f7",
+      "pid": "p1",
+      "qid": "59a656ac0baf11ebab90acde48001122",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "6c948225716cda1a1df151a5f4365991935c92ea47d8a44e0aaed33a04f38e63"
+    },
+    {
+      "double": false,
+      "item_id": "it_fb64099deb9d",
+      "pid": "r1",
+      "qid": "conflicts-316",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:outdated",
+      "text_sha256": "39df6fce7b7260d7458bd759992d0bd198b489b5f681ee65f180d74c5c24290b"
+    },
+    {
+      "double": true,
+      "item_id": "it_fbd34d21e92d",
+      "pid": "r0",
+      "qid": "conflicts-304",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "df560698cc6820892f2a3026b4152ee1df29374f9e49b442b4be717d52717269"
+    },
+    {
+      "double": false,
+      "item_id": "it_fd3b67a67b71",
+      "pid": "r7",
+      "qid": "conflicts-373",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "1ebe85b3f69e27e046d99af1a3d7fa7bd1fa88d951fbb992b3b89ae4b907574a"
+    },
+    {
+      "double": true,
+      "item_id": "it_fe864631b7da",
+      "pid": "r8",
+      "qid": "conflicts-87",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:complementary",
+      "text_sha256": "71398523270798f2bd0cc78d94f83144b9c47dd8bb54d3dc346d719d09b6c80b"
+    },
+    {
+      "double": false,
+      "item_id": "it_fee0cfc14e25",
+      "pid": "p7",
+      "qid": "65645b8c0bb011ebab90acde48001122",
+      "set": "pilot",
+      "source": "twowiki",
+      "stratum": "twowiki:inference",
+      "text_sha256": "c2f1402fea6edd7494ae36d13890057638785adbc632c11c8d25e529bae40912"
+    },
+    {
+      "double": false,
+      "item_id": "it_ff0afdf401d2",
+      "pid": "r3",
+      "qid": "conflicts-389",
+      "set": "main",
+      "source": "conflicts",
+      "stratum": "conflicts:no_conflict",
+      "text_sha256": "fdfcc69e462938645d031a3916100af26fb5f1eea9ae32cd1365967b31cf3872"
+    },
+    {
+      "double": true,
+      "item_id": "it_ffff3206a8c5",
+      "pid": "p2",
+      "qid": "d61c419e08dd11ebbd9eac1f6bf848b6",
+      "set": "main",
+      "source": "twowiki",
+      "stratum": "twowiki:bridge_comparison",
+      "text_sha256": "c457e86ff603f94a3a013754bba4f5f3d58066366d68f34ca51fec6181595378"
+    }
+  ],
+  "name": "annotation_sample_v1",
+  "pre_registration_note": "created before any G2+ prediction exists; no model output, ranking or score was used for sampling",
+  "purpose": "pre-registered sample of the independent natural-evidence annotation set",
+  "repo_git": {
+    "dirty": true,
+    "head": "8a0aec82b8d3cb6410a09acee95d66d0386e0abe"
+  },
+  "script": "scripts/annotation/sample_items.py",
+  "script_sha256": "847ba3afac3a09971a8be5cadad6d3c3bf338700cbe4488448070eb589248896",
+  "seed": 20261104,
+  "sources": {
+    "conflicts": {
+      "eligible_queries": 237,
+      "path": "../rag_conflicts/conflicts.jsonl",
+      "records": 458,
+      "sha256": "14559d5c08fde057d7b46783e3345ee5852d6cf6a750f370dc072a0b957fac54"
+    },
+    "twowiki": {
+      "eligible_queries": 500,
+      "path": "../Relink/data/wikiMQA/dataset/samples.json",
+      "records": 500,
+      "sha256": "dde3427d731b2155907172cfb1a4a482305f1fc053b0be2573bf0402ac8c6c28"
+    }
+  }
+}

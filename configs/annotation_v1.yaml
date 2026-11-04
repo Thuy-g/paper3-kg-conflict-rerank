@@ -1,0 +1,32 @@
+# Pre-registered sampling of the independent natural-evidence annotation set (v1).
+# Fixed on 2026-11-04 before any G2+ prediction exists (docs/ANNOTATION_GUIDELINES.md §2).
+# Source paths are relative to the repo root (local copies of the owner's forks).
+sample_version: v1
+seed: 20261104
+sources:
+  conflicts:
+    path: ../rag_conflicts/conflicts.jsonl
+    text_field: short_text      # must match the harness converter settings
+    max_chars: 2000
+    require_reference_answer: true
+  twowiki:
+    path: ../Relink/data/wikiMQA/dataset/samples.json
+pilot:                          # ~40 items, both annotators, query-disjoint from main
+  conflicts:
+    outdated: {queries: 4, per_query: 3}
+    no_conflict: {queries: 3, per_query: 3}
+    complementary: {queries: 1, per_query: 4}
+    misinformation: {queries: 1, per_query: 5}
+  twowiki: {items: 10, per_query: 4, supporting_per_query: 2}
+main:                           # ~400 items
+  conflicts_total: 300
+  conflicts:
+    no_conflict: {queries: 25, per_query: 3}
+    complementary: {census: true, per_query_cap: 8}    # only 7 queries have a reference answer
+    misinformation: {census: true, per_query_cap: 9}   # only 5 queries exist
+    outdated: {fill: true, per_query: 3}               # fills up to conflicts_total
+  twowiki: {queries: 25, per_query: 4, supporting_per_query: 2}
+double_annotation: {n: 120}     # stratified by stratum, item level, main set only
+annotators: {primary: A1, secondary: A2}
+out_dir: data/annotation/v1
+manifest: manifests/annotation_sample_v1.json
