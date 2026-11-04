@@ -21,12 +21,21 @@ are in Vietnamese, keeping technical terms in English.
     - `predicate_mismatch`: related-but-different predicates (place of birth vs. place of death)
   - Genuine conflicts: counterfactual edits, misinformation.
 - Status: research prototype. Nothing produced so far is an experimental result.
+- Working hypothesis (not a conclusion, novelty unverified): G7 (diagnose false conflict filtering) → G2⁺
+  (KG-first, constraint/mutability-aware typing with LLM fallback). Design invariants (`docs/PLAN.md` B.0):
+  - semantic decision (`COMPATIBLE|CONTRADICTING|IRRELEVANT|UNKNOWN`) is separate from reason types; a reason
+    never fixes the decision on its own; missing context or qualifiers ⇒ `UNKNOWN`;
+  - Wikidata property constraints are guidance with exceptions, never logical axioms; multi-value ≠ mutable and
+    single-value ≠ stable; the six signals (`cardinality_constraint`, `mutability_class`, `temporal_overlap`,
+    `qualifier_evidence`, `entity_identity`, `relation_semantics`) are computed separately;
+  - Phase B is a method-neutral evaluation harness; H-G2/H-G7 thresholds are provisional engineering targets;
+  - never use the WikiRecentChanges code or data (`knowledge-conflicts-mutability` has no licence).
 
 ## 2. Hardware
 
 | Where | Spec | Use |
 |---|---|---|
-| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv reachable with `curl` (WebFetch still fails); Wikidata and aclanthology.org blocked; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1, `reports/02b_extension_audit.md` §1) | audit, CPU prototype, unit + smoke tests |
+| Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv and ACL Anthology reachable with `curl` (WebFetch fails); Wikidata WDQS and `Special:EntityData` reachable, Action API rate-limited (429); `downloads.dbpedia.org` connection reset; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1, `reports/02b_extension_audit.md` §1) | audit, CPU prototype, unit + smoke tests |
 | Desktop MSI MEG Vision X AI 2NVZ9-014JP | 1x RTX 5090 (32 GB VRAM), 64 GB RAM, Ubuntu on WSL2 | real experiments; open-weight LLMs via vLLM OpenAI-compatible server at `http://localhost:8000/v1` |
 | MacBook Air M4 | 24 GB unified memory, 512 GB SSD (owner wrote "512 MB"; assumed typo) | local development, CPU tests; no CUDA |
 
@@ -72,15 +81,20 @@ are in Vietnamese, keeping technical terms in English.
   `scripts/` and is never imported by unit tests. Optional heavy dependencies (torch,
   sentence-transformers) are imported lazily and their tests are skipped when absent.
 - Dependency versions are pinned exactly (`==`) in `pyproject.toml`.
-- Normalised example schema (all loaders produce this):
+- Normalised example schema v1 (all loaders produce this; full rules in `docs/PLAN.md` B.1):
 
   ```json
   {"qid": "str", "question": "str", "answers": ["str"],
-   "candidates": [{"pid": "str", "title": "str", "text": "str", "is_gold": true,
-                   "conflict_label": "compatible|contradicting|irrelevant",
-                   "conflict_type": "none|irrelevant|counterfactual|alias_historical_name|granularity|temporal_scope|homonym|predicate_mismatch"}],
-   "meta": {"source": "str", "synthetic": false}}
+   "candidates": [{"pid": "str", "title": "str", "text": "str", "is_gold": false,
+                   "decision": "COMPATIBLE|CONTRADICTING|IRRELEVANT|UNKNOWN",
+                   "reasons": ["alias|historical_identity|hierarchy|geographic_granularity|temporal_scope|entity_identity_mismatch|homonym|inverse_relation|predicate_mismatch|counterfactual|unknown"],
+                   "label_source": "dataset|perturbation_rule_v0|manual|unlabelled",
+                   "evidence": [{"kind": "str", "ref": "str", "detail": {}}]}],
+   "meta": {"source": "str", "synthetic": false, "kg_derived": false, "license": "str"}}
   ```
+
+  `reasons` may be empty or hold several types. Unlabelled passages are `UNKNOWN` (never assume
+  distractors are `IRRELEVANT`). A gold passage cannot be `CONTRADICTING`.
 
 ## 5. LLM backends and API budget
 
@@ -131,9 +145,13 @@ openai_compat` and `llm.base_url: http://localhost:8000/v1` in the YAML config.
 - Audit branch for this effort: `claude/paper3-audit-20261102` (date fixed at the start, kept for
   all phases; one pull request at the end of Phase C).
 - Commit at every STOP POINT; push with `git push -u origin <branch>`.
-- Before cloning a third-party repo, check its size first (some ship hundreds of MB of data, e.g. TimeR4):
+- Third-party repos can ship hundreds of MB of data (TimeR4: 858 MB), so fetch only the blobs you choose.
+  Never run `git ls-tree -l` (or anything that reads blob contents) on a `--filter=blob:none` clone: it lazily
+  downloads every blob. Leave out data-like files (`.json`, `.jsonl`, `.csv`, `.parquet`, `.pkl`, `.pt`, `.bin`,
+  archives) unless they are needed and known to be small. Procedure:
   `git clone --depth 1 --filter=blob:none --no-checkout <url> third_party/<Repo>` →
-  `git -C third_party/<Repo> ls-tree -r -l HEAD | sort -k4 -n | tail` → `git sparse-checkout set <code dirs>` → `git checkout`.
+  `git -C third_party/<Repo> ls-tree -r --name-only HEAD` (names only; pick code files) →
+  `git -C third_party/<Repo> sparse-checkout set --no-cone <files or dirs>` → `git -C third_party/<Repo> checkout`.
 - Never commit `third_party/`, `.venv/`, `logs/`, `outputs/`, `data/` (third-party dataset
   slices: licences may forbid redistribution) or secrets. Hand-written fixtures in
   `tests/fixtures/` are fine and must say `"synthetic": true`.
@@ -158,6 +176,9 @@ Venue and arXiv IDs below are as given by the owner; checking them is part of Ph
 | `OFAI/python-ragability`, `OFAI/python-llms-wrapper` | `Thuy-g/python-ragability`, `Thuy-g/python-llms-wrapper` | Ragability, LREC 2026 (Apache-2.0; corpus `ofai/RagabilityCorpus` CC-BY-SA-4.0) |
 | `qianxinying/TimeR4` | `Thuy-g/TimeR4` | TimeR4, EMNLP 2024 (no licence; repo ships ~745 MB of data) |
 | `CXY0112/PAGE-RAG` | `Thuy-g/PAGE-RAG` | PAGE-RAG, arXiv 2607.19301 (Apache-2.0) |
+
+Also cloned read-only with sparse checkout (no fork): `dbpedia/extraction-framework` (2 Scala files, for
+`reports/02d_kg_sources_and_constraints.md` §3) and `Alab-NII/2wikimultihop` (`LICENSE`, `README.md` only).
 
 In cloud sessions the first seven forks are pre-cloned at `/home/user/<Repo>`; the last three are cloned from upstream into
 `third_party/` (HEADs equal the forks, see `reports/02b_extension_audit.md` §2).

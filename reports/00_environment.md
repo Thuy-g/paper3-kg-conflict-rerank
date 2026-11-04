@@ -47,7 +47,7 @@ Hệ quả cho kế hoạch (bản gốc Phase 0):
   công thức trong paper, venue) chỉ được kiểm qua README/code trong repo; phần còn lại ghi
   **[UNVERIFIED]**. Muốn mở: thêm `arxiv.org` vào *Allowed domains* trong Network access của
   cloud environment (xem https://code.claude.com/docs/en/cloud-environments#network-access).
-- **Không truy vấn được Wikidata** → `TinyKG` (Phase C) là fixture viết tay, ghi rõ synthetic.
+- ~~Không truy vấn được Wikidata~~ → **Cập nhật 2026-11-04:** WDQS và Special:EntityData đã truy cập được (xem §4); Action API bị 429.
 - ~~Upstream GitHub bị 403~~ → **Đính chính (Phase A):** chỉ trang web bị 403; `git clone --depth 1` các repo upstream
   public chạy được, nên không cần fallback sang fork. Fork chỉ còn dùng để đối chiếu hash.
 
@@ -69,3 +69,40 @@ Ghi chú:
 - `rag_conflicts/conflicts.jsonl` = 46.7 MB, 458 dòng (~100 KB/dòng) → khi làm tiny slice
   (Phase B) phải giới hạn theo **dung lượng** chứ không chỉ theo số ví dụ (quy tắc ≤ 50 MB tổng).
 - Các fork này sẽ **không bị sửa, commit hay push** (quy tắc 2).
+
+## 4. Kiểm tra network lần 3 (2026-11-04, sau khi owner mở rộng allowlist)
+
+Allowlist owner khai báo: `huggingface.co`, `*.huggingface.co`, `arxiv.org`, `export.arxiv.org`, `aclanthology.org`, `wikidata.org`,
+`www.wikidata.org`, `query.wikidata.org`, và (đã/sẽ thêm) `dbpedia.org`, `www.dbpedia.org`, `downloads.dbpedia.org`, `mappings.dbpedia.org`.
+Chỉ dùng request nhỏ: `HEAD`, range request 1 KB, hoặc query `ASK`. User-Agent: `kgrerank-prototype/0.1 (research prototype; low-volume; python/curl)`.
+
+| Thời điểm (UTC) | Endpoint | Request | Kết quả | Kết luận |
+|---|---|---|---|---|
+| 03:33:27 | `aclanthology.org` | GET `/2026.findings-acl.103/` | 200, 43.622 B | ✅ trang ACL Anthology |
+| 03:33:28 | `aclanthology.org` | HEAD `/2026.findings-acl.103.pdf`; GET range `0-1023` | 200 `application/pdf`; 206, 1.024 B | ✅ PDF trên ACL Anthology |
+| 03:33:28 | `www.wikidata.org` | HEAD `/` | 301 → `/wiki/Wikidata:Main_Page` | ✅ |
+| 03:33:28 | `wikidata.org` | HEAD `/` | 301 → `https://www.wikidata.org/` | ✅ |
+| 03:33:29 → 03:34:30 | `www.wikidata.org/w/api.php` (Action API, `wbgetentities`) | GET `action=wbgetentities&ids=Q42&props=labels&languages=en&format=json` (+ 2 biến thể, cách nhau 3 s) | **HTTP 429**: "You are making too many requests to the API. Please follow the best practices at https://www.mediawiki.org/wiki/Wikimedia_APIs/Rate_limits." Có 1 lần trả 200 nhưng `labels` **rỗng** (dữ liệu không đáng tin) | ❌ **rate-limited** (IP egress dùng chung, `x-client-ip` của proxy) → **không dùng Action API** |
+| 03:33:29 | `www.wikidata.org` | HEAD `/wiki/Special:EntityData/Q42.json` | 200 `application/json` | ✅ |
+| 03:34:40 | `www.wikidata.org` | GET `/wiki/Special:EntityData/P580.json` | 200, 72.605 B | ✅ (JSON đầy đủ của property) |
+| 03:33:29 | `query.wikidata.org` | GET `/sparql?format=json&query=ASK { wd:Q42 wdt:P31 wd:Q5 }` | 200 `application/sparql-results+json`, 38 B | ✅ WDQS |
+| 03:33:29 | `huggingface.co` | GET `/api/datasets/ofai/RagabilityCorpus` | 200 | ✅ |
+| 03:33:30 | `datasets-server.huggingface.co` | GET `/is-valid?dataset=ofai/RagabilityCorpus` | 200 | ✅ |
+| 03:33:30 | `arxiv.org`, `export.arxiv.org` | HEAD `/abs/2606.00610` | 200, 200 | ✅ (export.arxiv.org nay đã mở) |
+| 03:33:31 | `dbpedia.org` | HEAD `/` | 301 → `https://www.dbpedia.org/` | ✅ |
+| 03:33:31 | `www.dbpedia.org` | HEAD `/` | 200 | ✅ |
+| 03:33:47; thử lại 1 lần lúc 03:34:13 | `downloads.dbpedia.org` | HEAD `/` | `curl: (35) Recv failure: Connection reset by peer`; proxy ghi `ws_closed_mid_exchange — tunnel closed (code 1006) after 15s; 517 B sent, 39 B received` | ❌ **không truy cập được** → **dừng mọi phần phụ thuộc host này** (không tải file release DBpedia) |
+| 03:33:48 | `mappings.dbpedia.org` | HEAD `/` | 301 → `/index.php/Main_Page` | ✅ |
+| 03:33:48 | `databus.dbpedia.org` | HEAD `/` | 200 | ✅ (không có trong danh sách owner khai báo nhưng vẫn truy cập được) |
+| 03:46:43 → 03:53:17 | `dbpedia.org/sparql` | 9 query nhỏ (`ASK`, `COUNT`, `SELECT … LIMIT ≤ 60`), xem `appendix/C_dbpedia_queries.tsv` | 200 | ✅ endpoint **live** (có thể khác release 2022.12.01) |
+| 03:35:56 → 03:37:07 | `www.wikidata.org/wiki/<Help page>?action=raw` | 17 GET tuần tự, cách nhau 1–3 s, xem `appendix/B_wikidata_docs_fetch.tsv` | 15 × 200; 2 × **429** (`…/Qualifiers` thử lại thành công; `Help:Ranking` không thử lại) | ✅ có rate limit, cần nghỉ giữa các request |
+| 03:50 | `github.com` (git) | `git clone --depth 1 --filter=blob:none --sparse` `Alab-NII/2wikimultihop`; sparse checkout chỉ `LICENSE`, `README.md` | exit 0; `.git` 224 KB | ✅ |
+| ~03:55 | `pypi.org` | GET `/simple/pyyaml/` | 200 | ✅ cài package cho Phase B |
+
+Hệ quả:
+- **ACL Anthology và arXiv**: đọc được trực tiếp; không cần owner attach PDF nữa.
+- **Wikidata**: dùng **WDQS** (chọn và lấy statement có điều kiện) và **Special:EntityData** (JSON đầy đủ cho một số ít entity/property).
+  **Không dùng Action API** khi còn bị 429. Mọi request đều tuần tự, có nghỉ giữa các lần, và User-Agent mô tả rõ. Khi chạy trên máy MSI,
+  nên đặt User-Agent có thông tin liên hệ của owner theo khuyến nghị của Wikimedia.
+- **DBpedia**: phần audit dựa vào tài liệu trên `www.dbpedia.org`, `databus.dbpedia.org`, `mappings.dbpedia.org` và code extraction framework
+  (GitHub). **Không tải** file `infobox-properties`, vì `downloads.dbpedia.org` không truy cập được (và theo quy tắc cũng không tải file lớn).
