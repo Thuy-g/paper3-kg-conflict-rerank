@@ -17,12 +17,15 @@ rerankers:
     - {name: identity, type: identity}
     - {name: random, type: random, seeds: [42, 43, 44, 45, 46]}
     - {name: llm_judge_mock, type: llm_judge, base: bm25, top_m: 10, backend: {type: mock}}
+    - {name: "g2plus:S0", type: g2plus, setting: S0, kg_view: tests/fixtures/toy_kg.json, fallback: mock, lam: 1.0}
+    - {name: "g2plus:S2", type: g2plus, setting: S2, kg_view: tests/fixtures/toy_kg.json, fallback: mock, lam: 1.0}
+    - {name: "g2plus:S3", type: g2plus, setting: S3, kg_view: tests/fixtures/toy_kg.json, fallback: mock, lam: 1.0}
+    - {name: "g2plus:S2-filter", type: g2plus, setting: S2, kg_view: tests/fixtures/toy_kg.json, fallback: none, mode: filter}
     - {name: "oracle:drop_any_reason", type: oracle, mode: drop_any_reason, base: bm25}
     - {name: "oracle:drop_contradicting", type: oracle, mode: drop_contradicting, base: bm25}
 metrics:
   ks: [1, 3, 5]
-  reasons: [alias, historical_identity, temporal_scope, geographic_granularity, predicate_mismatch,
-            inverse_relation]
+  reasons: [alias, historical_identity, temporal_scope, geographic_granularity, inverse_relation]
   delta_metrics: ["fcfr_paired@5", "ger_paired@5", "recall@5", "ndcg@5", "wfr"]
   report_metrics: ["recall@5", "mrr", "fcfr_paired@5", "fcfr_filter", "ger_paired@5", "wfr",
                    "llm_calls"]

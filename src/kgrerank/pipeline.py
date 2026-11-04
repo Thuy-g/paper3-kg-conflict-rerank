@@ -66,7 +66,51 @@ def build_reranker(spec: dict[str, Any], seed: int, logger: TokenLogger | None) 
         return LLMJudgeFilter(
             base=base, backend=backend, top_m=spec.get("top_m", 10), seed=seed, name=spec["name"]
         )
+    if kind == "g2plus":
+        return _build_g2plus(spec, seed, logger)
     raise ValueError(f"unknown reranker type {kind!r}")
+
+
+def _llm_backend(spec: dict[str, Any] | None, logger: TokenLogger | None, default_model: str):
+    """None | {"type": "mock"} | {"type": "openai_compat", "model": ..., "base_url": ...}."""
+    if not spec:
+        return None
+    if spec["type"] == "mock":
+        return MockLLM(model=spec.get("model", default_model), logger=logger)
+    if spec["type"] == "openai_compat":
+        return OpenAICompatLLM(model=spec["model"], base_url=spec["base_url"], logger=logger)
+    raise ValueError(f"unknown backend {spec['type']!r}")
+
+
+def _build_g2plus(spec: dict[str, Any], seed: int, logger: TokenLogger | None) -> Reranker:
+    """G2+ skeleton.
+
+    Spec keys: kg_view (absolute path), setting (S0-S3), extractor (pattern | {backend}),
+    fallback (none | mock | {backend}), lam, mode (penalize | filter), base.
+    """
+    from kgrerank.conflict.reranker import ConflictAwareReranker
+    from kgrerank.conflict.typer import G2PlusTyper
+    from kgrerank.extract.llm import LLMClaimExtractor
+    from kgrerank.extract.pattern import PatternExtractor
+
+    kg = KGView.from_json(spec["kg_view"])
+    ext = spec.get("extractor", "pattern")
+    if ext == "pattern":
+        # Relation labels serve as an extraction lexicon only (not as KG facts).
+        extractor: Any = PatternExtractor([p.label for p in kg.properties.values()])
+    else:
+        extractor = LLMClaimExtractor(_llm_backend(ext, logger, "mock-extractor"))
+    fb = spec.get("fallback", "none")
+    fallback = _llm_backend(
+        {"type": "mock"} if fb == "mock" else (None if fb == "none" else fb),
+        logger,
+        "mock-fallback",
+    )
+    typer = G2PlusTyper(kg, spec.get("setting", "S2"), extractor, fallback)
+    base = build_reranker({"type": spec.get("base", "bm25"), "name": "base"}, seed, logger)
+    return ConflictAwareReranker(
+        base, typer, float(spec.get("lam", 1.0)), spec.get("mode", "penalize"), spec["name"]
+    )
 
 
 def per_query_metrics(

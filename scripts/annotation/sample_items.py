@@ -36,7 +36,13 @@ from kgrerank.manifest import git_state, sha256_file, utc_now, write_manifest  #
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--config", required=True)
-    cfg = yaml.safe_load(Path(ap.parse_args().config).read_text(encoding="utf-8"))
+    ap.add_argument(
+        "--force",
+        action="store_true",
+        help="overwrite existing sample files and the pre-registered manifest",
+    )
+    args = ap.parse_args()
+    cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
     seed, version = int(cfg["seed"]), str(cfg["sample_version"])
     sc, sw = cfg["sources"]["conflicts"], cfg["sources"]["twowiki"]
     c_path, w_path = (ROOT / sc["path"]).resolve(), (ROOT / sw["path"]).resolve()
@@ -67,9 +73,12 @@ def main() -> int:
     if len({it.item_id for it in pilot + main_items}) != len(pilot) + len(main_items):
         raise SystemExit("duplicated item id")
 
+    layout = Layout(ROOT / cfg["out_dir"])
+    write_data = args.force or not (layout.root.exists() and any(layout.root.iterdir()))
+    if not write_data:
+        print(f"{layout.root} is not empty: sample files are NOT overwritten (use --force)")
     queries = {(q.source, q.qid): q for q in c_frame + w_frame}
     passages = {(q.source, q.qid, p.pid): p for q in c_frame + w_frame for p in q.passages}
-    layout = Layout(ROOT / cfg["out_dir"])
     key_rows, items_by_set = [], {"pilot": [], "main": []}
     for it in pilot + main_items:
         q, p = queries[(it.source, it.qid)], passages[(it.source, it.qid, it.pid)]
@@ -77,10 +86,11 @@ def main() -> int:
         items_by_set[it.set].append(
             AnnotationItem(it.item_id, q.question, q.reference_answer, p.title, p.date, p.text)
         )
-    write_jsonl(layout.key, sorted(key_rows, key=lambda r: r["item_id"]))
     by_id = {i.item_id: i for s in items_by_set.values() for i in s}
     a1, a2 = cfg["annotators"]["primary"], cfg["annotators"]["secondary"]
-    for set_name, sampled in (("pilot", pilot), ("main", main_items)):
+    if write_data:
+        write_jsonl(layout.key, sorted(key_rows, key=lambda r: r["item_id"]))
+    for set_name, sampled in (("pilot", pilot), ("main", main_items)) if write_data else ():
         write_jsonl(
             layout.items(set_name),
             [asdict(i) for i in sorted(items_by_set[set_name], key=lambda i: i.item_id)],
@@ -132,7 +142,17 @@ def main() -> int:
         "items": sorted(key_rows, key=lambda r: r["item_id"]),
         "committed": "metadata only (IDs, strata, text hashes); texts stay in data/ (gitignored)",
     }
-    write_manifest(ROOT / cfg["manifest"], manifest)
+    path = ROOT / cfg["manifest"]
+    if path.exists() and not args.force:
+        old = json.loads(path.read_text(encoding="utf-8"))
+        same = old["items"] == manifest["items"] and old["seed"] == manifest["seed"]
+        print(
+            "pre-registered sample reproduced: identical items"
+            if same
+            else "MISMATCH with the pre-registered sample (manifest not changed)"
+        )
+        return 0 if same else 1
+    write_manifest(path, manifest)
     print(json.dumps(manifest["counts"], indent=1))
     return 0
 

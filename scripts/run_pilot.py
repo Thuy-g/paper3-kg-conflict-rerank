@@ -63,6 +63,9 @@ def main() -> int:
             examples, kg, pcfg["operators"], seed, bool(pcfg.get("drop_unknown", False))
         )
 
+    for spec in cfg["rerankers"]["systems"]:
+        if "kg_view" in spec:
+            spec["kg_view"] = str(ROOT / spec["kg_view"])
     mcfg = cfg["metrics"]
     logger = TokenLogger(ROOT / cfg.get("api_log", "logs/api_usage.jsonl"))
     results = run_systems(

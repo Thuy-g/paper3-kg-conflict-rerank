@@ -37,7 +37,13 @@ REASON_TYPES: tuple[str, ...] = (
     "counterfactual",
     "unknown",
 )
-LABEL_SOURCES: tuple[str, ...] = ("dataset", "perturbation_rule_v0", "manual", "unlabelled")
+LABEL_SOURCES: tuple[str, ...] = (
+    "dataset",
+    "perturbation_rule_v1",
+    "perturbation_rule_v0",  # superseded; kept so older files still load
+    "manual",
+    "unlabelled",
+)
 EVIDENCE_KINDS: tuple[str, ...] = (
     "kg_statement",
     "kg_entity",
@@ -119,7 +125,7 @@ def candidate_problems(cand: Candidate) -> list[str]:
             out.append(f"{where}: unknown evidence kind {ev.kind!r}")
     if cand.is_gold and cand.decision is Decision.CONTRADICTING:
         out.append(f"{where}: a gold passage cannot be CONTRADICTING")
-    if cand.label_source == "perturbation_rule_v0" and not cand.evidence:
+    if cand.label_source.startswith("perturbation_rule_") and not cand.evidence:
         out.append(f"{where}: perturbation labels must carry evidence")
     if cand.label_source == "unlabelled" and cand.decision is not Decision.UNKNOWN:
         out.append(f"{where}: unlabelled passages must have decision UNKNOWN")

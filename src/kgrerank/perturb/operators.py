@@ -18,12 +18,12 @@ import random
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, replace
 
-from kgrerank.kg.time import Interval, TimeRange, temporal_relation, year_range
+from kgrerank.kg.time import Interval, TimeRange, temporal_relation, year_period
 from kgrerank.kg.view import KGView, Statement
 from kgrerank.schema import Candidate, Decision, Evidence, Example
 from kgrerank.signals import TemporalRelation
 
-PROTOCOL = "perturbation_rule_v0"
+PROTOCOL = "perturbation_rule_v1"  # v1: predicate_mismatch -> IRRELEVANT
 NAME_PROPERTIES = frozenset({"P1448", "P1449", "P2561", "P1813", "P1705", "P742"})
 HISTORICAL_NAME_PROPERTIES = ("P1448", "P2561")
 RELATED_PREDICATES: dict[str, tuple[str, ...]] = {
@@ -70,8 +70,8 @@ def frame_from_meta(meta: dict) -> QuestionFrame | None:
         subject=f["subject"],
         prop=f["prop"],
         gold=tuple(f["gold"]),
-        time_anchor=Interval.point(year_range(anchor)) if anchor is not None else None,
-        fact_time=Interval.point(year_range(fact)) if fact is not None else None,
+        time_anchor=year_period(anchor) if anchor is not None else None,
+        fact_time=year_period(fact) if fact is not None else None,
     )
 
 
@@ -374,6 +374,8 @@ def granularity(
 
 
 def predicate(kg: KGView, frame: QuestionFrame, rng: random.Random, qid: str, k: int = 0):
+    """Passage about a related but different property of the subject (protocol v1: IRRELEVANT,
+    because it does not bear on the asked fact; see docs/annotation/codebook_v0.md §3)."""
     op = "predicate"
     options = [
         st
@@ -401,7 +403,7 @@ def predicate(kg: KGView, frame: QuestionFrame, rng: random.Random, qid: str, k:
         kg.label(frame.subject),
         text,
         ["predicate_mismatch"],
-        Decision.COMPATIBLE,
+        Decision.IRRELEVANT,
         unmet,
         ev,
     )

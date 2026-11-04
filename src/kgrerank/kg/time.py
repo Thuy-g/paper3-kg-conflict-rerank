@@ -63,6 +63,13 @@ def year_range(year: int) -> TimeRange:
     return TimeRange((year, 1, 1), (year, 12, 31))
 
 
+def year_period(year: int) -> Interval:
+    """The calendar year as a period with exact boundaries ("in 2010" = all of 2010)."""
+    return Interval(
+        TimeRange((year, 1, 1), (year, 1, 1)), TimeRange((year, 12, 31), (year, 12, 31))
+    )
+
+
 @dataclass(frozen=True)
 class Interval:
     """Validity interval; ``None`` endpoints are unknown (not open).

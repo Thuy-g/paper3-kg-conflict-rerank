@@ -101,7 +101,7 @@ def test_granularity_time_qualified_edges(toy_kg):
 
 def test_predicate(toy_kg, toy_kg_dict):
     res = predicate(toy_kg, Q1, PickRNG(), "q", 0)
-    assert res.candidate.decision is Decision.COMPATIBLE and "place of death" in res.candidate.text
+    assert res.candidate.decision is Decision.IRRELEVANT and "place of death" in res.candidate.text
     d = copy.deepcopy(toy_kg_dict)
     del d["properties"]["P19"], d["properties"]["P20"]
     res2 = predicate(KGView.from_dict(d), Q1, PickRNG(), "q", 0)

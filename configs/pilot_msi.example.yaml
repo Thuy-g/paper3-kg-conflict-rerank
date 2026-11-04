@@ -1,0 +1,31 @@
+# EXAMPLE for the MSI desktop (RTX 5090, local vLLM). Not run in the cloud. Copy to
+# configs/pilot_msi.yaml and fill in the model name actually served by vLLM.
+# Run only AFTER the main annotation is frozen (docs/ANNOTATION_GUIDELINES.md §5).
+run_name: pilot_msi
+label: "pilot – not yet a pre-registered result"
+seed: 42
+data:
+  - {path: data/annotation/v1/gold_examples_main.jsonl}
+perturbation: {enabled: false}
+rerankers:
+  reference: bm25
+  systems:
+    - {name: bm25, type: bm25}
+    - {name: random, type: random, seeds: [42, 43, 44, 45, 46]}
+    - name: llm_filter
+      type: llm_judge
+      base: bm25
+      top_m: 20
+      backend: {type: openai_compat, model: "<served-model-name>", base_url: "http://localhost:8000/v1"}
+    # G2+ needs a question frame in meta.frame for every example (open issue, reports/05 §4).
+    # - {name: "g2plus:S2", type: g2plus, setting: S2, kg_view: data/wikidata_view/kgview.json,
+    #    extractor: {type: openai_compat, model: "<served-model-name>", base_url: "http://localhost:8000/v1"},
+    #    fallback: {type: openai_compat, model: "<served-model-name>", base_url: "http://localhost:8000/v1"}}
+metrics:
+  ks: [1, 3, 5]
+  reasons: [alias, historical_identity, temporal_scope, geographic_granularity, hierarchy, inverse_relation]
+  delta_metrics: ["fcfr_paired@5", "ger_paired@5", "recall@5", "ndcg@5", "wfr"]
+  report_metrics: ["recall@5", "mrr", "fcfr_paired@5", "fcfr_filter", "ger_paired@5", "wfr", "llm_calls"]
+  bootstrap: {n_boot: 10000, alpha: 0.05}
+api_log: logs/api_usage.jsonl
+output_dir: outputs/pilot_msi
