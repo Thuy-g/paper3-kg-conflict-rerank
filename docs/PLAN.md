@@ -273,23 +273,29 @@ Mọi slice ≤ 200 ví dụ; tổng `data/` ≤ 50 MB; mỗi slice có manifest
 | CONFLICTS | `conflicts.jsonl` trong fork (sha256 `14559d5c…`) | ≤ 200; nội dung là trang web bên thứ ba → chỉ dùng local | nhãn conflict ở **mức query** → `meta`; passage `UNKNOWN` |
 | Fixture synthetic | viết tay trong `tests/fixtures/` | `"synthetic": true` | dùng cho test và `make smoke` |
 
-### B.8 Tiêu chí hoàn thành Phase B
+### B.8 Tiêu chí hoàn thành Phase B (trạng thái 2026-11-04, chi tiết: `reports/03b_phaseB_harness.md`)
 
-- [ ] `pyproject.toml` pin `==`; `make install && make test` pass trên Python 3.11; `make lint` sạch.
-- [ ] `make smoke` < 120 s trên 4 vCPU (đo bằng `time`); output có nhãn "smoke test on toy data – not a result".
-- [ ] Schema v1 + validation có test, gồm: test chặn gold-CONTRADICTING; test cho thấy **cùng reason, khác evidence
-  ⇒ khác decision (kể cả `UNKNOWN`)**.
-- [ ] Label protocol v0: mỗi operator có ≥ 1 test đủ điều kiện và ≥ 1 test thiếu evidence ⇒ `UNKNOWN`; cùng seed ⇒
-  output giống hệt.
-- [ ] Rerankers: BM25 có test giá trị tính tay; random tất định theo seed; oracle cho FCFR = 0 / 1 ở hai cực.
-- [ ] LLM: từ chối endpoint không-local khi thiếu biến môi trường; dừng **trước** khi vượt cap; ghi JSONL; test không
-  dùng network.
-- [ ] Metrics: test tính tay cho mọi metric ở B.4–B.5; bootstrap tất định theo seed; McNemar, Holm, MDE có test.
-- [ ] Slices: Wikidata, Ragability, 2Wiki, CONFLICTS đúng giới hạn B.7, có manifest; `du -sh data/` ≤ 50 MB.
-- [ ] Không có code/data WikiRecentChanges (kiểm bằng `grep`).
-- [ ] `third_party/` và các fork không bị sửa; commit + push → **STOP POINT B**.
-
----
+- [x] `pyproject.toml` pin `==`; `make install && make test` pass trên Python 3.11 (54 test); `make lint` sạch.
+- [x] `make smoke` 0,4 s; output có nhãn "smoke test on toy data – not a result".
+- [x] Schema v1 + validation có test: chặn gold-CONTRADICTING; **cùng reason, khác evidence ⇒ khác decision**.
+- [x] Label protocol v0: 9 operator, mỗi operator có ca đủ evidence và ca thiếu evidence ⇒ `UNKNOWN`; tất định
+  theo seed, không phụ thuộc thứ tự operator.
+- [x] Rerankers: BM25 có giá trị tính tay; random tất định; oracle cho FCFR = 0 / 1 ở hai cực.
+- [x] LLM: từ chối endpoint không-local; dừng **trước** cap; JSONL không chứa key; test không dùng network.
+- [x] Metrics: test tính tay cho B.4–B.5; bootstrap tất định; McNemar, Holm, MDE có test.
+- [x] Slices đúng giới hạn B.7, có manifest; `data/` ≈ 6,2 MB:
+  - Wikidata: 200 ID, 1,06 MB;
+  - Ragability: 53 dòng (toàn corpus);
+  - 2Wiki: 200;
+  - CONFLICTS: 200.
+- [x] Không có code/data WikiRecentChanges (test `test_no_wikirecentchanges_material`).
+- [x] `third_party/` và các fork không bị sửa; commit + push → **STOP POINT B**.
+- [ ] **Chưa làm (cố ý):**
+  - cross-encoder thật (không có GPU; extra `ce` chưa kiểm);
+  - generator cho EM/F1;
+  - ngưỡng mới (cần pilot trên MSI).
+- [ ] **Cần bạn quyết trước Phase C:** tập chú thích mức passage độc lập với KG (FCFR không xác định trên dữ liệu
+  tự nhiên, `03b` §5.1) — cỡ mẫu, nguồn, số annotator.
 
 ## Phase C — IDEA SKELETON (prototype, không phải kết quả)
 

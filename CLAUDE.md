@@ -37,7 +37,7 @@ are in Vietnamese, keeping technical terms in English.
 |---|---|---|
 | Cloud session (claude.ai/code) | 4 vCPU, ~15 GiB RAM, **no GPU**; arXiv and ACL Anthology reachable with `curl` (WebFetch fails); Wikidata WDQS and `Special:EntityData` reachable, Action API rate-limited (429); `downloads.dbpedia.org` connection reset; GitHub *web pages* of out-of-scope repos return 403, but `git clone` of public repos works (see `reports/00_environment.md`, `reports/02_codebase_map.md` §1, `reports/02b_extension_audit.md` §1) | audit, CPU prototype, unit + smoke tests |
 | Desktop MSI MEG Vision X AI 2NVZ9-014JP | 1x RTX 5090 (32 GB VRAM), 64 GB RAM, Ubuntu on WSL2 | real experiments; open-weight LLMs via vLLM OpenAI-compatible server at `http://localhost:8000/v1` |
-| MacBook Air M4 | 24 GB unified memory, 512 GB SSD (owner wrote "512 MB"; assumed typo) | local development, CPU tests; no CUDA |
+| MacBook Air M4 | 24 GB unified memory, 512 GB SSD (confirmed in README by the owner, 2026-11-03) | local development, CPU tests; no CUDA |
 
 ## 3. Hard rules (from the owner; non-negotiable)
 
@@ -116,13 +116,15 @@ are in Vietnamese, keeping technical terms in English.
 paper3-kg-conflict-rerank/
 ├── CLAUDE.md, README.md, HANDOFF.md (Phase C)
 ├── docs/PLAN.md                    # phase plan + completion criteria
-├── reports/                        # 00_environment … 07_uncertainties (Vietnamese)
+├── reports/                        # 00_environment … 07_uncertainties (Vietnamese); 02d KG sources; 03b Phase B
 ├── third_party/                    # read-only upstream clones (gitignored)
 ├── src/kgrerank/
-│   ├── data/  perturb/  rerankers/  llm/  metrics/        # Phase B
-│   └── kg/  extract/  conflict/                           # Phase C
-├── configs/                        # YAML configs (smoke.yaml, pilot.yaml)
-├── scripts/                        # run_pilot.py, slicing scripts
+│   ├── schema.py  signals.py  manifest.py  pipeline.py    # Phase B (schema v1, signal containers)
+│   ├── data/  perturb/  rerankers/  llm/  metrics/  kg/   # Phase B (kg/: read-only KGView, time)
+│   └── extract/  conflict/                                # Phase C (G2⁺ skeleton)
+├── configs/                        # smoke.yaml, pilot_local.yaml, local_slices.yaml, ragability_slice.yaml, wikidata_slice.yaml
+├── manifests/                      # committed metadata of data slices (URLs, hashes, revisions); never data
+├── scripts/                        # run_pilot.py; data/ and wikidata/ slice builders (network); audit/
 ├── tests/  (fixtures/)             # offline unit + smoke tests
 ├── logs/  outputs/  data/          # gitignored runtime artefacts and dataset slices
 ├── pyproject.toml, Makefile
@@ -135,6 +137,7 @@ make install   # uv venv --python /usr/bin/python3.11 .venv && uv pip install -e
 make test      # pytest -q (offline)
 make lint      # ruff check . && ruff format --check .
 make smoke     # scripts/run_pilot.py --config configs/smoke.yaml (CPU, < 2 min, MockLLM)
+make slices    # network: rebuild tiny slices into data/ (gitignored) + manifests/ (committed)
 ```
 
 Local vLLM (desktop): start `vllm serve <model>` on port 8000, then set `llm.backend:

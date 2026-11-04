@@ -12,6 +12,10 @@ scratchpad của session, **không commit**; URL, thời điểm và sha256 đ�
    firm restrictions, and are meant as a help or guidance to the editor. They can have exceptions". Vì vậy G2⁺ chỉ
    dùng constraint như **soft evidence có provenance**. Không có rule "single-value + hai object khác nhau ⇒ genuine
    contradiction".
+   Dữ liệu thật (§2.1) củng cố điều này:
+   - chỉ 2/29 property trong slice khai báo single-value;
+   - P19/P20 là single-best-value với status *suggestion*;
+   - có property tới 25 exception.
 2. **DBpedia `infobox-properties` là generic (raw) extraction, không phải mapping-based.** Nó **không** có:
    - entity type, class hierarchy;
    - domain/range cho `dbp:` property;
@@ -94,8 +98,13 @@ Chữ **"generally"** nằm ngay trong định nghĩa của cả ba loại cardi
   không phải ground truth.
 - **R4.** `wdt:` (truthy) chỉ trả giá trị best-rank. Slice phải dùng `p:`/`ps:`/`pq:` (full statements) để thấy giá
   trị non-best, rank và qualifier.
-- **R5.** P131 và P17 thuộc nhóm "contemporary". Quan hệ hierarchy/granularity **phụ thuộc thời gian**: một nơi có thể
-  thuộc đơn vị hành chính khác ở thời điểm khác.
+- **R5.** Hierarchy/granularity **phụ thuộc thời gian**.
+  - Trang Contemporary liệt kê P131, P17 trong nhóm "relative location".
+  - Nhưng ở dữ liệu thật (§2.1), property P131 (rev 2555801353) **không** mang constraint
+    Q25796498.
+  - Tính phụ thuộc thời gian nằm ở **qualifier của từng statement**: ví dụ 6/6 statement P131
+    của Saint Petersburg có P580/P582.
+  - Vì vậy signal phải đọc từ statement, không suy ra từ constraint.
 
 ## 2. Sáu signal tách rời (input của G2⁺; Phase B chỉ định nghĩa schema, không kết hợp)
 
@@ -108,18 +117,64 @@ Chữ **"generally"** nằm ngay trong định nghĩa của cả ba loại cardi
 | `entity_identity` | mention × entity | `same`, `different`, `unknown` + loại evidence (`qid`, `label`, `alias`, `historical_name`, `redirect`, `type_mismatch`) | labels/aliases, P1448/P1449 kèm thời gian, P31 | trùng label **không** suy ra `same` |
 | `relation_semantics` | (p_question, p_passage) | `same`, `inverse`, `subproperty`, `related_different`, `unrelated`, `unknown` | P1696, Q21510855, P1647 | — |
 
-**Mutability và cardinality là hai chiều độc lập.** Bảng 2×2 dưới đây là giả thuyết làm việc. Constraint của từng
-property sẽ được slice của Phase B kiểm lại (xem `manifests/wikidata_reference_slice.json` sau khi chạy).
+**Mutability và cardinality là hai chiều độc lập.**
+- Cột cardinality lấy từ **constraint thật** trong Wikidata reference slice (§2.1; manifest
+  `manifests/wikidata_reference_slice.json`, rev = `lastrevid` của property).
+- Cột mutability là **nhận định làm việc**, chưa phải nhãn. Nhãn sẽ do dự án tự chú thích, kèm rationale.
 
 |  | stable (thường không đổi theo thời gian) | mutable (đổi theo thời gian) |
 |---|---|---|
-| **single-value / single-best** | P19 place of birth (tài liệu nêu P19 là ví dụ single value) | P6 head of government (tài liệu dùng làm ví dụ "best value": mayor hiện tại) |
-| **multi-value / không ràng buộc** | P161 cast member (tài liệu nêu là multi-value; dàn diễn viên của một phim cố định) | P26 spouse, P54 member of sports team [UNVERIFIED: constraint thực tế, kiểm bằng slice] |
+| **single-best-value khai báo** | P19 place of birth: **single-best-value** (không phải single-value), status **suggestion**, 1 exception, separator P3831 (rev 2561664064); P569 date of birth: single-best-value, suggestion | P6 head of government: single-best-value (status thường), 9 separator gồm P580/P582, có required-qualifier (rev 2562704323) |
+| **không khai báo cardinality** | P161 cast member: **không** có multi-value constraint (rev 2562933347), dù trang help lấy P161 làm ví dụ property "usually have many values" | P26 spouse: symmetric + contemporary, không có cardinality (rev 2562714916); P54 member of sports team: không có cardinality (rev 2559207125) |
+
+→ Cả bốn ô đều có ví dụ thật. Không thể suy mutability từ cardinality, và ngược lại.
 
 Khái niệm mutable/stable có trong When Facts Change: paper dùng 27 mutable relations, ví dụ "member of sports
 team" [paper p.1, p.4]. Paper này gắn mutable triple với việc **có** temporal qualifier [p.4]; thiết kế ở đây
 tách hai thứ đó thành hai signal. **Không** copy danh sách `MUTABLE_PROPERTIES` / `STABLE_PROPERTIES` của repo đó
 (repo không có LICENSE). Nhãn mutability của dự án phải tự chú thích, kèm rationale.
+
+### 2.1 Kiểm chứng trên Wikidata reference slice (2026-11-04)
+
+Slice gồm:
+- 200 ID: 29 property, 8 entity seed lấy đủ statement, 163 item mô tả nhẹ qua WDQS;
+- 498 statement, 1,06 MB lưu (gzip).
+
+Script: `scripts/wikidata/build_reference_slice.py`. Mọi request có URL, thời điểm, sha256 trong manifest.
+Dữ liệu là **live** tại thời điểm tải; mỗi entity/property được pin bằng `lastrevid`.
+
+- **Cardinality.**
+  - Chỉ 2/29 property mang **single-value** (Q19474404): P1696 và P585.
+  - 11/29 mang **single-best-value** (Q52060874): P19, P20, P22, P25, P35, P36, P569, P570, P580, P582, P6.
+  - P19, P20, P569, P570 có status **suggestion**.
+  - Số exception lên tới 25 (P22), 15 (P36), 10 (P25).
+  - → Rule kiểu "single-value ⇒ contradiction" thậm chí không áp dụng được cho phần lớn property quan hệ:
+    chúng khai báo "best value", không khai báo "single value".
+- **Tài liệu ≠ dữ liệu.**
+  - Trang Single value lấy P19/P20 làm ví dụ, nhưng P19/P20 hiện là single-best-value (suggestion).
+  - Trang Multi value nhắc P161, nhưng P161 không có multi-value constraint.
+  - Signal phải đọc từ property entity (có pin revision), không từ trang help.
+- **Inverse.**
+  - P22 ↔ P40 được khai báo qua inverse constraint Q21510855 + P2306 (không qua P1696).
+  - P40 có P1696 = P8810.
+  - P26 tự inverse (P1696 = P26) và symmetric.
+  - → `relation_semantics` phải đọc **cả hai** cơ chế.
+- **KG tự mâu thuẫn về ranh giới thời gian.** Ho Chi Minh City (Q1854, rev 2563461668) có tên chính thức
+  (P1448) "Saïgon"@fr kết thúc 1975-04-30, "Сайгон"@ru kết thúc 1976-07-01, "Sài Gòn"@vi kết thúc 1976-07-02.
+  → `temporal_overlap` gần ranh giới phải là `unknown`, không ép thành `overlap`/`disjoint`.
+- **Homonym.**
+  - Paris (Q90) và Paris, Texas (Q830149) có tập P31 (truthy) **không giao nhau**, dù cả hai đều là city
+    qua P279.
+  - Kiểm tra P31 nông (không suy luận P279) là evidence yếu.
+- **Alias mơ hồ.** Q1854 có alias "Ho Chi Minh", cũng là tên một người. Trong view nhỏ, kiểm tra "alias dùng
+  chung" không phát hiện được vì entity người không có trong view.
+- **Reproducibility.** Tải lại `Special:EntityData/Q1156.json?revision=2562604813` cho nội dung **giống hệt từng
+  byte** bản tải đầu → pin theo revision là cơ chế tái lập khả thi cho slice.
+- **Rate limit.**
+  - Lần chạy 1: WDQS trả **429** hai lần (04:24:57Z, 04:25:30Z) cho query mô tả item → builder dừng, không
+    bypass.
+  - Lần chạy 2: dùng lại 9 response đã lưu, lấy property trước, WDQS trả 200.
+  - Cả hai lần đều ghi trong manifest (`annotations`).
 
 ## 3. DBpedia `infobox-properties` — trả lời câu hỏi 4
 
@@ -296,7 +351,7 @@ So với default của bạn, có 3 sửa đổi:
   - thời điểm;
   - URL chính xác;
   - sha256.
-- Slice builder kiểm xem `?revision=<lastrevid>` có tái tạo được cùng nội dung không, rồi ghi kết quả vào manifest.
+- Đã kiểm (§2.1): tải lại theo `?revision=<lastrevid>` cho response giống hệt từng byte.
 - Trên MSI: dùng JSON dump có ngày cố định + sha256 thay cho truy vấn live.
 
 ## 6. Mục [UNVERIFIED] / giới hạn
@@ -305,7 +360,7 @@ So với default của bạn, có 3 sửa đổi:
 - Nội dung file release DBpedia: host tải về bị connection reset. Kết luận về provenance trong file là suy luận từ định
   dạng `ttl`.
 - Kết quả SPARQL lấy từ endpoint **live**, không phải release 2022.12.01.
-- Constraint thực tế của P6, P26, P54, … (bảng 2×2 §2): sẽ được slice Phase B kiểm.
+- ~~Constraint thực tế của P6, P26, P54~~ → đã kiểm bằng slice (§2, §2.1). Nhãn mutability vẫn chưa có.
 - Licence **dữ liệu** 2WikiMultiHopQA:
   - repo `Alab-NII/2wikimultihop` (HEAD `13800e5b`, sparse checkout chỉ `LICENSE` + `README.md`) có file LICENSE
     Apache-2.0;

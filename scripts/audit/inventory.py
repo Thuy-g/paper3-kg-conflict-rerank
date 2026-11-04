@@ -186,7 +186,8 @@ def main() -> None:
         )
         print(
             f"{repo.name:20s} head={inv['head'].get('hash', '?')[:12]} licence=[{lic}] "
-            f"py_files={len(inv['python_files'])} py_loc={inv['python_loc_total']} types={inv['file_types']}"
+            f"py_files={len(inv['python_files'])} py_loc={inv['python_loc_total']} "
+            f"types={inv['file_types']}"
         )
 
 

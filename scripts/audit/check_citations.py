@@ -76,7 +76,7 @@ def check_line(report: str, lineno: int, text: str, root: Path) -> list[Result]:
         if names[0] in cited:
             out.append(Result(report, lineno, span, "OK", symbols[0]))
         elif any(n in cited for n in names[1:]):
-            hit = next(s for s, n in zip(symbols[1:], names[1:]) if n in cited)
+            hit = next(s for s, n in zip(symbols[1:], names[1:], strict=True) if n in cited)
             out.append(Result(report, lineno, span, "WEAK", hit))
         else:
             out.append(Result(report, lineno, span, "SYMBOL_NOT_FOUND", ", ".join(symbols[:4])))
