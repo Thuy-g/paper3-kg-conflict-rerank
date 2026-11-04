@@ -200,7 +200,11 @@ Deliverable: `reports/02d_kg_sources_and_constraints.md`, `reports/00_environmen
 - Raw data nằm trong `data/` (gitignored).
 - Chỉ commit: script, `manifests/*.json` (chỉ metadata), fixture synthetic nhỏ.
 
-### B.3 Label protocol v0 cho perturbation (lúc xây dữ liệu; **không** phải method)
+### B.3 Label protocol cho perturbation (lúc xây dữ liệu; **không** phải method)
+
+**v1 (2026-11-04):** `predicate_mismatch` chuyển từ `COMPATIBLE` sang `IRRELEVANT`, để khớp định nghĩa IRRELEVANT
+của codebook ("không liên quan tới fact được hỏi"). Lý do: nếu để `COMPATIBLE`, FCFR sẽ phạt cả việc loại một
+passage không giúp trả lời câu hỏi. Các dòng khác giữ nguyên như v0.
 
 Mỗi operator ghi `reasons` theo **cái nó đã thay đổi**. `decision` chỉ được gán khi **mọi** điều kiện tiên quyết
 có evidence trong `KGView`; nếu không thì `UNKNOWN`. Giá trị có rank `deprecated` không được dùng làm evidence
@@ -213,7 +217,7 @@ hỗ trợ.
 | historical name | `historical_identity` | `COMPATIBLE` | tên là giá trị P1448/P2561 của cùng QID **có** qualifier thời gian, và passage nêu khoảng thời gian đó; điều kiện về quan hệ tên như dòng alias |
 | temporal scope | `temporal_scope` | `COMPATIBLE` | passage nêu giá trị v' **kèm** khoảng hiệu lực lấy từ P580/P582/P585, và khoảng đó khớp KG; không nêu khoảng thời gian ⇒ `UNKNOWN` |
 | granularity | `geographic_granularity` hoặc `hierarchy` | `COMPATIBLE` | v' là tổ tiên của giá trị gold theo P131/P361, và mọi cạnh trên đường đi hợp lệ tại thời điểm của fact (P131 là contemporary); v' là con cháu (cụ thể hơn) ⇒ `UNKNOWN` |
-| predicate mismatch | `predicate_mismatch` | `COMPATIBLE` | passage diễn đạt rõ property p' ≠ p của cùng subject; (p, p') không inverse, không subproperty; v' là giá trị KG của (s, p') |
+| predicate mismatch | `predicate_mismatch` | `IRRELEVANT` (v1; v0 ghi `COMPATIBLE`) | passage diễn đạt rõ property p' ≠ p của cùng subject; (p, p') không inverse, không subproperty; v' là giá trị KG của (s, p') |
 | inverse | `inverse_relation` | `COMPATIBLE` | (p, p') được khai báo inverse (P1696, hoặc Q21510855 với P2306), và passage nêu (v, p', s) khớp gold |
 | homonym | `homonym`, `entity_identity_mismatch` | `IRRELEVANT` | passage nói về QID khác có cùng label, text có mô tả phân biệt (type/description), subject của câu hỏi có QID với P31 không giao với P31 của QID kia; thiếu bất kỳ điều kiện nào ⇒ `UNKNOWN` |
 
@@ -300,6 +304,7 @@ Mọi slice ≤ 200 ví dụ; tổng `data/` ≤ 50 MB; mỗi slice có manifest
 ## Phase C — IDEA SKELETON (prototype, không phải kết quả)
 
 ### Thiết kế
+- (Đã thực hiện bằng `kg/view.py` + `kg/settings.py` thay cho `TinyKG`; xem C.0 và tiêu chí bên dưới.)
 - `kg/TinyKG` (từ fixture): entity type (P31-like), subclass (P279-like), located-in (P131-like),
   part-of (P361-like), alias kể cả historical name có thời gian hiệu lực (Saigon ↔ Ho Chi Minh City,
   Bombay ↔ Mumbai, Edo ↔ Tokyo), fact có qualifier start/end. API dự kiến: `resolve(name)`,
@@ -322,15 +327,41 @@ WSL2: venv, PyTorch build CUDA ≥ 12.8, kiểm `torch.cuda.get_device_capabilit
 `vllm serve <model 7–8B instruct>`, `scripts/run_pilot.py`; phương án 32 GB và 24 GB),
 `reports/06_compute_estimates.md`, `reports/07_uncertainties.md`, `HANDOFF.md`, Pull Request.
 
-### Tiêu chí hoàn thành Phase C
-- [ ] Fixture `TinyKG`: ≥ 3 alias (có historical name + thời điểm đổi tên), chuỗi located-in ≥ 3 cấp, ≥ 1 fact có start/end, ≥ 1 cặp homonym khác P31 type, ≥ 1 cặp predicate liên quan.
-- [ ] Unit test: mỗi reason type có ≥ 1 test positive, ≥ 1 test near-miss negative và ≥ 1 test thiếu evidence ⇒ `UNKNOWN`; policy kết hợp có version và được log.
-- [ ] Smoke test: BM25 vs. ConflictAwareReranker trên toy fixture (Recall@k, MRR, nDCG@k, FCFR@k), có nhãn "smoke test on toy data – not a result".
-- [ ] `04`: xếp hạng G1/G2/G7/G2+G1/G3+G8 theo novelty risk, tính khả thi trên 1× RTX 5090, thời gian tới kết quả đầu tiên, khả năng publish.
-- [ ] `05`: lệnh chính xác, ghi rõ **[UNVERIFIED — chưa chạy trên phần cứng đích]**; có phương án 32 GB và 24 GB.
-- [ ] `06`: ước tính dựa trên công thức + giả định ghi rõ (số câu × pool size × số LLM call × token).
-- [ ] `07`: gom mọi **[UNVERIFIED]** + verification task (làm ở đâu, bằng lệnh gì).
-- [ ] `HANDOFF.md`: checkout branch hoặc `claude --teleport`, `make test`, trỏ sang vLLM local, những gì chưa làm.
+### C.0 Bổ sung theo quyết định của bạn (2026-11-04): tập chú thích độc lập
+
+- **Tập chú thích:**
+  - khoảng 400 item mức passage: CONFLICTS 300 (phân tầng theo category), 2Wiki 100;
+  - pilot 40 item; tập double-annotate 120 item;
+  - pre-register bằng seed cố định, commit `d197d5d` **trước** mọi code G2⁺.
+- **Protocol:** `docs/ANNOTATION_GUIDELINES.md`. Codebook: `docs/annotation/codebook_v0.md`.
+- **Tooling:** `scripts/annotation/` gồm sample, submit, agreement, adjudicate, export; package
+  `src/kgrerank/annotation/`.
+- **Vai trò:** đây là bằng chứng chính cho G7; synthetic chỉ là stress test.
+- **Không nhìn trước:** annotator không thấy prediction, score hay quyết định KG.
+- **Không có LLM gold.**
+
+### Tiêu chí hoàn thành Phase C (trạng thái 2026-11-04)
+
+- [x] Fixture KG hư cấu `tests/fixtures/toy_kg.json`:
+  - chuỗi located-in 3 cấp; fact có start/end (P6); cặp homonym khác P31 **và** cặp homonym cùng P31;
+  - predicate liên quan (P19/P20); inverse (P22/P40); historical name có thời gian (P1448).
+  - Chỉ có **1** alias + 1 historical name, không đủ "≥ 3 alias" như kế hoạch. Alias thật có nhiều trong Wikidata
+    slice (Saigon, Bombay, Madras, Leningrad).
+- [x] Unit test G2⁺: mỗi reason type có ca positive, near-miss và ca thiếu evidence ⇒ `UNKNOWN`
+  (`tests/test_g2plus.py`). Policy có version (`policy_v0.1`) và mỗi quyết định ghi rule đã kích hoạt.
+- [x] Smoke: BM25 vs ConflictAwareReranker (S0, S2, S3, filter) trên fixture, có nhãn
+  "smoke test on toy data – not a result".
+- [x] `04` xếp hạng; `05` lệnh **[UNVERIFIED — chưa chạy trên phần cứng đích]** cho 32 GB/24 GB; `06` ước tính theo
+  công thức; `07` gom mọi [UNVERIFIED].
+- [x] `HANDOFF.md`.
+- [x] Annotation: protocol, codebook v0, schema + JSON Schema, template, sampling deterministic + manifest, agreement
+  (kappa, alpha với MASI), adjudication (giữ nhãn trước adjudication), export; dry-run end-to-end trên bản sao rồi
+  xóa.
+- [ ] **Chưa làm (cần người hoặc GPU):**
+  - chú thích pilot và main;
+  - question frame cho dữ liệu tự nhiên;
+  - baseline LLM thật;
+  - literature search có hệ thống.
 - [ ] Mở Pull Request `claude/paper3-audit-20261102` → `main` → **DỪNG**.
 
 ---

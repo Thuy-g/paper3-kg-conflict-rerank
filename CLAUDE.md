@@ -29,6 +29,8 @@ are in Vietnamese, keeping technical terms in English.
     single-value ≠ stable; the six signals (`cardinality_constraint`, `mutability_class`, `temporal_overlap`,
     `qualifier_evidence`, `entity_identity`, `relation_semantics`) are computed separately;
   - Phase B is a method-neutral evaluation harness; H-G2/H-G7 thresholds are provisional engineering targets;
+  - the main evidence is the independent, pre-registered passage-level annotation set
+    (`docs/ANNOTATION_GUIDELINES.md`); KG-derived synthetic perturbations are stress tests only; no LLM gold labels;
   - never use the WikiRecentChanges code or data (`knowledge-conflicts-mutability` has no licence).
 
 ## 2. Hardware
@@ -116,15 +118,18 @@ are in Vietnamese, keeping technical terms in English.
 paper3-kg-conflict-rerank/
 ├── CLAUDE.md, README.md, HANDOFF.md (Phase C)
 ├── docs/PLAN.md                    # phase plan + completion criteria
+├── docs/ANNOTATION_GUIDELINES.md   # protocol of the independent annotation set (Vietnamese)
+├── docs/annotation/                # codebook (English, annotator-facing), changelog, template, JSON schema
 ├── reports/                        # 00_environment … 07_uncertainties (Vietnamese); 02d KG sources; 03b Phase B
 ├── third_party/                    # read-only upstream clones (gitignored)
 ├── src/kgrerank/
 │   ├── schema.py  signals.py  manifest.py  pipeline.py    # Phase B (schema v1, signal containers)
-│   ├── data/  perturb/  rerankers/  llm/  metrics/  kg/   # Phase B (kg/: read-only KGView, time)
-│   └── extract/  conflict/                                # Phase C (G2⁺ skeleton)
+│   ├── data/  perturb/  rerankers/  llm/  metrics/  kg/   # Phase B (kg/: KGView, time, settings S0–S3)
+│   ├── annotation/                                        # Phase C: sampling, agreement, adjudication
+│   └── extract/  conflict/                                # Phase C (G2⁺ skeleton, policy_v0.1)
 ├── configs/                        # smoke.yaml, pilot_local.yaml, local_slices.yaml, ragability_slice.yaml, wikidata_slice.yaml
 ├── manifests/                      # committed metadata of data slices (URLs, hashes, revisions); never data
-├── scripts/                        # run_pilot.py; data/ and wikidata/ slice builders (network); audit/
+├── scripts/                        # run_pilot.py; annotation/; data/ and wikidata/ slice builders (network); audit/
 ├── tests/  (fixtures/)             # offline unit + smoke tests
 ├── logs/  outputs/  data/          # gitignored runtime artefacts and dataset slices
 ├── pyproject.toml, Makefile
@@ -138,6 +143,7 @@ make test      # pytest -q (offline)
 make lint      # ruff check . && ruff format --check .
 make smoke     # scripts/run_pilot.py --config configs/smoke.yaml (CPU, < 2 min, MockLLM)
 make slices    # network: rebuild tiny slices into data/ (gitignored) + manifests/ (committed)
+make annotation-sample  # re-create the pre-registered annotation sample (deterministic)
 ```
 
 Local vLLM (desktop): start `vllm serve <model>` on port 8000, then set `llm.backend:
