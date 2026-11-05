@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools==84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kgrerank"
+version = "0.1.0"
+description = "Method-neutral evaluation harness for KG-guided evidence reranking under conflicting evidence (research prototype)."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = ["pyyaml==6.0.3"]
+
+[project.optional-dependencies]
+dev = ["pytest==9.2.0", "ruff==0.17.3"]
+# Optional cross-encoder reranker. Not installed or tested in the cloud container (no GPU);
+# install on the MSI desktop after a CUDA build of torch. Version pinned at writing time, untested.
+ce = ["sentence-transformers==6.2.0"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+extend-exclude = ["third_party", "data", "outputs", "logs"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]

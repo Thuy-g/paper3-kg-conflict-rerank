@@ -1,0 +1,20 @@
+# Tiny reproducible Wikidata reference slice for Phase B (owner rules 2026-11-04):
+# <= 200 entity/property IDs, < 10 MB stored, targeted VALUES queries only, no Action API,
+# no HTML scraping, sequential requests with sleeps. Raw data -> data/ (gitignored).
+user_agent: "kgrerank-prototype/0.1 (research prototype; low-volume; python/urllib)"
+sleep_s: 2.0
+max_ids: 200
+max_stored_bytes: 10000000
+max_response_bytes: 6000000
+languages: [en, vi, ja]
+# Properties whose constraint statements (P2302) and metadata are fetched via Special:EntityData.
+properties: [P31, P279, P131, P361, P17, P19, P20, P569, P570, P22, P25, P40, P26, P27, P6, P35,
+             P39, P54, P161, P36, P1448, P1449, P2561, P1813, P580, P582, P585, P1696, P1647]
+# Seed entities (resolved from English Wikipedia titles via WDQS sitelinks; full JSON fetched).
+seed_enwiki_titles: ["Ho Chi Minh City", "Mumbai", "Tokyo", "Kyoto", "Saint Petersburg", "Chennai",
+                     "Paris", "Paris, Texas"]
+# Statements of seed entities kept in the normalised view (with rank, qualifiers, #references).
+keep_properties: [P31, P17, P131, P361, P36, P6, P1448, P1449, P2561, P1813]
+describe_depth: 2
+out_dir: data/wikidata_slice
+manifest: manifests/wikidata_reference_slice.json

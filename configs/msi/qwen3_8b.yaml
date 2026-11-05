@@ -1,0 +1,35 @@
+# Qwen3-8B for the MSI engineering pilot (RTX 5090, 32 GB, WSL2). NOT run in the cloud; no weights
+# were downloaded. Model card checked 2026-11-05 (huggingface.co/Qwen/Qwen3-8B, Apache-2.0).
+model:
+  id: Qwen/Qwen3-8B
+  revision: b968826d9c46dd6066d109eabc6255188de91218   # pin; same model/revision for every LLM role
+  dtype: bfloat16                                       # config.json torch_dtype
+  file_sha256:                                          # files fetched 2026-11-05 (not weights)
+    tokenizer_config.json: d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101
+    generation_config.json: 2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2
+    config.json: f7c4eadfbbf522470667b797a3c89be2524832d2d599797248dc304fff447c30
+    README.md: 0f36caaff9c2516411a7738db384606263ba653c1e63e61d72f511606164d5a6
+# vLLM server — [UNVERIFIED on the target hardware]. The card states vllm>=0.8.5; Blackwell support
+# of the installed vLLM/PyTorch build must be checked on the machine. Start small:
+server_command: >-
+  vllm serve Qwen/Qwen3-8B --revision b968826d9c46dd6066d109eabc6255188de91218
+  --dtype bfloat16 --max-model-len 8192 --max-num-seqs 8 --port 8000
+# Request settings used by every role (frame_parse, extract, judge, fallback); prompts differ by task.
+backend:
+  type: openai_compat
+  model: Qwen/Qwen3-8B                # must equal the served model name
+  base_url: http://localhost:8000/v1
+  timeout: 120
+  # Non-thinking mode: the chat template checks `enable_thinking is false` (tokenizer_config.json).
+  # The card says the switch is available through vLLM's API; the request field below is the
+  # usual vLLM mechanism but is [UNVERIFIED] here (qwen.readthedocs.io was blocked: HTTP 403).
+  # The harness marks any reply containing <think> as status "thinking_output" (an error).
+  extra_body:
+    chat_template_kwargs: {enable_thinking: false}
+  # Card recommendation for non-thinking mode (Best Practices): T=0.7, TopP=0.8, TopK=20, MinP=0.
+  # Engineering-pilot choice; the decoding setting for the main evaluation is fixed in the
+  # pre-registration after the pilot (greedy is discouraged by the card for thinking mode only).
+  sampling: {top_p: 0.8, top_k: 20, min_p: 0.0}
+temperature: 0.7
+seeds: [42, 43, 44, 45, 46]
+max_tokens: {frame_parse: 256, extract: 256, judge: 256, fallback: 256}

@@ -1,0 +1,10 @@
+# ≤200 rows of ofai/RagabilityCorpus (CC-BY-SA-4.0) for private/local use (owner approval 2026-11-04).
+dataset: ofai/RagabilityCorpus
+config: default
+split: train
+max_rows: 200
+page_size: 100
+sleep_s: 2.0
+user_agent: "kgrerank-prototype/0.1 (research prototype; low-volume; python/urllib)"
+out_dir: data/raw/ragability
+manifest: manifests/ragability_fetch.json

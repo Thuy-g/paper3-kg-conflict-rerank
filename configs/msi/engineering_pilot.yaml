@@ -1,0 +1,44 @@
+# Step 4 of the locked sequence (docs/ANNOTATION_GUIDELINES.md §12): ENGINEERING pilot on the MSI
+# machine, on the PILOT set only (12 questions, 40 items; disjoint from the 109 main questions).
+# Purpose: plumbing, prompt formats, failure/truncation rates, token use and time. Not a result.
+# Prerequisites: pilot labels adjudicated and exported (export_gold.py --set pilot), frames parsed
+# with configs/msi/frames_pilot_qwen3.yaml, vLLM serving the pinned model (configs/msi/qwen3_8b.yaml).
+run_name: engineering_pilot
+label: "engineering pilot on the pilot set – plumbing only, not a result"
+seed: 42
+data:
+  - {path: data/annotation/v1/gold_examples_pilot.jsonl}
+perturbation: {enabled: false}
+x-qwen: &qwen
+  type: openai_compat
+  model: Qwen/Qwen3-8B
+  base_url: http://localhost:8000/v1
+  timeout: 120
+  extra_body: {chat_template_kwargs: {enable_thinking: false}}   # [UNVERIFIED] field, check first
+  sampling: {top_p: 0.8, top_k: 20, min_p: 0.0}
+rerankers:
+  reference: bm25
+  systems:
+    - {name: bm25, type: bm25}
+    - {name: random, type: random, seeds: [42, 43]}
+    - {name: llm_single_passage, type: llm_judge, base: bm25, top_m: 20, prompt: single_passage_v1,
+       temperature: 0.7, max_tokens: 256, seeds: [42, 43], backend: *qwen}
+    - {name: llm_inter_context, type: llm_judge, base: bm25, top_m: 20, prompt: inter_context_v1,
+       context_m: 5, temperature: 0.7, max_tokens: 256, seeds: [42, 43], backend: *qwen}
+    # G2+ needs a KG view that covers the question mentions (reports/05 §4); it must be the view used
+    # for the frames run. Remove these two lines until that view exists.
+    - {name: "g2plus:S2", type: g2plus, setting: S2, kg_view: data/wikidata_view/kgview.json,
+       frames: data/frames/v1/frames_pilot.jsonl, extractor: *qwen, fallback: *qwen,
+       fallback_prompt: inter_context_v1, max_tokens: 256, temperature: 0.7, lam: 1.0}
+    - {name: "g2plus:S3-upper-bound", type: g2plus, setting: S3, kg_view: data/wikidata_view/kgview.json,
+       frames: data/frames/v1/frames_pilot.jsonl, extractor: *qwen, fallback: *qwen, temperature: 0.7, lam: 1.0}
+metrics:
+  ks: [1, 3, 5]
+  reasons: [alias, historical_identity, temporal_scope, geographic_granularity, hierarchy, inverse_relation]
+  delta_metrics: ["fcfr_paired@5", "ger_paired@5", "recall@5_cond", "ndcg@5_cond", "wfr_compat_v1",
+                  "wfr_support_v1"]
+  report_metrics: ["recall@5_cond", "fcfr_paired@5", "fcfr_filter", "ger_paired@5",
+                   "wfr_compat_v1", "wfr_support_v1", "llm_calls", "llm_failed_calls"]
+  bootstrap: {n_boot: 1000, alpha: 0.05}
+api_log: logs/api_usage.jsonl
+output_dir: outputs/engineering_pilot

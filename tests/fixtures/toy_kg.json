@@ -1,0 +1,685 @@
+{
+ "format": "kgview/v1",
+ "provenance": {
+  "synthetic": true,
+  "note": "Hand-written fictional KG for offline tests; no real-world claims."
+ },
+ "entities": {
+  "Z100": {
+   "label": "human",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z101": {
+   "label": "city",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z102": {
+   "label": "province",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z103": {
+   "label": "country",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z104": {
+   "label": "racing yacht",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z105": {
+   "label": "town",
+   "aliases": [],
+   "description": "synthetic type"
+  },
+  "Z1": {
+   "label": "Alma Verdan",
+   "aliases": [],
+   "description": "fictional botanist"
+  },
+  "Z3": {
+   "label": "Port Avalon",
+   "aliases": [
+    "Avalon City"
+   ],
+   "description": "fictional port city"
+  },
+  "Z4": {
+   "label": "Northgate",
+   "aliases": [],
+   "description": "fictional city"
+  },
+  "Z5": {
+   "label": "Avalon Province",
+   "aliases": [],
+   "description": "fictional province"
+  },
+  "Z6": {
+   "label": "Republic of Merrow",
+   "aliases": [],
+   "description": "fictional country"
+  },
+  "Z7": {
+   "label": "Lowmarsh",
+   "aliases": [],
+   "description": "fictional city"
+  },
+  "Z8": {
+   "label": "Port Avalon",
+   "aliases": [],
+   "description": "fictional racing yacht"
+  },
+  "Z9": {
+   "label": "Port Avalon",
+   "aliases": [],
+   "description": "fictional town in Lake County"
+  },
+  "Z10": {
+   "label": "Mira Okonkwo",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z11": {
+   "label": "Teo Brandt",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z12": {
+   "label": "Ivo Sallis",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z13": {
+   "label": "Rosa Fein",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z14": {
+   "label": "Oren Verdan",
+   "aliases": [],
+   "description": "fictional sailor"
+  },
+  "Z15": {
+   "label": "Gil Moray",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z16": {
+   "label": "Bram Ostler",
+   "aliases": [],
+   "description": "fictional politician"
+  },
+  "Z17": {
+   "label": "Port Avalon",
+   "aliases": [],
+   "description": "fictional city in the Western Isles"
+  }
+ },
+ "statements": [
+  {
+   "sid": "Z1-P31-0",
+   "s": "Z1",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P31-1",
+   "s": "Z3",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z101"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z4-P31-2",
+   "s": "Z4",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z101"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z5-P31-3",
+   "s": "Z5",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z102"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z6-P31-4",
+   "s": "Z6",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z103"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z7-P31-5",
+   "s": "Z7",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z101"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z8-P31-6",
+   "s": "Z8",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z104"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z9-P31-7",
+   "s": "Z9",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z105"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z10-P31-8",
+   "s": "Z10",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z11-P31-9",
+   "s": "Z11",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z12-P31-10",
+   "s": "Z12",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z13-P31-11",
+   "s": "Z13",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z14-P31-12",
+   "s": "Z14",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z15-P31-13",
+   "s": "Z15",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z16-P31-14",
+   "s": "Z16",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z100"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z17-P31-15",
+   "s": "Z17",
+   "p": "P31",
+   "v": {
+    "kind": "item",
+    "value": "Z101"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z1-P19-16",
+   "s": "Z1",
+   "p": "P19",
+   "v": {
+    "kind": "item",
+    "value": "Z3"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z1-P20-17",
+   "s": "Z1",
+   "p": "P20",
+   "v": {
+    "kind": "item",
+    "value": "Z4"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z1-P22-18",
+   "s": "Z1",
+   "p": "P22",
+   "v": {
+    "kind": "item",
+    "value": "Z14"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z1-P569-19",
+   "s": "Z1",
+   "p": "P569",
+   "v": {
+    "kind": "time",
+    "value": "+1950-00-00T00:00:00Z",
+    "precision": 9
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z1-P570-20",
+   "s": "Z1",
+   "p": "P570",
+   "v": {
+    "kind": "time",
+    "value": "+2010-00-00T00:00:00Z",
+    "precision": 9
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z14-P40-21",
+   "s": "Z14",
+   "p": "P40",
+   "v": {
+    "kind": "item",
+    "value": "Z1"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P131-22",
+   "s": "Z3",
+   "p": "P131",
+   "v": {
+    "kind": "item",
+    "value": "Z5"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z4-P131-23",
+   "s": "Z4",
+   "p": "P131",
+   "v": {
+    "kind": "item",
+    "value": "Z5"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z5-P131-24",
+   "s": "Z5",
+   "p": "P131",
+   "v": {
+    "kind": "item",
+    "value": "Z6"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z7-P131-25",
+   "s": "Z7",
+   "p": "P131",
+   "v": {
+    "kind": "item",
+    "value": "Z5"
+   },
+   "rank": "normal",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+1960-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ],
+    "P582": [
+     {
+      "kind": "time",
+      "value": "+1990-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P1448-26",
+   "s": "Z3",
+   "p": "P1448",
+   "v": {
+    "kind": "text",
+    "value": "Kingsbridge",
+    "lang": "en"
+   },
+   "rank": "normal",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+1800-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ],
+    "P582": [
+     {
+      "kind": "time",
+      "value": "+1902-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P1448-27",
+   "s": "Z3",
+   "p": "P1448",
+   "v": {
+    "kind": "text",
+    "value": "Port Avalon",
+    "lang": "en"
+   },
+   "rank": "normal",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+1902-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P6-28",
+   "s": "Z3",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z12"
+   },
+   "rank": "normal",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+1990-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ],
+    "P582": [
+     {
+      "kind": "time",
+      "value": "+1998-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P6-29",
+   "s": "Z3",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z10"
+   },
+   "rank": "normal",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+2005-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ],
+    "P582": [
+     {
+      "kind": "time",
+      "value": "+2012-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P6-30",
+   "s": "Z3",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z11"
+   },
+   "rank": "preferred",
+   "q": {
+    "P580": [
+     {
+      "kind": "time",
+      "value": "+2012-00-00T00:00:00Z",
+      "precision": 9
+     }
+    ]
+   },
+   "n_refs": 1
+  },
+  {
+   "sid": "Z3-P6-31",
+   "s": "Z3",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z15"
+   },
+   "rank": "deprecated",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z9-P6-32",
+   "s": "Z9",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z13"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  },
+  {
+   "sid": "Z17-P6-33",
+   "s": "Z17",
+   "p": "P6",
+   "v": {
+    "kind": "item",
+    "value": "Z16"
+   },
+   "rank": "normal",
+   "q": {},
+   "n_refs": 1
+  }
+ ],
+ "properties": {
+  "P31": {
+   "label": "instance of"
+  },
+  "P40": {
+   "label": "child"
+  },
+  "P19": {
+   "label": "place of birth",
+   "constraints": [
+    {
+     "type": "Q19474404",
+     "status": null,
+     "exceptions": [
+      "Z99"
+     ]
+    }
+   ],
+   "mutability": {
+    "value": "stable",
+    "basis": "synthetic fixture annotation"
+   }
+  },
+  "P20": {
+   "label": "place of death",
+   "constraints": [
+    {
+     "type": "Q19474404",
+     "status": null
+    }
+   ],
+   "mutability": {
+    "value": "stable",
+    "basis": "synthetic fixture annotation"
+   }
+  },
+  "P22": {
+   "label": "father",
+   "inverse": [
+    "P40"
+   ]
+  },
+  "P6": {
+   "label": "head of government",
+   "constraints": [
+    {
+     "type": "Q52060874",
+     "status": null
+    }
+   ],
+   "mutability": {
+    "value": "mutable",
+    "basis": "synthetic fixture annotation"
+   }
+  },
+  "P35": {
+   "label": "head of state"
+  },
+  "P551": {
+   "label": "residence"
+  },
+  "P131": {
+   "label": "located in the administrative territorial entity"
+  },
+  "P1448": {
+   "label": "official name"
+  },
+  "P569": {
+   "label": "date of birth"
+  },
+  "P570": {
+   "label": "date of death"
+  }
+ }
+}

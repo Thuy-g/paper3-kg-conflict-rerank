@@ -1,0 +1,47 @@
+{
+  "attribution": "Ragability corpus, ofai/RagabilityCorpus on Hugging Face (OFAI); cite the Ragability paper (LREC 2026) as listed in the dataset README",
+  "committed": "manifest only; rows stay in data/ (gitignored, never redistributed)",
+  "created_utc": "2026-11-04T04:29:09Z",
+  "dataset": "ofai/RagabilityCorpus",
+  "hf_last_modified": "2026-03-10T13:42:52.000Z",
+  "hf_revision_sha": "2251634ed365bfca55e7d808290b0cf2c5fde730",
+  "licence": "CC-BY-SA-4.0 (cardData.license and tag license:cc-by-sa-4.0)",
+  "name": "ragability",
+  "output_path": "data/raw/ragability/rows.jsonl",
+  "output_sha256": "9514631c17fba0222dcefca4b9ed936913fe54b71762e09c215ecef4ba1b72fd",
+  "repo_git": {
+    "dirty": true,
+    "head": "b652c5b7ff3b8027725b1a862c16b02a79a36a6a"
+  },
+  "requests": [
+    {
+      "bytes": 1311,
+      "sha256": "358c43f8a17f623609847fde8df5723004429bb0f42d2901420382f215700819",
+      "status": 200,
+      "url": "https://huggingface.co/api/datasets/ofai/RagabilityCorpus",
+      "utc": "2026-11-04T04:29:03Z"
+    },
+    {
+      "bytes": 12332,
+      "sha256": "48a5d8f59b4deb35ee4892af78a55e8e47c2d507b567a9f61000c0f409621995",
+      "status": 200,
+      "url": "https://huggingface.co/datasets/ofai/RagabilityCorpus/raw/2251634ed365bfca55e7d808290b0cf2c5fde730/README.md",
+      "utc": "2026-11-04T04:29:06Z"
+    },
+    {
+      "bytes": 51565,
+      "num_rows_total": 53,
+      "partial": false,
+      "rows": 53,
+      "sha256": "038a204adc433a53126ed018d52eebd836ff74595ad389c24cf63d7d9cd4a188",
+      "status": 200,
+      "url": "https://datasets-server.huggingface.co/rows?dataset=ofai%2FRagabilityCorpus&config=default&split=train&offset=0&length=100",
+      "utc": "2026-11-04T04:29:08Z"
+    }
+  ],
+  "revision_note": "datasets-server serves its latest processed revision; equality with hf_revision_sha is [UNVERIFIED]",
+  "row_count": 53,
+  "script": "scripts/data/fetch_ragability_slice.py",
+  "script_sha256": "b5582217eab3aef3143653bb3e06d5e5891403f1180b7a9377e6353117c78df8",
+  "share_alike_obligation": "Any public derived dataset must credit the source, state changes, and be released under CC-BY-SA-4.0 (or a compatible licence)."
+}
