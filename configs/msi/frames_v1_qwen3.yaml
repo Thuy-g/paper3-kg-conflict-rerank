@@ -1,0 +1,23 @@
+# Frames v1 for the MAIN questions on the MSI machine with Qwen3-8B (non-thinking); step 5 only, with
+# the parser prompt (frame_parser_v1) unchanged since the engineering pilot. Same as
+# configs/frames_v1.yaml except the backend and the KG view; the owner confirms the snapshot first.
+frames_version: v1
+annotation_dir: data/annotation/v1
+sets: [main]
+kg_view: data/wikidata_view/kgview.json   # a view covering the question mentions (reports/05 §4)
+backend:
+  type: openai_compat
+  model: Qwen/Qwen3-8B
+  base_url: http://localhost:8000/v1
+  timeout: 120
+  extra_body: {chat_template_kwargs: {enable_thinking: false}}
+  sampling: {top_p: 0.8, top_k: 20, min_p: 0.0}
+max_tokens: 256
+seed: 0
+snapshots:
+  conflicts: {name: conflicts_collection_window, start: "2025-04-03", end: "2025-06-15",
+              basis: "data-derived lower bound and paper-date upper bound; owner to confirm"}
+  twowiki: {name: twowiki_undefined, basis: "no snapshot defined: relative time stays unresolved"}
+audit: {n_questions: 30, seed: 20261105}
+out_dir: data/frames/v1
+manifest: manifests/frames_v1_run.json

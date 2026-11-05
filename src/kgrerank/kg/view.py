@@ -190,6 +190,7 @@ class KGView:
                     params=tuple((k, tuple(v)) for k, v in sorted(c.get("params", {}).items())),
                 )
                 for c in p.get("constraints", [])
+                if c.get("statement_rank", "normal") != "deprecated"  # deprecated: not in force
             )
             mut = p.get("mutability") or {}
             properties[pid] = PropertyInfo(

@@ -1,7 +1,10 @@
 # Protocol chú thích độc lập mức passage (independent natural-evidence evaluation set)
 
-Phiên bản protocol: 1.0 (2026-11-04). Codebook cho annotator (tiếng Anh, vì annotator thứ hai có thể không đọc
-tiếng Việt): `docs/annotation/codebook_v0.md`. Lịch sử thay đổi: `docs/annotation/CHANGELOG.md`.
+Phiên bản protocol: 1.1 (2026-11-05, sau pre-pilot review).
+- Codebook cho annotator (tiếng Anh, vì annotator thứ hai có thể không đọc tiếng Việt): **`docs/annotation/codebook_v0.1.md`**
+  (bản nháp cho pilot). Bản `codebook_v0.md` được giữ nguyên làm lịch sử.
+- Hướng dẫn ngắn cho A2: `docs/annotation/A2_quickstart.md`. Lịch sử thay đổi: `docs/annotation/CHANGELOG.md`.
+- **Annotator:** A1 = bạn (dự kiến). **A2: TBD**, chưa giả định đã có người.
 
 ## 1. Mục đích và nguyên tắc
 
@@ -69,13 +72,24 @@ phải A1/A2) làm, **trước** khi chú thích, và phải pre-register. Đây
   - `confidence`, `rationale`, `reason_note`, `flags`.
 - `reasons` **không bao giờ** tự quyết định decision: codebook §5 cho ví dụ cùng một reason đi với các decision
   khác nhau.
-- **Lý do có `answer_support`.**
-  - Recall/nDCG trên CONFLICTS cần biết passage nào là "gold".
-  - WFR cần biết passage nào nên được giữ.
-  - Trường này tách "có mâu thuẫn không" khỏi "có hữu ích cho câu trả lời không".
+- **Đây là reference-relative annotation.**
+  - Annotator đánh giá passage **so với reference answer của dataset**, không xác minh độc lập mọi fact ngoài đời.
+  - Reference answer chỉ hiển thị cho annotator. **Không bao giờ** được đưa vào input của method hay baseline
+    (frame parser, extractor, typer, fallback). Test `tests/test_llm_path.py` kiểm điều này.
+- **Cờ `reference_unclear` / `reference_suspect`.** Item có cờ được giữ lại và đếm. Mọi metric chính được báo cáo
+  hai lần: trên toàn bộ tập và khi loại các item có cờ (sensitivity analysis). Không âm thầm bỏ item nào.
+- **Lý do có `answer_support`** (tách compatibility khỏi usefulness):
+  - CONFLICTS: `is_gold` = `answer_support = yes`. Chỉ passage đã chú thích có relevance judgment, nên chỉ báo cáo
+    retrieval metric dạng **condensed** (bỏ passage chưa chú thích), không báo cáo như qrels đầy đủ.
+  - WFR có hai biến thể đặt tên rõ: `wfr_compat_v1` (giữ mọi COMPATIBLE) và `wfr_support_v1` (giữ COMPATIBLE có
+    `answer_support` yes/partial).
 - **Định nghĩa IRRELEVANT dùng chung** cho annotation và label protocol: passage **không liên quan tới fact được
-  hỏi**. Hệ quả: passage `predicate_mismatch` (ví dụ nơi mất thay cho nơi sinh) là IRRELEVANT. Label protocol của
-  perturbation được nâng lên v1 cho khớp (`docs/PLAN.md` B.3).
+  hỏi, kể cả bridge fact cần thiết**.
+  - Với câu hỏi một bước, passage `predicate_mismatch` (nơi mất thay cho nơi sinh) là IRRELEVANT.
+  - Với câu hỏi nhiều bước, predicate khác có thể là bridge fact → COMPATIBLE (codebook v0.1 §3, §5).
+  - Label protocol của perturbation (v1) chỉ sinh câu hỏi một bước, nên quy tắc IRRELEVANT ở đó vẫn đúng.
+- **Chưa chú thích ≠ người chú thích là UNKNOWN.** Passage chưa chú thích có `label_source = unlabelled`; passage
+  được người gán UNKNOWN có `label_source = manual`. Báo cáo đếm riêng hai loại.
 
 ## 4. Blinding
 
@@ -101,11 +115,13 @@ này; cần ghi rõ trong báo cáo.
 
 ## 5. Quy trình
 
-1. **Codebook v0** (`docs/annotation/codebook_v0.md`) — đã có.
+1. **Codebook v0.1** (`docs/annotation/codebook_v0.1.md`) — bản nháp cho pilot.
 2. **Pilot.**
    - A1 và A2 cùng chú thích độc lập 40 item pilot bằng `sheets/pilot_A1.csv` và `sheets/pilot_A2.csv`; mỗi người
      có một thứ tự khác nhau, nhóm theo câu hỏi.
-   - Nộp bằng `submit.py --codebook v0`.
+   - Nộp bằng `submit.py --codebook v0.1`.
+   - **Khi chưa có A2:** A1 có thể thử usability của codebook trên vài item của sheet A1. Lần thử đó **không** được
+     báo cáo là pilot hai annotator hay inter-annotator agreement, và không thay cho pilot thật.
 3. **Phân tích bất đồng ở pilot.**
    - Chạy `agreement.py --set pilot`.
    - Đọc từng item bất đồng, sửa wording và edge case của codebook.
@@ -194,7 +210,8 @@ này; cần ghi rõ trong báo cáo.
 
 ## 10. Giới hạn đã biết
 
-- **Complementary** chỉ có 6 query trong main (7 query có reference). Kết luận riêng cho stratum này rất yếu.
+- **Complementary:** 44 passage trong main chỉ thuộc **6 câu hỏi** (7 query có reference). Số passage không phải
+  số quan sát độc lập. Mọi kết quả riêng cho stratum nhỏ này (và Misinformation) chỉ mang tính **thăm dò**.
 - **Misinformation** chỉ có 4 query trong main: CONTRADICTING tự nhiên sẽ hiếm. GER trên tập này có thể thiếu power;
   synthetic chỉ bổ sung ở mức stress-test.
 - **Truncation:** 44/400 passage chạm giới hạn 2.000 ký tự (cố ý, để khớp với text method thấy). Annotator gắn cờ
@@ -202,3 +219,38 @@ này; cần ghi rõ trong báo cáo.
 - **Thời điểm của reference CONFLICTS:** chỉ biết là "up-to-date" lúc tạo dataset [paper p.5]; ngày cụ thể
   **[UNVERIFIED]**. Annotator suy ra từ ngữ cảnh (codebook §2).
 - **Clustering:** item tập trung theo câu hỏi, nên mọi CI phải bootstrap theo câu hỏi, không theo item.
+
+## 11. Question frame (input của method, không phải nhãn)
+
+- G2⁺ cần frame cho mỗi câu hỏi: subject QID, property, mốc thời gian, loại câu hỏi.
+- **Phương án chính (quyết định 2026-11-05): LLM parse câu hỏi + linking tự động.** Script:
+  `scripts/frames/parse_frames.py`.
+- Parser chỉ nhận **text câu hỏi** và mô tả snapshot. Nó không nhận reference answer, nhãn passage, cờ supporting
+  fact hay reasons.
+- **Không đoán.** Entity mơ hồ hoặc không tìm thấy giữ trạng thái `ambiguous` / `unlinked`. Câu hỏi nhiều bước,
+  so sánh hay ngoài khả năng biểu diễn được đánh dấu unsupported. Khi đó G2⁺ chỉ dùng fallback.
+- **Thời gian tương đối** ("current", "this year") chỉ được giải theo snapshot của benchmark đã cấu hình
+  (`configs/frames_v1.yaml`), không bao giờ theo ngày chạy thí nghiệm.
+- **Coverage** được báo cáo trên **toàn bộ** câu hỏi, kể cả câu KG không xử lý được.
+- **Audit bằng người:**
+  - một mẫu câu hỏi deterministic riêng (`frame_audit.py sample`, seed riêng), độc lập với nhãn passage;
+  - người audit chỉ thấy câu hỏi;
+  - kết quả so sánh với parser ở `frame_audit.py compare`.
+- **Frame do người sửa** chỉ được dùng cho một lần chạy **human-framed diagnostic**, báo cáo riêng, không trộn với
+  pipeline tự động.
+- **Prompt của parser** (`frame_parser_v1`) chỉ được sửa trong engineering pilot trên câu hỏi pilot. Nếu sửa sau khi
+  đã xem audit hay kết quả trên main, đó là một `parser_version` mới và kết quả của nó là exploratory.
+
+## 12. Trình tự đánh giá (khóa)
+
+1. Sửa protocol và integration (vòng này).
+2. Pilot annotation 40 item với A1/A2.
+3. Sửa và freeze codebook v1.
+4. Engineering pilot trên MSI: chỉ để kiểm plumbing, prompt format, tỷ lệ lỗi và thời gian; **không** dùng main
+   set. Dữ liệu là tập pilot (12 câu hỏi, 40 item, không trùng câu hỏi nào với 109 câu của main):
+   `configs/msi/frames_pilot_qwen3.yaml`, rồi `configs/msi/engineering_pilot.yaml`. Template cho bước 5:
+   `configs/msi/main_eval.example.yaml`.
+5. Main annotation, rồi evaluation theo kế hoạch đã khóa.
+
+Main set **không** được dùng để chọn prompt, policy, λ hay sửa threshold theo kết quả mong muốn. Nếu cần điều chỉnh
+thiết kế sau khi đã xem kết quả main, phần đó được ghi là **exploratory** và cần một đánh giá độc lập tiếp theo.

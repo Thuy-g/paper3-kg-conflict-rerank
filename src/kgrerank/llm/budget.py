@@ -87,6 +87,7 @@ class TokenLogger:
         completion_tokens_est: int,
         guard: BudgetGuard,
         usage_reported: dict | None = None,
+        extra: dict | None = None,
     ) -> None:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         record = {
@@ -99,6 +100,7 @@ class TokenLogger:
             "cumulative_calls": guard.calls,
             "cumulative_tokens_est": guard.tokens,
             "usage_reported": usage_reported,
+            **(extra or {}),
         }
         with self.path.open("a", encoding="utf-8") as fh:
             fh.write(json.dumps(record, sort_keys=True) + "\n")

@@ -239,11 +239,46 @@ def test_export_to_schema_v1():
             "adjudication": {"method": "single_annotator"},
         }
     ]
-    (ex,) = gold_examples(gold, key, recs, [])
+    report: dict = {}
+    (ex,) = gold_examples(gold, key, recs, [], report=report)
     lab = ex.candidate(p.pid)
     assert lab.decision is Decision.COMPATIBLE and lab.is_gold and lab.label_source == "manual"
+    assert ex.meta["relevance_source"] == "human_answer_support"
+    assert ex.meta["relevance_judged_pids"] == [p.pid]  # only annotated passages are judged
     others = [c for c in ex.candidates if c.pid != p.pid]
     assert all(c.decision is Decision.UNKNOWN and c.label_source == "unlabelled" for c in others)
     key["it1"]["text_sha256"] = sha256_text("something else")
     with pytest.raises(ValueError, match="differs"):
         gold_examples(gold, key, recs, [])
+
+
+def test_export_keeps_dataset_supporting_facts_apart():
+    recs = _twowiki(1)
+    frame = twowiki_frame(recs)
+    q = frame[0]
+    sup = next(p for p in q.passages if p.supporting)
+    key = {
+        "it1": {"source": "twowiki", "qid": q.qid, "pid": sup.pid, "text_sha256": sup.text_sha256}
+    }
+    gold = [
+        {
+            "item_id": "it1",
+            "codebook_version": "v1",
+            "double_annotated": False,
+            "final": {
+                "decision": "CONTRADICTING",
+                "reasons": ["counterfactual"],
+                "answer_support": "no",
+            },
+            "adjudication": {"method": "single_annotator"},
+        }
+    ]
+    report: dict = {}
+    (ex,) = gold_examples(gold, key, [], recs, report=report)
+    assert report["dataset_gold_vs_human_contradicting"] == ["it1"]
+    assert ex.meta["relevance_source"] == "dataset_supporting_facts"
+    assert sup.pid in ex.meta["dataset_supporting_pids"]
+    assert set(ex.meta["relevance_judged_pids"]) == {c.pid for c in ex.candidates}
+    c = ex.candidate(sup.pid)
+    assert c.decision is Decision.CONTRADICTING and not c.is_gold
+    assert c.evidence[0].detail["dataset_supporting_fact"] is True

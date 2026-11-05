@@ -44,7 +44,9 @@ def test_conflict_metrics_hand_values():
     assert m["fcfr_abs@3"] == 0.5
     assert m["fcfr_filter"] == 0.5
     assert m["ger_paired@3"] == 1.0 and m["ger_abs@3"] == 1.0
-    assert m["wfr"] == 1.0
+    assert m["wfr_compat_v1"] == 1.0
+    assert m["wfr_support_v1"] is None  # no human answer_support in this example
+    assert (m["den:A"], m["den:N"], m["den:K"], m["den:A_ref@3"]) == (2.0, 1.0, 3.0, 1.0)
     assert m["fcfr_paired@3[alias]"] == 1.0
     assert m["fcfr_paired@3[temporal_scope]"] is None  # a2 was not in the reference top-3
 

@@ -15,7 +15,8 @@ class Ranking:
     order: tuple[str, ...]
     removed: frozenset[str] = frozenset()
     scores: dict[str, float] = field(default_factory=dict)
-    llm_calls: int = 0
+    llm_calls: int = 0  # all LLM calls made for this question (every role), see llm_usage
+    llm_usage: dict = field(default_factory=dict)  # summarize_events(): tokens, latency, statuses
 
     def top(self, k: int) -> tuple[str, ...]:
         return self.order[:k]

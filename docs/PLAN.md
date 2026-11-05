@@ -157,19 +157,24 @@ Deliverable: `reports/02d_kg_sources_and_constraints.md`, `reports/00_environmen
  "candidates": [{"pid": "str", "title": "str", "text": "str", "is_gold": false,
                  "decision": "COMPATIBLE|CONTRADICTING|IRRELEVANT|UNKNOWN",
                  "reasons": ["alias", "temporal_scope"],
-                 "label_source": "dataset|perturbation_rule_v0|manual|unlabelled",
+                 "label_source": "dataset|perturbation_rule_v1|perturbation_rule_v0|manual|unlabelled",
                  "evidence": [{"kind": "kg_statement|kg_entity|kg_property|dataset_field|note",
                                "ref": "str", "detail": {}}]}],
  "meta": {"source": "str", "synthetic": false, "kg_derived": false, "license": "str"}}
 ```
 
 - `reasons` là **danh sách**, có thể rỗng (không có bất đồng bề mặt) hoặc nhiều phần tử (ví dụ alias + temporal).
-- `is_gold` nghĩa là passage hỗ trợ answer theo dataset (supporting facts). Nó dùng cho Recall/MRR/nDCG.
+- `is_gold` là relevance dùng cho Recall/MRR/nDCG. Nguồn của nó được ghi trong `meta.relevance_source`
+  (cập nhật 2026-11-05, `src/kgrerank/annotation/export.py`):
+  - 2Wiki: `dataset_supporting_facts`. Judgment phủ toàn pool. Cờ của dataset được giữ riêng trong
+    `meta.dataset_supporting_pids`, tách khỏi nhãn người.
+  - CONFLICTS: `human_answer_support` (`answer_support = yes`). Chỉ phủ các passage đã chú thích; danh sách nằm
+    trong `meta.relevance_judged_pids`.
 - Validation chặn các trường hợp sau:
   - giá trị ngoài enum;
   - `reasons` trùng lặp;
   - `is_gold = true` mà `decision = CONTRADICTING`;
-  - `label_source = perturbation_rule_v0` mà `evidence` rỗng.
+  - `label_source = perturbation_rule_v*` mà `evidence` rỗng.
 - Dữ liệu chưa có nhãn mức passage (distractor 2Wiki, kết quả search của CONFLICTS) có `decision = UNKNOWN`,
   `label_source = unlabelled`. Không giả định distractor là `IRRELEVANT`.
 - `meta.kg_derived = true` nếu dataset được xây từ Wikidata (2Wiki, ConflictBank, TimeQuestions, MAGIC). Báo cáo tách
@@ -238,17 +243,29 @@ Ký hiệu:
 | `fcfr_paired@k` (**chính**) | \|{c ∈ A_q ∩ top_k(R0) : c ∉ top_k(R)}\| / \|A_q ∩ top_k(R0)\| |
 | `fcfr_filter` | \|A_q ∩ X\| / \|A_q\| (không phụ thuộc k) |
 | `ger_abs@k`, `ger_paired@k` | như trên nhưng với N_q (tỷ lệ passage CONTRADICTING nằm ngoài top-k; cao là tốt) |
-| `wfr` | EvoTrustRAG Eq. 8 [paper p.10]: trung bình theo q của 𝟙[K_q ∩ X_q ≠ ∅] ("evidence that should remain available" = K_q) |
+| `wfr_compat_v1` | EvoTrustRAG Eq. 8 [paper p.10]: trung bình theo q của 𝟙[G_keep ∩ X_q ≠ ∅], với G_keep = K_q (mọi COMPATIBLE) |
+| `wfr_support_v1` | như trên, với G_keep = passage COMPATIBLE có `answer_support` yes/partial (chỉ định nghĩa khi có nhãn người) |
+| `den:*` | denominator: tổng số passage của A_q, N_q, K_q và số nằm trong top-k của reference, kèm số câu hỏi đóng góp |
 
 Mỗi metric có bản theo từng `reason`, bản macro theo query (chính) và bản micro theo passage (phụ).
+Retrieval metric (2026-11-05):
+- Bản full-list (`recall@k`, `ndcg@k`, `mrr`) chỉ được báo cáo khi relevance judgment phủ toàn bộ pool.
+- Bản condensed (`*_cond`) bỏ passage chưa có judgment trước khi tính. Passage chưa chú thích **không** bị coi là
+  non-relevant.
 Retrieval/QA giữ nguyên: Recall@k, MRR, nDCG@k (relevance = `is_gold`), EM/F1 (SQuAD normalization, max theo
 answers).
 
 ### B.5 Metric typing (cho method trả về decision, Phase C)
 
-Tính trên candidate có nhãn gold khác `UNKNOWN`:
-- accuracy và macro-F1 trên {COMPATIBLE, CONTRADICTING, IRRELEVANT};
-- coverage (tỷ lệ method không trả `UNKNOWN`) và selective accuracy;
+Tính trên candidate có nhãn gold khác `UNKNOWN` (`typing_report` trong `src/kgrerank/metrics/decision.py`):
+- accuracy và macro-F1 trên {COMPATIBLE, CONTRADICTING, IRRELEVANT}. Macro-F1 chỉ lấy trung bình trên các class có
+  mặt trong gold hoặc prediction (quy ước của scikit-learn; sửa 2026-11-05, trước đó class vắng mặt bị tính F1 = 0);
+- coverage (tỷ lệ method trả một decision khác `UNKNOWN`) và selective accuracy;
+- **failure rate**: call lỗi (parse_error, truncated, thinking_output, backend_error) **không** phải `UNKNOWN`.
+  Nó được tính là sai trong accuracy và macro-F1, làm giảm coverage, và được báo cáo riêng theo status.
+  Mọi tỷ lệ dùng chung một mẫu số `n_passages`;
+- CI 95% bằng **cluster bootstrap theo câu hỏi**, vì các passage cùng câu hỏi không độc lập; báo cáo `n_passages`,
+  `n_questions` và số passage bị loại vì gold là `UNKNOWN`;
 - confusion matrix, breakdown theo reason.
 
 ### B.6 Thống kê
@@ -259,9 +276,13 @@ Tính trên candidate có nhãn gold khác `UNKNOWN`:
 - **Hệ thống ngẫu nhiên** (random ranker, LLM sampling). Chạy S seed (mặc định 5) và báo cáo:
   - mean ± SD theo seed;
   - CI trên metric theo query đã lấy trung bình qua seed.
-- **Kiểm định.** Exact McNemar cho outcome nhị phân theo cặp (ví dụ WFR mỗi query); Holm cho nhiều so sánh.
-- **MDE.** MDE ≈ (z₁₋α/₂ + z_power) · SD_diff / √N. Sau pilot (MSI, N ≈ 300 query), ngưỡng đề xuất phải ≥ MDE và
-  ≥ SD giữa các seed của baseline.
+- **Kiểm định.** Exact McNemar cho outcome nhị phân theo cặp (WFR mỗi query, cho cả `wfr_compat_v1` và
+  `wfr_support_v1`); Holm cho nhiều so sánh.
+- **Đơn vị độc lập là câu hỏi.** Metric mức passage (typing) dùng cluster bootstrap theo câu hỏi. Mọi bảng ghi mẫu số
+  và số câu hỏi đóng góp.
+- **MDE.** MDE ≈ (z₁₋α/₂ + z_power) · SD_diff / √N. Tập main có N = 109 câu hỏi (400 passage), không phải 300 query
+  như dự kiến ban đầu. Ngưỡng đề xuất sau pilot phải ≥ MDE và ≥ SD giữa các seed của baseline. Stratum nhỏ, ví dụ
+  Complementary (44 passage từ 6 câu hỏi), chỉ là exploratory.
 - **GER.** "GER giảm ≤ 2 điểm %" là một **non-inferiority margin**: cần cận dưới của CI một phía, và rất có thể
   thiếu power ở N ≈ 300. MDE sẽ cho biết.
 
@@ -333,14 +354,47 @@ WSL2: venv, PyTorch build CUDA ≥ 12.8, kiểm `torch.cuda.get_device_capabilit
   - khoảng 400 item mức passage: CONFLICTS 300 (phân tầng theo category), 2Wiki 100;
   - pilot 40 item; tập double-annotate 120 item;
   - pre-register bằng seed cố định, commit `d197d5d` **trước** mọi code G2⁺.
-- **Protocol:** `docs/ANNOTATION_GUIDELINES.md`. Codebook: `docs/annotation/codebook_v0.md`.
+- **Protocol:** `docs/ANNOTATION_GUIDELINES.md`. Codebook: `docs/annotation/codebook_v0.md` (nay là v0.1 draft cho
+  pilot, xem C.1).
 - **Tooling:** `scripts/annotation/` gồm sample, submit, agreement, adjudicate, export; package
   `src/kgrerank/annotation/`.
 - **Vai trò:** đây là bằng chứng chính cho G7; synthetic chỉ là stress test.
 - **Không nhìn trước:** annotator không thấy prediction, score hay quyết định KG.
 - **Không có LLM gold.**
 
-### Tiêu chí hoàn thành Phase C (trạng thái 2026-11-04)
+### C.1 Pre-pilot review (2026-11-05) — quyết định và sửa đổi trước khi chú thích
+
+- **Question frame:** LLM parse + linking tự động (`src/kgrerank/frames/`). `InferenceFrame` không có `gold`.
+  - `QuestionFrame` (có `gold`) chỉ dùng để xây synthetic.
+  - Mơ hồ hoặc không tìm thấy → unresolved. Câu hỏi multi-hop/comparison → unsupported → fallback.
+  - Thời gian tương đối chỉ giải theo snapshot benchmark.
+  - Audit bằng người trên một mẫu riêng; human-framed diagnostic báo cáo riêng.
+- **Policy G2⁺ v0.2** (`src/kgrerank/conflict/policy.py`), sửa **trước** khi có kết quả G2⁺ trên dữ liệu thật:
+  - single-best-value không còn tạo conflict (nó cho phép nhiều giá trị);
+  - không còn giả định hai phát biểu không ngày tháng là cùng thời điểm;
+  - single-value có separator → unknown; constraint deprecated bị bỏ qua;
+  - mention mơ hồ luôn → unknown (bỏ luật "mặc định entity của câu hỏi").
+- **Đường LLM:**
+  - extractor nhận câu hỏi thật;
+  - prompt không còn hỏi về "other evidence" khi không cung cấp nó. Hai baseline có information access rõ:
+    `single_passage_v1` và `inter_context_v1`. Fallback của G2⁺ dùng cùng prompt `inter_context_v1`;
+  - output JSON, `max_tokens` mặc định 256. Trạng thái ok / parse_error / truncated / thinking_output /
+    backend_error được tách khỏi UNKNOWN hợp lệ.
+- **Accounting:**
+  - `llm_calls` gồm mọi vai trò: frame_parse, extract, fallback, judge;
+  - kèm token ước tính, latency và số lỗi; cache policy = none.
+- **Thống kê:** typing metric dùng cluster bootstrap theo câu hỏi.
+- **Model MSI:** `Qwen/Qwen3-8B`, revision `b968826d…`, BF16, non-thinking (`configs/msi/qwen3_8b.yaml`).
+- **Trình tự đánh giá** (khóa; `docs/ANNOTATION_GUIDELINES.md` §12):
+  1. sửa protocol;
+  2. pilot 40 item;
+  3. freeze codebook v1;
+  4. engineering pilot trên MSI, chỉ trên tập pilot (12 câu hỏi, không trùng 109 câu của main);
+  5. main annotation và evaluation.
+
+  Main set không dùng để chọn prompt, policy, λ hay threshold.
+
+### Tiêu chí hoàn thành Phase C (trạng thái 2026-11-04; cập nhật vòng review 2026-11-05 ở C.2)
 
 - [x] Fixture KG hư cấu `tests/fixtures/toy_kg.json`:
   - chuỗi located-in 3 cấp; fact có start/end (P6); cặp homonym khác P31 **và** cặp homonym cùng P31;
@@ -348,7 +402,8 @@ WSL2: venv, PyTorch build CUDA ≥ 12.8, kiểm `torch.cuda.get_device_capabilit
   - Chỉ có **1** alias + 1 historical name, không đủ "≥ 3 alias" như kế hoạch. Alias thật có nhiều trong Wikidata
     slice (Saigon, Bombay, Madras, Leningrad).
 - [x] Unit test G2⁺: mỗi reason type có ca positive, near-miss và ca thiếu evidence ⇒ `UNKNOWN`
-  (`tests/test_g2plus.py`). Policy có version (`policy_v0.1`) và mỗi quyết định ghi rule đã kích hoạt.
+  (`tests/test_g2plus.py`). Policy có version (`policy_v0.1`, nay là `policy_v0.2`, xem C.1) và mỗi quyết định
+  ghi rule đã kích hoạt.
 - [x] Smoke: BM25 vs ConflictAwareReranker (S0, S2, S3, filter) trên fixture, có nhãn
   "smoke test on toy data – not a result".
 - [x] `04` xếp hạng; `05` lệnh **[UNVERIFIED — chưa chạy trên phần cứng đích]** cho 32 GB/24 GB; `06` ước tính theo
@@ -362,7 +417,26 @@ WSL2: venv, PyTorch build CUDA ≥ 12.8, kiểm `torch.cuda.get_device_capabilit
   - question frame cho dữ liệu tự nhiên;
   - baseline LLM thật;
   - literature search có hệ thống.
-- [ ] Mở Pull Request `claude/paper3-audit-20261102` → `main` → **DỪNG**.
+- [x] Mở Pull Request `claude/paper3-audit-20261102` → `main`
+  ([Thuy-g/paper3-kg-conflict-rerank#1](https://github.com/Thuy-g/paper3-kg-conflict-rerank/pull/1)) → **DỪNG**.
+
+### C.2 Tiêu chí hoàn thành vòng pre-pilot review (2026-11-05)
+
+- [x] Mọi nhận xét kỹ thuật của bạn được kiểm trong code (`reports/08_prepilot_review.md` §1). Không có nhận xét nào sai.
+- [x] Question frame: package `frames/`, prompt chỉ nhận câu hỏi, linking giữ trạng thái unresolved, coverage, audit
+  tooling (`scripts/frames/`), test `tests/test_frames.py`.
+- [x] Policy v0.2 (SBV, thời gian, separator, exception, deprecated, mention mơ hồ), test `tests/test_g2plus.py`.
+- [x] Đường LLM: question vào extractor, hai baseline có information access rõ, trạng thái lỗi tách khỏi `UNKNOWN`,
+  accounting đủ vai trò; test `tests/test_llm_path.py`.
+- [x] Metric: hai biến thể WFR có tên, condensed retrieval metric, denominator, cluster bootstrap, export 2Wiki tách
+  supporting facts khỏi nhãn người; test `tests/test_eval_accounting.py`.
+- [x] Codebook v0.1 (draft), CHANGELOG, `A2_quickstart.md` (A2: TBD); sample v1 và manifest giữ nguyên.
+- [x] Config MSI cho `Qwen/Qwen3-8B` (revision và hash pin; lệnh server **[UNVERIFIED trên phần cứng đích]**).
+  Config tách theo bước: `frames_pilot_qwen3.yaml` và `engineering_pilot.yaml` (tập pilot, bước 4);
+  `frames_v1_qwen3.yaml` và `main_eval.example.yaml` (main, bước 5).
+- [x] Offline checks: `make lint`, `make test`, `make smoke`.
+- [ ] **Cần người hoặc MSI:** pilot 40 item với A1/A2; engineering pilot trên MSI; frame audit; xác nhận snapshot
+  CONFLICTS.
 
 ---
 

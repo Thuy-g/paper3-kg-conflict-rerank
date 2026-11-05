@@ -1,6 +1,7 @@
-"""G2+ skeleton: per reason type a positive case, a near-miss, and UNKNOWN without evidence.
+"""G2+ skeleton (policy v0.2) on the hand-written fictional KG; no real data, no network.
 
-All on the hand-written fictional KG (tests/fixtures/toy_kg.json); no real data, no network.
+In the fixture "Port Avalon" names four entities (Z3 city, Z8 yacht, Z9 town, Z17 city), so a bare
+"Port Avalon" in a passage must stay unresolved; "Avalon City" is a unique alias of Z3.
 """
 
 from __future__ import annotations
@@ -13,28 +14,46 @@ from kgrerank.conflict.policy import CONFIDENCE, POLICY_VERSION
 from kgrerank.conflict.reranker import ConflictAwareReranker
 from kgrerank.conflict.typer import G2PlusTyper
 from kgrerank.extract.linker import EntityLinker
-from kgrerank.extract.llm import LLMClaimExtractor
 from kgrerank.extract.pattern import PatternExtractor
+from kgrerank.frames.schema import InferenceFrame
 from kgrerank.kg.settings import restrict
 from kgrerank.kg.time import year_period
 from kgrerank.kg.view import KGView
+from kgrerank.llm.base import Completion
 from kgrerank.llm.mock import MockLLM
-from kgrerank.perturb.operators import QuestionFrame
+from kgrerank.rerankers.llm_judge import LLMTyper
 from kgrerank.rerankers.simple import IdentityReranker
 from kgrerank.schema import Candidate, Decision, Example
 
-P19 = QuestionFrame("Z1", "P19", ("Z3",))
-P6_2010 = QuestionFrame("Z3", "P6", ("Z10",), time_anchor=year_period(2010))
-P22 = QuestionFrame("Z1", "P22", ("Z14",))
+
+def frame(subject, prop, year=None, qtype="single_fact") -> InferenceFrame:
+    return InferenceFrame(
+        qid="q",
+        question="?",
+        subject=subject,
+        subject_status="given",
+        prop=prop,
+        prop_status="given",
+        time_anchor=year_period(year) if year else None,
+        time_status="given",
+        question_type=qtype,
+        source="test",
+    )
 
 
-def _ex(texts: list[str], frame: QuestionFrame) -> Example:
-    meta = {
-        "source": "t",
-        "synthetic": True,
-        "frame": {"subject": frame.subject, "prop": frame.prop, "gold": list(frame.gold)},
-    }
-    return Example("q", "?", ["x"], [Candidate(f"p{i}", "", t) for i, t in enumerate(texts)], meta)
+P19 = frame("Z1", "P19")
+P6_2010 = frame("Z3", "P6", 2010)
+P22 = frame("Z1", "P22")
+
+
+def _ex(texts: list[str]) -> Example:
+    return Example(
+        "q",
+        "?",
+        ["x"],
+        [Candidate(f"p{i}", "", t) for i, t in enumerate(texts)],
+        {"source": "t", "synthetic": True},
+    )
 
 
 def _typer(kg: KGView, setting: str, fallback=None) -> G2PlusTyper:
@@ -43,9 +62,15 @@ def _typer(kg: KGView, setting: str, fallback=None) -> G2PlusTyper:
     )
 
 
-def _types(kg, setting, texts, frame, fallback=None):
-    out = _typer(kg, setting, fallback).type_example(_ex(texts, frame), frame)
+def _types(kg, setting, texts, fr, fallback=None):
+    ex = _ex(texts)
+    out = _typer(kg, setting, fallback).type_example(ex, fr, [c.pid for c in ex.candidates])
     return {t.pid: t for t in out}
+
+
+def test_no_gold_in_inference_frames():
+    assert not hasattr(P19, "gold")
+    assert "gold" not in InferenceFrame.__dataclass_fields__
 
 
 def test_settings_restrict_and_mask(toy_kg):
@@ -53,102 +78,54 @@ def test_settings_restrict_and_mask(toy_kg):
     s1 = restrict(toy_kg, "S1")
     assert s1.properties and not s1.statements and not s1.entities
     s2 = restrict(toy_kg, "S2", mask=("Z1", "P19"))
-    assert not s2.statements_of("Z1", "P19")  # the question's own fact is masked
-    assert s2.statements_of("Z3", "P131") and s2.statements_of("Z3", "P1448")
-    assert not s2.statements_of("Z3", "P6")  # relational facts are not part of S2
-    assert restrict(toy_kg, "S3").statements_of("Z1", "P19")
+    assert not s2.statements_of("Z1", "P19")
+    assert s2.statements_of("Z3", "P131") and not s2.statements_of("Z3", "P6")
     with pytest.raises(ValueError):
         restrict(toy_kg, "S4")
 
 
-def test_pattern_extractor_needs_lexicon(toy_kg):
-    text = "The place of birth of Alma Verdan is Lowmarsh."
-    generic = PatternExtractor().extract("p", text)
-    assert (
-        generic.relation == "place" and generic.subject == "birth of Alma Verdan"
-    )  # ambiguous split
-    c = PatternExtractor(["place of birth"]).extract("p", text)
-    assert (c.relation, c.subject, c.obj, c.time) == (
-        "place of birth",
-        "Alma Verdan",
-        "Lowmarsh",
-        None,
-    )
-    lex = PatternExtractor(["head of government"])
-    c = lex.extract("p", "In 2010, the head of government of Port Avalon was Bram Ostler.")
-    assert c.time == year_period(2010)
-    c = lex.extract(
-        "p",
-        "Port Avalon (fictional town in Lake County): the head of government of "
-        "Port Avalon is Rosa Fein.",
-    )
-    assert c.note == "fictional town in Lake County"
-    assert lex.extract("p", "Mira Okonkwo led the city.") is None
-
-
-def test_linker(toy_kg):
+def test_linker_keeps_ambiguity(toy_kg):
     lk = EntityLinker(toy_kg)
-    assert lk.link("Avalon City").eid == "Z3" and lk.link("Avalon City").via == "alias"
-    assert lk.link("Kingsbridge").via == "name_statement"
-    assert lk.link("Port Avalon").status == "ambiguous"
+    assert lk.link("Avalon City").eid == "Z3" and lk.link("Kingsbridge").via == "name_statement"
+    assert lk.link("Port Avalon").status == "ambiguous" and lk.link("Port Avalon").eid is None
     assert lk.link("Port Avalon", "fictional town in Lake County").eid == "Z9"
-    assert lk.property_by_label("place of birth") == "P19"
 
 
-def test_identity_reasons(toy_kg, toy_kg_dict):
+def test_ambiguous_subject_is_never_resolved_to_the_question_entity(toy_kg):
+    t = _types(
+        toy_kg, "S3", ["In 2010, the head of government of Port Avalon was Bram Ostler."], P6_2010
+    )
+    assert t["p0"].decision is Decision.UNKNOWN and t["p0"].rule == "R-subject-unknown"
+
+
+def test_identity_and_hierarchy(toy_kg):
     t = _types(
         toy_kg,
         "S3",
         [
             "The place of birth of Alma Verdan is Avalon City.",
             "The place of birth of Alma Verdan is Kingsbridge.",
+            "The place of birth of Alma Verdan is Republic of Merrow.",
         ],
         P19,
     )
-    assert t["p0"].decision is Decision.COMPATIBLE and t["p0"].reasons == ("alias",)
-    assert t["p1"].decision is Decision.COMPATIBLE and t["p1"].reasons == ("historical_identity",)
-    d = copy.deepcopy(toy_kg_dict)
-    d["entities"]["Z7"]["aliases"] = ["Avalon City"]  # near-miss: ambiguous alias
-    t2 = _types(
-        KGView.from_dict(d), "S3", ["The place of birth of Alma Verdan is Avalon City."], P19
-    )
-    assert t2["p0"].decision is Decision.UNKNOWN and t2["p0"].rule == "R-object-unknown"
+    assert t["p0"].reasons == ("alias",) and t["p1"].reasons == ("historical_identity",)
+    assert t["p2"].rule == "R-hierarchy-coarser"
+    assert all(x.decision is Decision.COMPATIBLE and x.status == "kg" for x in t.values())
 
 
-def test_granularity(toy_kg, toy_kg_dict):
-    t = _types(toy_kg, "S3", ["The place of birth of Alma Verdan is Republic of Merrow."], P19)
-    assert t["p0"].decision is Decision.COMPATIBLE and t["p0"].rule == "R-hierarchy-coarser"
-    # Near-miss: the KG value is Lowmarsh, whose located-in edge is time-qualified (1960-1990).
-    d = copy.deepcopy(toy_kg_dict)
-    for st in d["statements"]:
-        if st["s"] == "Z1" and st["p"] == "P19":
-            st["v"]["value"] = "Z7"
-    t2 = _types(
-        KGView.from_dict(d),
-        "S3",
-        ["The place of birth of Alma Verdan is Avalon Province."],
-        QuestionFrame("Z1", "P19", ("Z7",)),
-    )
-    assert t2["p0"].decision is Decision.UNKNOWN and t2["p0"].rule == "R-hierarchy-uncertain"
-
-
-def test_temporal_scope(toy_kg):
+def test_temporal_scope_and_missing_dates(toy_kg):
     t = _types(
         toy_kg,
         "S3",
         [
-            "From 2012, the head of government of Port Avalon was Teo Brandt.",
-            "The head of government of Port Avalon is Ivo Sallis.",
+            "From 2012, the head of government of Avalon City was Teo Brandt.",
+            "The head of government of Avalon City is Ivo Sallis.",
         ],
         P6_2010,
     )
     assert t["p0"].decision is Decision.COMPATIBLE and t["p0"].rule == "R-time-disjoint"
     assert t["p1"].decision is Decision.UNKNOWN and t["p1"].rule == "R-time-unknown"
-    # Without a KG (S0) the subject cannot be identified, so nothing is decided.
-    t0 = _types(
-        toy_kg, "S0", ["From 2012, the head of government of Port Avalon was Teo Brandt."], P6_2010
-    )
-    assert t0["p0"].decision is Decision.UNKNOWN and t0["p0"].rule == "R-subject-unknown"
 
 
 def test_homonym_and_predicate(toy_kg):
@@ -158,14 +135,12 @@ def test_homonym_and_predicate(toy_kg):
         [
             "Port Avalon (fictional town in Lake County): "
             "the head of government of Port Avalon is Rosa Fein.",
-            "The head of state of Port Avalon is Gil Moray.",
+            "The head of state of Avalon City is Gil Moray.",
         ],
         P6_2010,
     )
     assert t["p0"].decision is Decision.IRRELEVANT and t["p0"].reasons == ("homonym",)
     assert t["p1"].decision is Decision.IRRELEVANT and t["p1"].reasons == ("predicate_mismatch",)
-    t0 = _types(toy_kg, "S0", ["The head of state of Port Avalon is Gil Moray."], P6_2010)
-    assert t0["p0"].decision is Decision.UNKNOWN  # without property metadata
 
 
 def test_inverse(toy_kg):
@@ -173,77 +148,92 @@ def test_inverse(toy_kg):
     assert t["p0"].decision is Decision.COMPATIBLE and "inverse_relation" in t["p0"].reasons
 
 
-def test_counterfactual_is_soft(toy_kg, toy_kg_dict):
+def test_single_value_stable_property_gives_soft_conflict(toy_kg):
+    v = _types(toy_kg, "S3", ["The place of birth of Alma Verdan is Lowmarsh."], P19)["p0"]
+    assert v.decision is Decision.CONTRADICTING and v.rule == "R-single-value"
+    assert v.confidence == CONFIDENCE["single_value_other"] < 1 and v.policy == POLICY_VERSION
+
+
+def test_single_best_value_is_not_exclusive(toy_kg):
     t = _types(
-        toy_kg, "S3", ["In 2010, the head of government of Port Avalon was Bram Ostler."], P6_2010
+        toy_kg, "S3", ["In 2010, the head of government of Avalon City was Bram Ostler."], P6_2010
     )
-    v = t["p0"]
-    assert v.decision is Decision.CONTRADICTING and v.rule == "R-single-best-value"
-    assert 0 < v.confidence < 1 and v.policy == POLICY_VERSION
-    stable = _types(toy_kg, "S3", ["The place of birth of Alma Verdan is Lowmarsh."], P19)["p0"]
-    assert stable.decision is Decision.CONTRADICTING
-    assert stable.confidence == pytest.approx(CONFIDENCE[("single_value", "other")] - 0.1)
-    # Near-miss 1: subject listed as a constraint exception -> UNKNOWN.
+    assert t["p0"].decision is Decision.UNKNOWN and t["p0"].rule == "R-sbv-not-exclusive"
+
+
+@pytest.mark.parametrize(
+    ("change", "rule"),
+    [
+        (lambda c: c.update(separators=["P3831"]), "R-separator-uncertain"),
+        (lambda c: c.update(exceptions=["Z1"]), "R-exception"),
+        (lambda c: c.update(statement_rank="deprecated"), "R-cardinality-open"),
+    ],
+)
+def test_constraint_details_block_conflicts(toy_kg_dict, change, rule):
     d = copy.deepcopy(toy_kg_dict)
-    d["properties"]["P19"]["constraints"][0]["exceptions"] = ["Z1"]
-    t1 = _types(KGView.from_dict(d), "S3", ["The place of birth of Alma Verdan is Lowmarsh."], P19)
-    assert t1["p0"].decision is Decision.UNKNOWN and t1["p0"].rule == "R-exception"
-    # Near-miss 2: no cardinality constraint -> UNKNOWN (multiple values may coexist).
-    t2 = _types(toy_kg, "S3", ["The father of Alma Verdan is Bram Ostler."], P22)
-    assert t2["p0"].decision is Decision.UNKNOWN and t2["p0"].rule == "R-cardinality-open"
-    # Near-miss 3: mutable property, both statements unscoped -> UNKNOWN.
-    loose = QuestionFrame("Z3", "P6", ("Z11",))
-    d3 = copy.deepcopy(toy_kg_dict)
-    d3["statements"] = [
-        s
-        for s in d3["statements"]
-        if not (s["s"] == "Z3" and s["p"] == "P6" and s["v"]["value"] != "Z11")
-    ]
-    d3["statements"] = [{**s, "q": {}} if s["p"] == "P6" else s for s in d3["statements"]]
-    t3 = _types(
-        KGView.from_dict(d3), "S3", ["The head of government of Port Avalon is Bram Ostler."], loose
+    change(d["properties"]["P19"]["constraints"][0])
+    t = _types(KGView.from_dict(d), "S3", ["The place of birth of Alma Verdan is Lowmarsh."], P19)
+    assert t["p0"].decision is Decision.UNKNOWN and t["p0"].rule == rule
+
+
+def test_missing_dates_need_a_stable_property(toy_kg_dict):
+    d = copy.deepcopy(toy_kg_dict)
+    d["properties"]["P19"]["mutability"] = None  # not annotated stable any more
+    t = _types(KGView.from_dict(d), "S3", ["The place of birth of Alma Verdan is Lowmarsh."], P19)
+    assert t["p0"].decision is Decision.UNKNOWN and t["p0"].rule == "R-time-unknown"
+    t2 = _types(
+        KGView.from_dict(toy_kg_dict), "S3", ["The father of Alma Verdan is Bram Ostler."], P22
     )
-    assert t3["p0"].decision is Decision.UNKNOWN and t3["p0"].rule == "R-mutable-unscoped"
+    assert t2["p0"].decision is Decision.UNKNOWN  # P22: no mutability, no cardinality
 
 
-def test_fallback_counts_llm_calls(toy_kg):
-    texts = ["The head of government of Port Avalon is Ivo Sallis.", "Unparseable sentence."]
-    typer = _typer(toy_kg, "S3", MockLLM())
-    out = typer.type_example(_ex(texts, P6_2010), P6_2010)
-    assert all(t.fallback for t in out) and typer.last_llm_calls == 2
-    assert all(t.confidence == 0.3 for t in out)
-    no_fb = _types(toy_kg, "S3", texts, P6_2010)
-    assert all(t.decision is Decision.UNKNOWN and not t.fallback for t in no_fb.values())
+def test_unsupported_frames_go_to_fallback(toy_kg):
+    for fr in (
+        frame("Z1", "P19", qtype="multi_hop"),
+        InferenceFrame(
+            qid="q",
+            question="?",
+            subject=None,
+            subject_status="ambiguous",
+            prop="P19",
+            prop_status="linked",
+            time_status="none",
+            question_type="single_fact",
+        ),
+        None,
+    ):
+        t = _types(toy_kg, "S3", ["The place of birth of Alma Verdan is Lowmarsh."], fr)
+        assert t["p0"].decision is Decision.UNKNOWN and t["p0"].rule == "R-frame-unsupported"
+        assert t["p0"].status == "undecided"
 
 
-def test_llm_extractor_rejects_invalid_json(toy_kg):
-    class Fixed(MockLLM):
-        def __init__(self, reply):
-            super().__init__(choices=(reply,))
+def test_fallback_statuses_and_usage(toy_kg):
+    def typer_with(completion):
+        fb = LLMTyper(MockLLM(responder=lambda m: completion), role="fallback")
+        return _typer(toy_kg, "S3", fb)
 
-    ok = LLMClaimExtractor(
-        Fixed(
-            '{"subject": "Alma Verdan", "relation": "Place of birth", '
-            '"object": "Lowmarsh", "year": 1950}'
-        )
-    ).extract("p", "t")
-    assert ok.relation == "place of birth" and ok.time == year_period(1950)
-    assert LLMClaimExtractor(Fixed("not json")).extract("p", "t") is None
-    assert LLMClaimExtractor(Fixed('{"subject": ""}')).extract("p", "t") is None
+    ex = _ex(["The head of government of Avalon City is Ivo Sallis.", "Unparseable sentence."])
+    ok = typer_with(Completion('{"decision": "COMPATIBLE"}', "stop"))
+    out = ok.type_example(ex, P6_2010, ["p0", "p1"])
+    assert [t.status for t in out] == ["fallback_ok", "fallback_ok"]
+    assert ok.last_usage["calls"] == 2 and ok.last_usage["by_role"] == {"fallback": 2}
+    bad = typer_with(Completion('{"decision": "COMP', "length"))
+    out = bad.type_example(ex, P6_2010, ["p0", "p1"])
+    assert all(t.decision is None and t.status == "fallback_truncated" for t in out)
 
 
 def test_reranker_penalises_only_contradicting(toy_kg):
     texts = [
-        "In 2010, the head of government of Port Avalon was Bram Ostler.",
-        "From 2012, the head of government of Port Avalon was Teo Brandt.",
+        "The place of birth of Alma Verdan is Lowmarsh.",
+        "The place of birth of Alma Verdan is Avalon City.",
         "Unparseable sentence.",
     ]
-    ex = _ex(texts, P6_2010)
-    ex.meta["frame"]["time_anchor_year"] = 2010
-    rr = ConflictAwareReranker(IdentityReranker(), _typer(toy_kg, "S3"), lam=10.0)
+    ex = _ex(texts)
+    frames = {"q": P19}
+    rr = ConflictAwareReranker(IdentityReranker(), _typer(toy_kg, "S3"), frames, lam=10.0)
     r = rr.rank(ex)
     assert r.order[-1] == "p0" and r.order[:2] == ("p1", "p2")
-    f = ConflictAwareReranker(IdentityReranker(), _typer(toy_kg, "S3"), mode="filter").rank(ex)
-    assert f.removed == frozenset({"p0"}) and f.order == ("p1", "p2")
-    no_frame = Example("q", "?", [], ex.candidates, {"source": "t", "synthetic": True})
-    assert rr.rank(no_frame).order == ("p0", "p1", "p2")
+    f = ConflictAwareReranker(IdentityReranker(), _typer(toy_kg, "S3"), frames, mode="filter")
+    assert f.rank(ex).removed == frozenset({"p0"})
+    none = ConflictAwareReranker(IdentityReranker(), _typer(toy_kg, "S3"), {}, lam=10.0)
+    assert none.rank(ex).order == ("p0", "p1", "p2")  # no frame for the question: no KG step

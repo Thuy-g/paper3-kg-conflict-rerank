@@ -41,6 +41,12 @@ def main() -> int:
         action="store_true",
         help="overwrite existing sample files and the pre-registered manifest",
     )
+    ap.add_argument(
+        "--rebuild-data",
+        action="store_true",
+        help="rewrite the gitignored item/sheet files only, after checking that the "
+        "items equal the committed manifest; the manifest is never changed",
+    )
     args = ap.parse_args()
     cfg = yaml.safe_load(Path(args.config).read_text(encoding="utf-8"))
     seed, version = int(cfg["seed"]), str(cfg["sample_version"])
@@ -75,6 +81,13 @@ def main() -> int:
 
     layout = Layout(ROOT / cfg["out_dir"])
     write_data = args.force or not (layout.root.exists() and any(layout.root.iterdir()))
+    if args.rebuild_data:
+        old = json.loads((ROOT / cfg["manifest"]).read_text(encoding="utf-8"))
+        new_items = sorted((asdict(it) for it in pilot + main_items), key=lambda r: r["item_id"])
+        old_items = [{k: v for k, v in r.items() if k != "text_sha256"} for r in old["items"]]
+        if new_items != old_items:
+            raise SystemExit("items differ from the pre-registered manifest: nothing rewritten")
+        write_data = True
     if not write_data:
         print(f"{layout.root} is not empty: sample files are NOT overwritten (use --force)")
     queries = {(q.source, q.qid): q for q in c_frame + w_frame}
@@ -143,7 +156,7 @@ def main() -> int:
         "committed": "metadata only (IDs, strata, text hashes); texts stay in data/ (gitignored)",
     }
     path = ROOT / cfg["manifest"]
-    if path.exists() and not args.force:
+    if args.rebuild_data or (path.exists() and not args.force):
         old = json.loads(path.read_text(encoding="utf-8"))
         same = old["items"] == manifest["items"] and old["seed"] == manifest["seed"]
         print(

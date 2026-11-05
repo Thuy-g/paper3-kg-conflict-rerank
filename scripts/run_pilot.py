@@ -66,6 +66,9 @@ def main() -> int:
     for spec in cfg["rerankers"]["systems"]:
         if "kg_view" in spec:
             spec["kg_view"] = str(ROOT / spec["kg_view"])
+        if spec.get("frames", "construction") != "construction":
+            # Resolved against the repo root; "frames" keeps the config value for the outputs.
+            spec["frames_path"] = str(ROOT / spec["frames"])
     mcfg = cfg["metrics"]
     logger = TokenLogger(ROOT / cfg.get("api_log", "logs/api_usage.jsonl"))
     results = run_systems(
@@ -76,6 +79,7 @@ def main() -> int:
         mcfg.get("reasons", []),
         seed,
         logger,
+        int(mcfg["bootstrap"]["n_boot"]),
     )
     summary = summarize(
         results,

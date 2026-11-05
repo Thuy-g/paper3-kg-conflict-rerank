@@ -29,15 +29,20 @@ G7 → G2⁺ vẫn là **working hypothesis**; novelty **chưa kiểm** bằng l
 | Hạng | Hướng | Novelty risk | Khả thi trên 1× RTX 5090 | Thời gian tới kết quả đầu tiên (ước đoán) | Khả năng công bố (OA journal) |
 |---|---|---|---|---|---|
 | **1** | **G7** — chẩn đoán false conflict filtering trên tập chú thích độc lập (FCFR theo reason + WFR, natural vs synthetic) | trung bình (WFR mức query của EvoTrustRAG đã có; FCFR mức passage theo reason chưa thấy trong 18 paper đã audit — **[UNVERIFIED]** ngoài phạm vi đó) | cao: baseline LLM-filter 7–8B qua vLLM | ngắn: chú thích ≈ 19 giờ công + vài giờ GPU (`06`) | cao nếu protocol chú thích và agreement chặt chẽ (PLOS ONE / Sci Rep) |
-| **2** | **G2⁺** — KG-first, qualifier/identity-aware typing với LLM fallback (G2 + G3 lõi) | trung bình–cao: phải vượt LLM-only typer (prompt MemGraphRAG) **ở setting S2**, không chỉ S3 | cao (typing chạy CPU; LLM cho extraction/fallback) | trung bình: cần question frame cho dữ liệu tự nhiên (`07` §2) | cao nếu thắng ở S2 với CI rõ; nếu chỉ thắng ở S3 thì claim phải thu hẹp |
+| **2** | **G2⁺** — KG-first, qualifier/identity-aware typing với LLM fallback (G2 + G3 lõi) | trung bình–cao: phải vượt LLM-only typer (prompt MemGraphRAG) **ở setting S2**, không chỉ S3 | cao (typing chạy CPU; LLM cho extraction/fallback) | trung bình: cần question frame cho dữ liệu tự nhiên (đã quyết: LLM parse + linking, `07` D1) và KG view phủ mention (`07` D10) | cao nếu thắng ở S2 với CI rõ; nếu chỉ thắng ở S3 thì claim phải thu hẹp |
 | 3 | G2+G1 (consistency + typing) | trung bình | cao | trung bình | dùng làm ablation trong bài G2⁺, không tách bài |
 | 4 | G3+G8 (temporal, cross-lingual alias) | G3 đã vào lõi G2⁺; G8 trung bình, chưa kiểm | trung bình | dài | để bài sau (lợi thế ngôn ngữ vi/ja) |
 | 5 | G1 đơn lẻ | cao | cao | ngắn | không khuyến nghị (chủ đề cũ, rủi ro rò rỉ đáp án) |
 
-## 3. Điều kiện go/no-go (pre-register **sau** pilot, **trước** khi chạy G2⁺ trên tập chú thích)
+## 3. Điều kiện go/no-go (pre-register **sau** engineering pilot, **trước** khi chạm main)
 
-Chưa chốt con số. Ngưỡng sẽ được suy ra từ variance và MDE của pilot (`docs/PLAN.md` B.6). Các mệnh đề cần
-falsify:
+Chưa chốt con số. Các mức 10 điểm % / 2 điểm % / 50% không phải tiêu chí khoa học cố định.
+- Ngưỡng được suy ra từ variance và MDE đo ở **engineering pilot trên tập pilot** (12 câu hỏi, không trùng main;
+  `docs/PLAN.md` B.6).
+- Ước lượng từ 12 câu hỏi rất nhiễu; điều này phải được ghi cùng ngưỡng.
+- Main set không được dùng để chọn ngưỡng (cập nhật 2026-11-05, `docs/ANNOTATION_GUIDELINES.md` §12).
+
+Các mệnh đề cần falsify:
 
 - **G7 (vấn đề có thật không?)** Trên tập chú thích, FCFR_paired@5 của các LLM filter mạnh có lớn hơn đáng kể so với
   baseline relevance-only không?
@@ -53,6 +58,11 @@ falsify:
 1. **Bạn làm (không cần GPU):**
    - pilot annotation 40 item → codebook v1;
    - main annotation (A1 400 item, A2 120 item).
-2. **Trên MSI** (`05`): chạy baseline relevance-only, LLM-filter, LLM-typer (MemGraphRAG prompt) trên **pool đầy
-   đủ** của 109 câu hỏi → đo FCFR/GER/WFR, variance theo seed và MDE → pre-register ngưỡng.
-3. Chỉ sau đó mới chạy G2⁺ (S0–S3) trên tập chú thích. Literature search có hệ thống trước khi viết (`07` §1).
+2. **Trên MSI** (`05` §4), engineering pilot **chỉ trên tập pilot**:
+   - chạy baseline relevance-only, hai LLM baseline (`single_passage_v1`, `inter_context_v1`) và G2⁺;
+   - đo failure rate, token, variance theo seed và MDE;
+   - pre-register decoding, λ, `top_m` và ngưỡng.
+3. Chỉ sau khi main annotation đã export mới chạy mọi system (kể cả G2⁺ S0–S3) trên main, theo kế hoạch đã khóa.
+   - S3 chỉ là upper bound.
+   - LLM-only typer theo MemGraphRAG cần adapter (`07` D12).
+   - Literature search có hệ thống phải xong trước khi viết (`07` §1).

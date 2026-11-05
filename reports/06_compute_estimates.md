@@ -15,38 +15,45 @@ Mọi con số là ước tính. Giả định ghi rõ để bạn thay bằng s
 | Adjudication | (30–50% của 120) × 3 phút | ≈ 1,8–3 giờ |
 | **Tổng** | | **≈ 18–19 giờ công** |
 
-## 2. LLM call cho pilot trên MSI
+## 2. LLM call trên MSI (cập nhật 2026-11-05; ước tính theo công thức, không phải đo đạc)
 
-**Kích thước:** 109 câu hỏi, P = 998 passage trên pool đầy đủ.
+**Kích thước main:** Q = 109 câu hỏi, P = 998 passage trên pool đầy đủ. Engineering pilot trên tập pilot (12 câu
+hỏi) nhỏ hơn khoảng 9 lần.
 
-**Số call cho mỗi system và seed:**
-- LLM filter: tối đa min(top_m, pool) call mỗi câu, tức ≤ P call.
-- G2⁺ với LLM extractor: P call cho extraction, cộng tối đa P call fallback ⇒ ≤ 2P.
-- G2⁺ S3 dùng ít fallback hơn: trên toy data giảm 27 → 15 call; tỷ lệ thật **[UNVERIFIED]**.
+**Số call cho mỗi seed:**
+- Frame parse: Q call, chạy một lần (seed 0).
+- Mỗi LLM baseline (`single_passage_v1`, `inter_context_v1`): tối đa min(top_m, pool) call mỗi câu, tức ≤ P.
+- G2⁺ với LLM extractor, cho mỗi KG setting: P call extraction cộng tối đa P call fallback, tức ≤ 2P. Không có cache
+  (`cache_policy: none`), nên mỗi setting gọi lại extraction.
 
-**Kịch bản xấu nhất:** 5 seed decoding (như EvoTrustRAG [paper p.5]).
+**Kịch bản xấu nhất:** 5 seed (như EvoTrustRAG [paper p.5]) và 4 setting S0–S3.
 
 | Thành phần | Số call |
 |---|---|
-| LLM filter | 5 × P = 4.990 |
-| LLM-only typer | 5 × P = 4.990 |
+| Frame parse | Q = 109 |
+| Hai LLM baseline | 2 × 5 × P = 9.980 |
 | G2⁺ S0–S3 | 4 × 5 × 2P = 39.920 |
-| **Tổng** | **≈ 50.000 call** |
+| LLM-only typer (MemGraphRAG, nếu có adapter) | 5 × P = 4.990 |
+| **Tổng** | **≈ 55.000 call** |
 
-**Token mỗi call (ước tính).**
-- Prompt khoảng 150 token cộng passage (khoảng 1.324/4 ≈ 330 token với CONFLICTS).
-- Output ≤ 128 token.
-- Tổng ≈ 0,6k token mỗi call, tức ≈ **30 triệu token** cho kịch bản xấu nhất.
+**Token mỗi call (cận trên).**
+- Prompt khoảng 150 token, cộng passage khoảng 1.324/4 ≈ 330 token (CONFLICTS).
+- Prompt `inter_context_v1` có thêm tối đa 5 passage × 600 ký tự ≈ 750 token.
+- Output bị chặn ở `max_tokens = 256`. Output JSON thật thường ngắn hơn, nhưng chưa đo.
+- Cộng theo từng thành phần, tổng cận trên khoảng **60 triệu token**.
 
-**Thời gian.** Với vLLM, model 7–8B và batching, throughput **[UNVERIFIED]** khoảng vài nghìn token/s, nên tổng
-khoảng **vài giờ GPU**. Đo throughput thật ở bước pilot trước khi chạy hết.
+**Thời gian và throughput:** không ước tính. Theo yêu cầu của bạn, không có claim nào về throughput hay tổng thời gian
+chạy. Cả hai được đo ở engineering pilot (`latency_s` và token theo từng call được ghi trong output), rồi mới lập kế
+hoạch cho main.
 
 ## 3. CPU trong cloud (đã đo, không phải ước tính)
 
-- `make test`: 78 test, khoảng 0,5 s.
-- `make smoke`: dưới 1 s.
-- Sampling: khoảng 1,2 s.
-- Plumbing run trên 453 ví dụ: 4 s.
+Đo ngày 2026-11-05, trừ khi ghi khác:
+- `make test`: 104 test, khoảng 0,7 s.
+- `make smoke`: khoảng 1,1 s.
+- Sampling: khoảng 1,2 s (đo ngày 2026-11-04).
+- Plumbing run `configs/pilot_local.yaml` trên 453 ví dụ: khoảng 10 s. Ngày 2026-11-04 là 4 s; thời gian tăng vì
+  có thêm cluster bootstrap và metric condensed.
 
 ## 4. Chi phí tiền
 

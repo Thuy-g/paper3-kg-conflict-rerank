@@ -9,6 +9,7 @@ from dataclasses import dataclass
 
 from kgrerank.extract.claims import Claim
 from kgrerank.extract.linker import EntityLinker, Link
+from kgrerank.frames.schema import InferenceFrame
 from kgrerank.kg.time import temporal_relation
 from kgrerank.kg.view import (
     Q_MANDATORY,
@@ -18,7 +19,6 @@ from kgrerank.kg.view import (
     Q_SUGGESTION,
     KGView,
 )
-from kgrerank.perturb.operators import QuestionFrame
 from kgrerank.signals import (
     Basis,
     Cardinality,
@@ -48,14 +48,10 @@ class Resolved:
     inverse: bool = False
 
 
-def resolve(claim: Claim, linker: EntityLinker, kg: KGView, frame: QuestionFrame) -> Resolved:
+def resolve(claim: Claim, linker: EntityLinker, kg: KGView, frame: InferenceFrame) -> Resolved:
     """Link mentions and map the relation label; inverse statements are flipped to the frame's
     property (s, p', o) -> (o, p, s) when p' is declared inverse of p."""
     subj = linker.link(claim.subject, claim.note)
-    if subj.status == "ambiguous" and frame.subject in subj.candidates and not claim.note:
-        # Default reading: a bare name in a passage retrieved for this question means the
-        # question's entity (weaker evidence than a unique match; a description overrides it).
-        subj = Link(claim.subject, (frame.subject,), "unique", "default_question_entity")
     obj = linker.link(claim.obj)
     prop = linker.property_by_label(claim.relation)
     if prop and prop != frame.prop and kg.declared_inverse(frame.prop, prop):
@@ -79,7 +75,7 @@ class PairSignals:
 
 
 def subject_identity(
-    cand: Resolved, ref: Resolved | None, frame: QuestionFrame
+    cand: Resolved, ref: Resolved | None, frame: InferenceFrame
 ) -> EntityIdentitySignal:
     link = cand.subject
     if link.status == "unique":
@@ -103,7 +99,7 @@ def subject_identity(
 
 
 def relation_semantics(
-    cand: Resolved, ref: Resolved, kg: KGView, frame: QuestionFrame
+    cand: Resolved, ref: Resolved, kg: KGView, frame: InferenceFrame
 ) -> RelationSemanticsSignal:
     if cand.inverse:
         return RelationSemanticsSignal(
@@ -126,7 +122,7 @@ def relation_semantics(
 
 
 def object_identity(
-    cand: Resolved, ref: Resolved, kg: KGView, frame: QuestionFrame
+    cand: Resolved, ref: Resolved, kg: KGView, frame: InferenceFrame
 ) -> EntityIdentitySignal:
     if ref is None:
         return EntityIdentitySignal(Identity.UNKNOWN, "no_reference", Basis("none"))
@@ -158,7 +154,7 @@ def object_identity(
 
 
 def temporal_overlap(
-    cand: Resolved, ref: Resolved | None, frame: QuestionFrame
+    cand: Resolved, ref: Resolved | None, frame: InferenceFrame
 ) -> TemporalOverlapSignal:
     """Against the question's time when it has one; otherwise against the reference claim."""
     ta = cand.claim.time
@@ -174,9 +170,9 @@ def temporal_overlap(
         return TemporalOverlapSignal(TemporalRelation.UNKNOWN, Basis("none", note="no_reference"))
     tb = ref.claim.time
     if ta is None and tb is None:
-        # Assumption (policy v0): two unscoped statements are read as being about the same time.
+        # Missing dates do not show that two statements are about the same time (policy v0.2).
         return TemporalOverlapSignal(
-            TemporalRelation.OVERLAP, Basis("assumption", note="both_unscoped")
+            TemporalRelation.UNKNOWN, Basis("passage", note="both_unscoped")
         )
     if ta is None or tb is None:
         return TemporalOverlapSignal(
@@ -185,7 +181,7 @@ def temporal_overlap(
     return TemporalOverlapSignal(temporal_relation(ta, tb), Basis("passage", note="compared"))
 
 
-def cardinality(kg: KGView, frame: QuestionFrame) -> CardinalitySignal:
+def cardinality(kg: KGView, frame: InferenceFrame) -> CardinalitySignal:
     info = kg.property(frame.prop)
     if info is None:
         return CardinalitySignal(Cardinality.UNKNOWN, Basis("none"))
@@ -206,7 +202,7 @@ def cardinality(kg: KGView, frame: QuestionFrame) -> CardinalitySignal:
     return CardinalitySignal(Cardinality.NONE_DECLARED, Basis(f"kg:{frame.prop}#P2302"))
 
 
-def mutability(kg: KGView, frame: QuestionFrame) -> MutabilitySignal:
+def mutability(kg: KGView, frame: InferenceFrame) -> MutabilitySignal:
     info = kg.property(frame.prop)
     if info is None or info.mutability not in ("stable", "mutable"):
         return MutabilitySignal(Mutability.UNKNOWN, Basis("none"))
@@ -216,7 +212,7 @@ def mutability(kg: KGView, frame: QuestionFrame) -> MutabilitySignal:
 
 
 def qualifier_evidence(
-    cand: Resolved, kg: KGView, frame: QuestionFrame
+    cand: Resolved, kg: KGView, frame: InferenceFrame
 ) -> QualifierEvidenceSignal | None:
     if cand.obj.status != "unique":
         return None
@@ -229,7 +225,7 @@ def qualifier_evidence(
 
 
 def pair_signals(
-    cand: Resolved, ref: Resolved | None, kg: KGView, frame: QuestionFrame
+    cand: Resolved, ref: Resolved | None, kg: KGView, frame: InferenceFrame
 ) -> PairSignals:
     bundle = SignalBundle(
         cardinality_constraint=cardinality(kg, frame),

@@ -58,6 +58,31 @@ class SampledItem:
     double: bool = False
 
 
+_MONTHS = {
+    m: i
+    for i, m in enumerate(
+        ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1
+    )
+}
+
+
+def normalize_date(raw: str | None) -> str:
+    """Display date for annotators: ISO 'YYYY-MM-DD', or '' when missing ('NA').
+
+    Formats seen in conflicts.jsonl: 'NA', 'YYYY-MM-DD', 'YYYY-MM-DD HH:MM:SS', 'Mon DD, YYYY'.
+    Anything else is shown unchanged. Display only: sampling never depends on dates.
+    """
+    s = (raw or "").strip()
+    if not s or s.upper() == "NA":
+        return ""
+    if len(s) >= 10 and s[4] == "-" and s[7] == "-" and s[:4].isdigit():
+        return s[:10]
+    parts = s.replace(",", "").split()
+    if len(parts) == 3 and parts[0][:3] in _MONTHS and parts[1].isdigit() and parts[2].isdigit():
+        return f"{int(parts[2]):04d}-{_MONTHS[parts[0][:3]]:02d}-{int(parts[1]):02d}"
+    return s
+
+
 def sha256_text(text: str) -> str:
     return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
@@ -100,7 +125,7 @@ def conflicts_frame(
         ref = ex.answers[0] if ex.answers else ""
         if require_reference and not ref:
             continue
-        dates = {r["pid"]: r.get("date") or "" for r in ex.meta["results"]}
+        dates = {r["pid"]: normalize_date(r.get("date")) for r in ex.meta["results"]}
         passages = _dedupe(
             FramePassage(c.pid, c.title, c.text, dates.get(c.pid, ""), None, sha256_text(c.text))
             for c in ex.candidates

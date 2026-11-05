@@ -41,6 +41,9 @@ def test_smoke_run(tmp_path):
     assert s["oracle:drop_any_reason"]["fcfr_paired@5"]["mean"] == 1.0
     assert s["bm25"]["fcfr_paired@5"]["mean"] == 0.0  # the reference against itself
     assert s["llm_judge_mock"]["llm_calls"]["mean"] > 0
+    assert s["g2plus:S0"]["llm_calls"]["mean"] > s["g2plus:S3"]["llm_calls"]["mean"]
+    assert "manual" in payload["summary"]["typing"]["g2plus:S3"]
+    assert payload["summary"]["information_access"]["g2plus:S3"]["answer_facts_access"]
     assert payload["perturbation_counts"]["temporal_unstated"].get("UNKNOWN", 0) >= 1
     log = (out / "api_usage.jsonl").read_text(encoding="utf-8").splitlines()
     assert log and json.loads(log[0])["backend"] == "mock"

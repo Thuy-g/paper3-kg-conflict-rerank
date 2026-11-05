@@ -7,7 +7,7 @@ from kgrerank.metrics.conflict import conflict_metrics
 from kgrerank.perturb.operators import OPERATORS, apply_operators
 from kgrerank.rerankers.base import Ranking, check_ranking
 from kgrerank.rerankers.bm25 import BM25Reranker, bm25_scores
-from kgrerank.rerankers.llm_judge import LLMJudgeFilter, parse_decision
+from kgrerank.rerankers.llm_judge import LLMJudgeFilter, LLMTyper, parse_decision_json
 from kgrerank.rerankers.simple import IdentityReranker, OracleReranker, RandomReranker
 from kgrerank.schema import Candidate, Decision, Example
 
@@ -63,15 +63,17 @@ def test_oracles_hit_metric_extremes(toy_examples, toy_kg):
             assert g["fcfr_paired@5"] == 0.0 and b["fcfr_paired@5"] == 1.0
         if g["ger_paired@5"] is not None:
             assert g["ger_paired@5"] == 1.0
-        assert g["wfr"] in (None, 0.0)
+        assert g["wfr_compat_v1"] in (None, 0.0)
 
 
 def test_llm_judge_with_mock(toy_examples):
-    judge = LLMJudgeFilter(base=IdentityReranker(), backend=MockLLM(), top_m=2)
-    r1 = judge.rank(toy_examples[0])
-    r2 = LLMJudgeFilter(base=IdentityReranker(), backend=MockLLM(), top_m=2).rank(toy_examples[0])
-    assert r1 == r2 and r1.llm_calls == 2
+    def judge():
+        return LLMJudgeFilter(base=IdentityReranker(), typer=LLMTyper(MockLLM()), top_m=2)
+
+    r1, r2 = judge().rank(toy_examples[0]), judge().rank(toy_examples[0])
+    assert (r1.order, r1.removed) == (r2.order, r2.removed)  # latency differs between runs
+    assert r1.llm_calls == 2 and r1.llm_usage["by_role"] == {"typer": 2}
     check_ranking(toy_examples[0], r1)
-    assert parse_decision(" contradicting.") is Decision.CONTRADICTING
-    assert parse_decision("maybe") is Decision.UNKNOWN
-    assert parse_decision("") is Decision.UNKNOWN
+    assert parse_decision_json('{"decision": "contradicting"}') == (Decision.CONTRADICTING, "ok")
+    assert parse_decision_json("maybe") == (None, "parse_error")
+    assert parse_decision_json('{"decision": "MAYBE"}') == (None, "parse_error")

@@ -50,7 +50,14 @@ class PatternExtractor:
         rel = "|".join(re.escape(r) for r in labels) if labels else _GENERIC_REL
         self.patterns = _patterns(rel)
 
-    def extract(self, pid: str, text: str) -> Claim | None:
+    def extract_with_status(
+        self, pid: str, text: str, question: str = ""
+    ) -> tuple[Claim | None, str]:
+        claim = self.extract(pid, text, question)
+        return claim, ("ok" if claim is not None else "no_claim")
+
+    def extract(self, pid: str, text: str, question: str = "") -> Claim | None:
+        """``question`` is accepted for interface parity and ignored (templates are complete)."""
         for pat in self.patterns:
             m = pat.match(text.strip())
             if not m:

@@ -56,12 +56,35 @@ def removed_share(target: set[str], ranking: Ranking) -> float | None:
     return _ratio(len(target & ranking.removed), len(target))
 
 
-def wfr(ex: Example, ranking: Ranking) -> float | None:
-    """EvoTrustRAG Eq. 8 per query: 1 if any passage that should stay available was removed.
+def answer_support_of(c: Candidate) -> str | None:
+    """Human answer_support of a candidate (from its annotation evidence), else None."""
+    for ev in c.evidence:
+        if ev.ref.startswith("annotation:") and "answer_support" in ev.detail:
+            return str(ev.detail["answer_support"])
+    return None
 
-    'Should remain available' = COMPATIBLE passages. Undefined when the query has none.
-    """
+
+def wfr_compat_v1(ex: Example, ranking: Ranking) -> float | None:
+    """EvoTrustRAG Eq. 8 per query with G_keep = all COMPATIBLE passages (version 1)."""
     keep = compatible(ex)
+    if not keep:
+        return None
+    return float(bool(keep & ranking.removed))
+
+
+def wfr_support_v1(ex: Example, ranking: Ranking) -> float | None:
+    """Eq. 8 with G_keep = COMPATIBLE passages whose human answer_support is yes or partial.
+
+    Undefined when no candidate of the query has a human answer_support value.
+    """
+    known = {c.pid: answer_support_of(c) for c in ex.candidates}
+    if all(v is None for v in known.values()):
+        return None
+    keep = {
+        c.pid
+        for c in ex.candidates
+        if c.decision is Decision.COMPATIBLE and known[c.pid] in ("yes", "partial")
+    }
     if not keep:
         return None
     return float(bool(keep & ranking.removed))
@@ -70,20 +93,29 @@ def wfr(ex: Example, ranking: Ranking) -> float | None:
 def conflict_metrics(
     ex: Example, ranking: Ranking, ref: Ranking, ks: Iterable[int], reasons: Iterable[str] = ()
 ) -> dict[str, float | None]:
+    """Per-query metrics; keys starting with 'den:' are denominators (passage counts)."""
     out: dict[str, float | None] = {}
-    a_set, n_set = apparent_compatible(ex), contradicting(ex)
+    a_set, n_set, k_set = apparent_compatible(ex), contradicting(ex), compatible(ex)
+    out["den:A"], out["den:N"], out["den:K"] = (
+        float(len(a_set)),
+        float(len(n_set)),
+        float(len(k_set)),
+    )
     for k in ks:
         out[f"fcfr_abs@{k}"] = outside_top_k(a_set, ranking, k)
         out[f"fcfr_paired@{k}"] = paired_outside_top_k(a_set, ranking, ref, k)
         out[f"ger_abs@{k}"] = outside_top_k(n_set, ranking, k)
         out[f"ger_paired@{k}"] = paired_outside_top_k(n_set, ranking, ref, k)
+        out[f"den:A_ref@{k}"] = float(len(a_set & set(ref.top(k))))
+        out[f"den:N_ref@{k}"] = float(len(n_set & set(ref.top(k))))
         for r in reasons:
             out[f"fcfr_paired@{k}[{r}]"] = paired_outside_top_k(
                 apparent_compatible(ex, r), ranking, ref, k
             )
     out["fcfr_filter"] = removed_share(a_set, ranking)
     out["ger_filter"] = removed_share(n_set, ranking)
-    out["wfr"] = wfr(ex, ranking)
+    out["wfr_compat_v1"] = wfr_compat_v1(ex, ranking)
+    out["wfr_support_v1"] = wfr_support_v1(ex, ranking)
     return out
 
 

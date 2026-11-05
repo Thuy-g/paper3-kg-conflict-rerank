@@ -1,0 +1,26 @@
+# Frames for the 12 PILOT questions on the MSI machine with Qwen3-8B (non-thinking): the first real-
+# backend check (step 4). Never the main set. Output is not a result; the run manifest goes to
+# outputs/ (gitignored). Any parser-prompt change happens here (new parser_version), never after a
+# main-set run.
+frames_version: v1
+annotation_dir: data/annotation/v1
+sets: [pilot]
+kg_view: data/wikidata_view/kgview.json   # same view as engineering_pilot.yaml (reports/05 §4);
+                                          # before it exists, data/wikidata_slice/kgview.json
+                                          # gives a plumbing check (most mentions unlinked)
+backend:
+  type: openai_compat
+  model: Qwen/Qwen3-8B
+  base_url: http://localhost:8000/v1
+  timeout: 120
+  extra_body: {chat_template_kwargs: {enable_thinking: false}}
+  sampling: {top_p: 0.8, top_k: 20, min_p: 0.0}
+max_tokens: 256
+seed: 0
+snapshots:
+  conflicts: {name: conflicts_collection_window, start: "2025-04-03", end: "2025-06-15",
+              basis: "data-derived lower bound and paper-date upper bound; owner to confirm"}
+  twowiki: {name: twowiki_undefined, basis: "no snapshot defined: relative time stays unresolved"}
+audit: {n_questions: 30, seed: 20261105}
+out_dir: data/frames/v1
+manifest: outputs/frames/frames_v1_pilot_run.json

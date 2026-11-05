@@ -34,6 +34,7 @@ def main() -> int:
     with (ROOT / sc["path"]).open(encoding="utf-8") as fh:
         conflicts = [json.loads(line) for line in fh if line.strip()]
     twowiki = json.loads((ROOT / cfg["sources"]["twowiki"]["path"]).read_text(encoding="utf-8"))
+    report: dict = {}
     examples = gold_examples(
         read_jsonl(layout.gold(args.set)),
         load_key(layout),
@@ -42,9 +43,12 @@ def main() -> int:
         sc["text_field"],
         int(sc["max_chars"]),
         f"annotation_{cfg['sample_version']}_{args.set}",
+        report,
     )
     n = write_jsonl(layout.gold_examples(args.set), examples)
-    print(f"{n} examples -> {layout.gold_examples(args.set)}")
+    rep_path = layout.gold_examples(args.set).with_suffix(".report.json")
+    rep_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    print(f"{n} examples -> {layout.gold_examples(args.set)}; report -> {rep_path}")
     return 0
 
 
