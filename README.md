@@ -5,4 +5,5 @@
    Constraints: single RTX 5090 (32 GB VRAM) + 64 GB RAM, Ubuntu WSL2,
    local open-weight LLMs via vLLM and Macbook Air M4 (RAM 24 GB and SSD 512 GB); paid APIs only with explicit budget.
    Upstream (read-only): STAIR-BUPT/TruthfulRAG, GraphRAG-Bench/GraphRAG-Benchmark,
-   HYU-NLP/MAGIC, google-research-datasets/rag_conflicts.
+   HYU-NLP/MAGIC, google-research-datasets/rag_conflicts. 
+   I temporarily postpone doing this project because I have to complete my second journal paper relating knowledge graph before March of 2027.
