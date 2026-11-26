@@ -1,0 +1,19 @@
+fetched_at_utc	http	bytes	sha256	url	saved_as
+2026-11-04T03:35:56Z	200	21718	217d40f6b9e897aa510470e0f27e544829fe67bc4aa9babdf125d60647037ea0	https://www.wikidata.org/wiki/Help:Property_constraints_portal?action=raw	portal.wikitext
+2026-11-04T03:36:12Z	200	5242	7df3d53fc06b5055c3cb50de3c10006db4f599901be4450db704ebe7b1592435	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Single_value?action=raw	sub_Single_value.wikitext
+2026-11-04T03:36:14Z	200	2291	51a3963ac66f66de7df40d15fe5aa508723f495b78a031546f4c500b39f9ba24	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Single_best_value?action=raw	sub_Single_best_value.wikitext
+2026-11-04T03:36:16Z	200	2548	a5dbddaca84ff128ff27538c0a331483528d4f7b114714bf1547ac386ccf20f7	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Multi_value?action=raw	sub_Multi_value.wikitext
+2026-11-04T03:36:18Z	200	60	25376eb7e825d430fc1ecc75f75ab91c7a3a8a3e0ae8acca570ae33fd5893eaf	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Type?action=raw	sub_Type.wikitext
+2026-11-04T03:36:20Z	200	58	e23b9ea9753e735eb8602ad330173bd3fd77f97d003c9b2eb3aef5e66ba97e98	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Value_type?action=raw	sub_Value_type.wikitext
+2026-11-04T03:36:21Z	200	3402	1d4843a4c8c9f65f2dfc31c2c3fea3c69babfd82bc112a638eb1e79cf91698f8	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Inverse?action=raw	sub_Inverse.wikitext
+2026-11-04T03:36:23Z	429	1966	5c61fc2071899d4f(prefix; file overwritten by retry)	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Qualifiers?action=raw	sub_Qualifiers.wikitext
+2026-11-04T03:36:25Z	200	65	000a049a118a4bffd2a700f699ec98bf94251d4ca920b61b4af4031901f67ef5	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Mandatory_qualifiers?action=raw	sub_Mandatory_qualifiers.wikitext
+2026-11-04T03:36:27Z	200	2991	6f7caa3254095c3a545c28fe886bcfbf6549eca4960c833173da91d00d19655f	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Symmetric?action=raw	sub_Symmetric.wikitext
+2026-11-04T03:36:28Z	200	2887	65605fba0207e3ba1d3280de93f1f4b3a14111b342188e96ba676fba55fba8b8	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Contemporary?action=raw	sub_Contemporary.wikitext
+2026-11-04T03:36:51Z	200	5702	9a4c4c3a2bfc058a54393b8c8730d743c1a3fa8710668d6c3dda84aa0566c40a	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Subject_class?action=raw	sub_Subject_class.wikitext
+2026-11-04T03:36:54Z	200	5324	c8b1d7810bd83f6996b317eb8d1ed0e941d13c6ebea3ebc73e223afb42b43635	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Value_class?action=raw	sub_Value_class.wikitext
+2026-11-04T03:36:57Z	200	3807	06e9fbe46b823a90f514306367a9ee438dc04d34c529931403b3fd17227f902b	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Required_qualifiers?action=raw	sub_Required_qualifiers.wikitext
+2026-11-04T03:37:01Z	200	4996	45ebd27ced3b6d0c8e565d36bcbaac85be96632a8e7fd2f4a133deafe7d31dba	https://www.wikidata.org/wiki/Help:Property_constraints_portal/Qualifiers?action=raw	sub_Qualifiers.wikitext
+2026-11-04T03:37:04Z	200	7768	aea1de01501226424c65e17e2ab2c320be72c32e80ddd35027eaacc06ff1e1fe	https://www.wikidata.org/wiki/Help:Qualifiers?action=raw	help_qualifiers.wikitext
+2026-11-04T03:37:07Z	429	1966	c29a18b27e0005ca69925e30d9ff8bdd58d57c13665b450ea55892a1020e3d1e	https://www.wikidata.org/wiki/Help:Ranking?action=raw	help_ranking.wikitext
+2026-11-04T03:37:35Z	200	22265	5cb8cd660d78f20075ca890d63068c61e0fb21a640ed702babcccec02cffa878	https://query.wikidata.org/sparql (VALUES label/description query, see 02d_kg_sources_and_constraints.md §1.2)	labels.json

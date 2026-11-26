@@ -1,0 +1,17 @@
+queried_at_utc	id	status	response_sha256	query (endpoint https://dbpedia.org/sparql, live; not the 2022.12.01 release files)
+2026-11-04T03:46:43Z	ask_dbp_domain	200 44B	4eb18aa664c6c15e84b313f9158a973979c958735591f01feac4c0c7d82d70d4	ASK { ?p rdfs:domain ?d . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/")) }
+2026-11-04T03:46:46Z	ask_dbp_range	200 44B	4eb18aa664c6c15e84b313f9158a973979c958735591f01feac4c0c7d82d70d4	ASK { ?p rdfs:range ?r . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/")) }
+2026-11-04T03:46:49Z	n_dbo_functional	200 217B	bc0fb5631091bb6650c2c9ebef0ed13d0837189908cd4bd92dd9be49862fd6ec	SELECT (COUNT(DISTINCT ?p) AS ?n) WHERE { ?p a owl:FunctionalProperty . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/ontology/")) }
+2026-11-04T03:46:51Z	n_dbo_domain	200 219B	5499a00cfe9431aeef55ef49452d1109e4ee60f817e62a475f911edba112a5ec	SELECT (COUNT(DISTINCT ?p) AS ?n) WHERE { ?p rdfs:domain ?d . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/ontology/")) }
+2026-11-04T03:46:54Z	hcmc_dbp	200 10773B	0860c20525b23850ffb22efc789001f2557b3814f64645e0449331f23205652d	SELECT ?p ?o WHERE { <http://dbpedia.org/resource/Ho_Chi_Minh_City> ?p ?o . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/")) } LIMIT 60
+2026-11-04T03:46:56Z	tokyo_leader	200 1150B	744ce5eb24e8e8476b3f7f24c701562b463a79d16bdaf091086a731dae7dd957	SELECT ?p ?o WHERE { <http://dbpedia.org/resource/Tokyo> ?p ?o . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/") && (CONTAINS(LCASE(STR(?p)),"leader") || CONTAINS(LCASE(STR(?p)),"governor") || CONTAINS(LCASE(STR(?p)),"term"))) } LIMIT 30
+2026-11-04T03:53:12Z	q1_names	200 2723B	0b38f478bbf1a64b934da3360379e50aa5f03e07e5ccb4da37f14513e2303d3f	SELECT ?p ?o WHERE { <http://dbpedia.org/resource/Ho_Chi_Minh_City> ?p ?o . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/") && CONTAINS(LCASE(STR(?p)),"name")) } LIMIT 40
+2026-11-04T03:53:15Z	q2_names	200 43B	f7d6c56fd9fda7c23e862529348a2d08f3b06530d99acc2adf762522fadcc083	ASK { <http://dbpedia.org/resource/Saigon> <http://dbpedia.org/ontology/wikiPageRedirects> <http://dbpedia.org/resource/Ho_Chi_Minh_City> }
+2026-11-04T03:53:17Z	q3_names	200 3097B	48122938f6725269be85387cb84ae87ab3380a6ca136d796b85655a74bb7ce75	SELECT ?p ?o WHERE { <http://dbpedia.org/resource/Mumbai> ?p ?o . FILTER(STRSTARTS(STR(?p), "http://dbpedia.org/property/") && (CONTAINS(LCASE(STR(?p)),"name") || CONTAINS(LCASE(STR(?p)),"former"))) } LIMIT 40
+
+fetched_at_utc(file mtime)	databus_url (Accept: application/ld+json)	response_sha256
+2026-11-04T03:38:06Z	https://databus.dbpedia.org/dbpedia/generic	957cd606647eacd3fe6de29ce42b3ac28b76ed7c332943837755494d150c845f
+2026-11-04T03:38:03Z	https://databus.dbpedia.org/dbpedia/generic/infobox-properties	05d03d325d74df94acbf5b1aa336ced27044f5b798b7a7497206698788f4273d
+2026-11-04T03:38:27Z	https://databus.dbpedia.org/dbpedia/generic/infobox-properties/2022.12.01	cb431c47e32ff3d41cabede3a183584a4216fd3ac8334cbcce08ec3666be52ba
+2026-11-04T03:38:08Z	https://databus.dbpedia.org/dbpedia/mappings/mappingbased-objects	7a754b4ec049f92efd46df2afd9c8a12aca6394050292b86127374388e914d9b
+2026-11-04T03:48:47Z	https://databus.dbpedia.org/dbpedia/mappings	fb205ebd67b90ccae991d1cbef9ea8901ea14b82d93142adbe0e16fba6ccf3bc

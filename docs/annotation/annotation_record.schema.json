@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Annotation record (one annotator, one item)",
+  "description": "Normalised record written by scripts/annotation/submit.py. Enumerations must match src/kgrerank/annotation/schema.py (checked by tests/test_annotation_docs.py).",
+  "type": "object",
+  "required": ["item_id", "annotator_id", "codebook_version", "decision", "reasons", "answer_support"],
+  "additionalProperties": false,
+  "properties": {
+    "item_id": {"type": "string", "pattern": "^it_[0-9a-f]{12}$"},
+    "annotator_id": {"type": "string"},
+    "codebook_version": {"type": "string"},
+    "decision": {"enum": ["COMPATIBLE", "CONTRADICTING", "IRRELEVANT", "UNKNOWN"]},
+    "reasons": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["alias", "historical_identity", "hierarchy", "geographic_granularity", "temporal_scope", "entity_identity_mismatch", "homonym", "inverse_relation", "predicate_mismatch", "counterfactual", "unknown"]}
+    },
+    "answer_support": {"enum": ["yes", "partial", "no", "unclear"]},
+    "confidence": {"enum": ["high", "medium", "low", ""]},
+    "rationale": {"type": "string"},
+    "reason_note": {"type": "string"},
+    "flags": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["passage_truncated", "passage_unreadable", "question_ambiguous", "reference_unclear", "reference_suspect", "needs_domain_knowledge"]}
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"decision": {"enum": ["CONTRADICTING", "IRRELEVANT"]}}},
+     "then": {"properties": {"answer_support": {"enum": ["no", "unclear"]}}}},
+    {"if": {"properties": {"decision": {"enum": ["CONTRADICTING", "UNKNOWN"]}}},
+     "then": {"properties": {"rationale": {"minLength": 1}}, "required": ["rationale"]}}
+  ]
+}

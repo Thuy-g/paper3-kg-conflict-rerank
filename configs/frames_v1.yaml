@@ -1,0 +1,24 @@
+# Question frames for the annotation set (inference input of G2+; never gold).
+# The parser reads only (qid, question). Relative time uses the benchmark snapshot below.
+frames_version: v1
+annotation_dir: data/annotation/v1          # reads key.jsonl (source, qid) + items (question only)
+sets: [main]
+kg_view: data/wikidata_slice/kgview.json    # MSI: replace with a view covering the question mentions
+backend:                                    # cloud: mock; MSI: see configs/msi/qwen3_8b.yaml
+  type: mock
+max_tokens: 256
+seed: 0
+snapshots:
+  conflicts:
+    name: conflicts_collection_window
+    start: "2025-04-03"   # latest dated search result in conflicts.jsonl (computed 2026-11-05)
+    end: "2025-06-15"     # arXiv 2506.08500v2 date [paper p.1]; v1 date not checked
+    basis: "data-derived lower bound and paper-date upper bound; owner to confirm"
+  twowiki:
+    name: twowiki_undefined
+    basis: "no snapshot defined: relative time stays unresolved"
+audit:
+  n_questions: 30
+  seed: 20261105
+out_dir: data/frames/v1
+manifest: manifests/frames_v1_run.json

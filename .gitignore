@@ -1,0 +1,30 @@
+# Read-only upstream clones (never commit, never modify)
+/third_party/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+/build/
+/dist/
+
+# Runtime artefacts (anchored at repo root so that src/kgrerank/data/ is NOT ignored)
+/logs/
+/outputs/
+# Third-party dataset slices are re-created by scripts (licence: do not redistribute)
+/data/
+
+# Secrets
+.env
+.env.*
+*.key
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

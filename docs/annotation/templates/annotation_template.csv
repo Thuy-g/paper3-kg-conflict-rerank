@@ -1,0 +1,4 @@
+item_id,question,reference_answer,passage_title,passage_date,passage_text,decision,reasons,answer_support,confidence,rationale,reason_note,flags
+it_example0001,Who was the head of government of Port Avalon in 2010? [SYNTHETIC EXAMPLE],Mira Okonkwo,Port Avalon,2013-02-01,Mira Okonkwo led the city government from 2005 to 2012.,COMPATIBLE,,yes,high,,,
+it_example0002,Who was the head of government of Port Avalon in 2010? [SYNTHETIC EXAMPLE],Mira Okonkwo,Port Avalon,,In 2010 the head of government of Port Avalon was Bram Ostler.,CONTRADICTING,counterfactual,no,high,Names a different person for the same office and year.,,
+it_example0003,Who was the head of government of Port Avalon in 2010? [SYNTHETIC EXAMPLE],Mira Okonkwo,Port Avalon,,Ivo Sallis led Port Avalon's government for many years.,UNKNOWN,temporal_scope,unclear,medium,No dates: cannot tell whether this covers 2010.,,

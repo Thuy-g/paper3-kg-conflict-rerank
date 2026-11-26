@@ -1,0 +1,1973 @@
+{
+  "annotations": [
+    {
+      "added": "manually in session 2026-11-04 (not by the script)",
+      "run1_failed_requests": [
+        {
+          "status": 429,
+          "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fe+%3Flabel+%3Fdesc+%3Ftype+%3Fparent+%3Frev+WHERE+%7B+VALUES+%3Fe+%7B+…",
+          "utc": "2026-11-04T04:24:57Z"
+        },
+        {
+          "status": 429,
+          "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fe+%3Flabel+%3Fdesc+%3Ftype+%3Fparent+%3Frev+WHERE+%7B+VALUES+%3Fe+%7B+…",
+          "utc": "2026-11-04T04:25:30Z"
+        }
+      ],
+      "text": "Run 1 stopped after WDQS answered HTTP 429 twice (one polite retry) to the describe query; its 9 successful responses (titles query + 8 seed entities) were reused by run 2 from data/ (marked reused_from_previous_run). Run 2 fetched properties first and completed; WDQS answered 200."
+    }
+  ],
+  "committed": "manifest only; raw responses and kgview stay in data/ (gitignored)",
+  "config": {
+    "describe_depth": 2,
+    "keep_properties": [
+      "P31",
+      "P17",
+      "P131",
+      "P361",
+      "P36",
+      "P6",
+      "P1448",
+      "P1449",
+      "P2561",
+      "P1813"
+    ],
+    "languages": [
+      "en",
+      "vi",
+      "ja"
+    ],
+    "manifest": "manifests/wikidata_reference_slice.json",
+    "max_ids": 200,
+    "max_response_bytes": 6000000,
+    "max_stored_bytes": 10000000,
+    "out_dir": "data/wikidata_slice",
+    "properties": [
+      "P31",
+      "P279",
+      "P131",
+      "P361",
+      "P17",
+      "P19",
+      "P20",
+      "P569",
+      "P570",
+      "P22",
+      "P25",
+      "P40",
+      "P26",
+      "P27",
+      "P6",
+      "P35",
+      "P39",
+      "P54",
+      "P161",
+      "P36",
+      "P1448",
+      "P1449",
+      "P2561",
+      "P1813",
+      "P580",
+      "P582",
+      "P585",
+      "P1696",
+      "P1647"
+    ],
+    "seed_enwiki_titles": [
+      "Ho Chi Minh City",
+      "Mumbai",
+      "Tokyo",
+      "Kyoto",
+      "Saint Petersburg",
+      "Chennai",
+      "Paris",
+      "Paris, Texas"
+    ],
+    "sleep_s": 2.0,
+    "user_agent": "kgrerank-prototype/0.1 (research prototype; low-volume; python/urllib)"
+  },
+  "constraint_summary": {
+    "P131": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        1
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "mandatory",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P1448": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P1449": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P161": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "-",
+        1
+      ],
+      [
+        "Q21502838",
+        "-",
+        3
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21510864",
+        "suggestion",
+        3
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P1647": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "-",
+        0
+      ],
+      [
+        "Q21503250",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P1696": [
+      [
+        "Q19474404",
+        "-",
+        0
+      ],
+      [
+        "Q21502410",
+        "-",
+        0
+      ],
+      [
+        "Q21503247",
+        "-",
+        0
+      ],
+      [
+        "Q21503250",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21510865",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P17": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "-",
+        1
+      ],
+      [
+        "Q21502838",
+        "-",
+        4
+      ],
+      [
+        "Q21510851",
+        "-",
+        3
+      ],
+      [
+        "Q21510864",
+        "suggestion",
+        3
+      ],
+      [
+        "Q21510865",
+        "-",
+        5
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        1
+      ],
+      [
+        "Q52558054",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P1813": [
+      [
+        "Q21502404",
+        "suggestion",
+        7
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P19": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        1
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "suggestion",
+        1
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P20": [
+      [
+        "Q21503247",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21503247",
+        "suggestion",
+        2
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        1
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "suggestion",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P22": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "-",
+        1
+      ],
+      [
+        "Q21503250",
+        "-",
+        2
+      ],
+      [
+        "Q21510851",
+        "-",
+        1
+      ],
+      [
+        "Q21510855",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        26
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        25
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P25": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "-",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510855",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        1
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        2
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        10
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P2561": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P26": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510862",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P27": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        1
+      ],
+      [
+        "Q21510851",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P279": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        8
+      ],
+      [
+        "Q21510864",
+        "-",
+        2
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        1
+      ],
+      [
+        "Q52558054",
+        "-",
+        2
+      ],
+      [
+        "Q52558054",
+        "-",
+        3
+      ],
+      [
+        "Q52558054",
+        "-",
+        4
+      ],
+      [
+        "Q52558054",
+        "-",
+        5
+      ],
+      [
+        "Q52558054",
+        "-",
+        7
+      ],
+      [
+        "Q52558054",
+        "-",
+        8
+      ],
+      [
+        "Q52558054",
+        "-",
+        12
+      ],
+      [
+        "Q52558054",
+        "-",
+        15
+      ],
+      [
+        "Q52558054",
+        "-",
+        16
+      ],
+      [
+        "Q52558054",
+        "-",
+        18
+      ],
+      [
+        "Q52558054",
+        "-",
+        31
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        23
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P31": [
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510859",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        1
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        1
+      ],
+      [
+        "Q52558054",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P35": [
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510856",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P36": [
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510855",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        15
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P361": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        3
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P39": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        1
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        2
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        0
+      ],
+      [
+        "Q52558054",
+        "suggestion",
+        44
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P40": [
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        1
+      ],
+      [
+        "Q25796498",
+        "-",
+        20
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P54": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        0
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52558054",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P569": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21503247",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21503250",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510860",
+        "-",
+        5
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52060874",
+        "suggestion",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P570": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21503247",
+        "suggestion",
+        0
+      ],
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510854",
+        "-",
+        6
+      ],
+      [
+        "Q21510860",
+        "-",
+        20
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "suggestion",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ],
+      [
+        "Q54554025",
+        "suggestion",
+        0
+      ]
+    ],
+    "P580": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "-",
+        1
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P582": [
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q21502838",
+        "-",
+        1
+      ],
+      [
+        "Q21502838",
+        "-",
+        3
+      ],
+      [
+        "Q21503247",
+        "mandatory",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510854",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "mandatory",
+        0
+      ]
+    ],
+    "P585": [
+      [
+        "Q19474404",
+        "suggestion",
+        5
+      ],
+      [
+        "Q21502838",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ],
+    "P6": [
+      [
+        "Q21503250",
+        "-",
+        0
+      ],
+      [
+        "Q21510851",
+        "-",
+        0
+      ],
+      [
+        "Q21510856",
+        "-",
+        0
+      ],
+      [
+        "Q21510864",
+        "-",
+        0
+      ],
+      [
+        "Q21510865",
+        "-",
+        1
+      ],
+      [
+        "Q25796498",
+        "-",
+        0
+      ],
+      [
+        "Q52004125",
+        "mandatory",
+        0
+      ],
+      [
+        "Q52060874",
+        "-",
+        0
+      ],
+      [
+        "Q53869507",
+        "-",
+        0
+      ]
+    ]
+  },
+  "counts": {
+    "entities": 171,
+    "ids_total": 200,
+    "properties": 29,
+    "seed_entities": 8,
+    "statements": 498
+  },
+  "created_utc": "2026-11-04T04:27:35Z",
+  "kgview_path": "data/wikidata_slice/kgview.json",
+  "kgview_sha256": "bec50b51aacfb8bb6d8e649a638f889357074f595759139fd74cdee16bbf69ac",
+  "limits": {
+    "ids_ok": true,
+    "max_ids": 200,
+    "max_stored_bytes": 10000000,
+    "stored_bytes": 1057573
+  },
+  "name": "wikidata_reference_slice",
+  "notes": [
+    "depth 1: 25 referenced items dropped (ID budget)",
+    "depth 2: 6 referenced items dropped (ID budget)"
+  ],
+  "repo_git": {
+    "dirty": true,
+    "head": "b652c5b7ff3b8027725b1a862c16b02a79a36a6a"
+  },
+  "requests": [
+    {
+      "bytes": 1910,
+      "query": "SELECT ?title ?item WHERE { VALUES ?title { \"Ho Chi Minh City\"@en \"Mumbai\"@en \"Tokyo\"@en \"Kyoto\"@en \"Saint Petersburg\"@en \"Chennai\"@en \"Paris\"@en \"Paris, Texas\"@en } ?article schema:about ?item ; schema:isPartOf <https://en.wikipedia.org/> ; schema:name ?title . }",
+      "reused_from_previous_run": true,
+      "sha256": "10d665c15a78789b4233ed9797d5731fc1c4d8d6737bfd0e574f70e62574dbe7",
+      "status": 200,
+      "url": "https://query.wikidata.org/sparql?query=SELECT+%3Ftitle+%3Fitem+WHERE+%7B+VALUES+%3Ftitle+%7B+%22Ho+Chi+Minh+City%22%40en+%22Mumbai%22%40en+%22Tokyo%22%40en+%22Kyoto%22%40en+%22Saint+Petersburg%22%40en+%22Chennai%22%40en+%22Paris%22%40en+%22Paris%2C+Texas%22%40en+%7D+%3Farticle+schema%3Aabout+%3Fitem+%3B+schema%3AisPartOf+%3Chttps%3A%2F%2Fen.wikipedia.org%2F%3E+%3B+schema%3Aname+%3Ftitle+.+%7D&format=json",
+      "utc": "2026-11-04T04:24:36Z"
+    },
+    {
+      "bytes": 215267,
+      "id": "Q1156",
+      "reused_from_previous_run": true,
+      "sha256": "056035b8a5c609a39659aaadd6ca151f546362a2c7fb1b1123e4cc1ea24ec30f",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1156.json",
+      "utc": "2026-11-04T04:24:38Z"
+    },
+    {
+      "bytes": 133043,
+      "id": "Q1352",
+      "reused_from_previous_run": true,
+      "sha256": "a33d2725392f3a22216217a2d6f22a5bdff10387d6aa8191342d44fa104f3290",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1352.json",
+      "utc": "2026-11-04T04:24:41Z"
+    },
+    {
+      "bytes": 360770,
+      "id": "Q1490",
+      "reused_from_previous_run": true,
+      "sha256": "87a32b8213016edce2d0384effbf97f305364f8f4874edab6f3135fab10c0609",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1490.json",
+      "utc": "2026-11-04T04:24:43Z"
+    },
+    {
+      "bytes": 193835,
+      "id": "Q1854",
+      "reused_from_previous_run": true,
+      "sha256": "72c862bc480ef00c6c396dbb3d36c56681f2759299b257e18ff85e9b893ca855",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1854.json",
+      "utc": "2026-11-04T04:24:45Z"
+    },
+    {
+      "bytes": 344140,
+      "id": "Q34600",
+      "reused_from_previous_run": true,
+      "sha256": "c720db16c75e44ff75c7064a06225d421f4e03ea8dcd7743c49f0c828160b3ea",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q34600.json",
+      "utc": "2026-11-04T04:24:48Z"
+    },
+    {
+      "bytes": 673298,
+      "id": "Q656",
+      "reused_from_previous_run": true,
+      "sha256": "8d4ce7b52a313646c5b1e2b636ac6ba1542adcbbefb07aa89f40f955bb2d66d0",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q656.json",
+      "utc": "2026-11-04T04:24:50Z"
+    },
+    {
+      "bytes": 71736,
+      "id": "Q830149",
+      "reused_from_previous_run": true,
+      "sha256": "75302bed9656021886316cdfde227b8fa7dfbbf37344080f807e8dbdc0b627d1",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q830149.json",
+      "utc": "2026-11-04T04:24:53Z"
+    },
+    {
+      "bytes": 499987,
+      "id": "Q90",
+      "reused_from_previous_run": true,
+      "sha256": "6f4bafc972e0661c9a4db896d815a9302c0c06db7563ca6ef2bbdaa5639cecb2",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q90.json",
+      "utc": "2026-11-04T04:24:55Z"
+    },
+    {
+      "bytes": 524377,
+      "id": "P31",
+      "sha256": "6c1d690db0acfb2d53dbcb1166c90f8eeba0bac2b3410748a4a33cbde7dbc493",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P31.json",
+      "utc": "2026-11-04T04:26:26Z"
+    },
+    {
+      "bytes": 189795,
+      "id": "P279",
+      "sha256": "2134f82dbe410c3d32fac8d125ee8f6f6515b06899ea994fbf3a703d6d9dc963",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P279.json",
+      "utc": "2026-11-04T04:26:28Z"
+    },
+    {
+      "bytes": 160573,
+      "id": "P131",
+      "sha256": "b9378d488436b576948bd0b4102a65fb4b4ae1717ed628384c94fd8796c82e45",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P131.json",
+      "utc": "2026-11-04T04:26:31Z"
+    },
+    {
+      "bytes": 108422,
+      "id": "P361",
+      "sha256": "375e72931f639cc8ea982f4a6ce9d53fc416ebe936e820cbd831ca7bb5866a3a",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P361.json",
+      "utc": "2026-11-04T04:26:33Z"
+    },
+    {
+      "bytes": 186410,
+      "id": "P17",
+      "sha256": "a57a9bdc2e29dd5c068a9cbcdf972f146dad7485acaa94a7a9e20b3e02854f86",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P17.json",
+      "utc": "2026-11-04T04:26:35Z"
+    },
+    {
+      "bytes": 91078,
+      "id": "P19",
+      "sha256": "98354de0ca7f9cfd0bab8fb300a4a55715d89a5047c47bf6ce90a83f52e74024",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P19.json",
+      "utc": "2026-11-04T04:26:38Z"
+    },
+    {
+      "bytes": 83645,
+      "id": "P20",
+      "sha256": "7b2ef6cd07627a4bc8772a3b45265132cf3f24a3be0678cdc0f434368be2f706",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P20.json",
+      "utc": "2026-11-04T04:26:40Z"
+    },
+    {
+      "bytes": 90556,
+      "id": "P569",
+      "sha256": "b1fa01b6cda15e2cffb77f92ee4a39440e587adfb916d42c38763bdbbc7f0579",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P569.json",
+      "utc": "2026-11-04T04:26:42Z"
+    },
+    {
+      "bytes": 86359,
+      "id": "P570",
+      "sha256": "99bb2bcd1439ab868460ab30eafa60a8f62619f7460eb28f3e34c82be815ff45",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P570.json",
+      "utc": "2026-11-04T04:26:44Z"
+    },
+    {
+      "bytes": 82227,
+      "id": "P22",
+      "sha256": "77a2ebc5177658877c129e01e10b4cca7174de902012afaacecde81a9a4c3168",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P22.json",
+      "utc": "2026-11-04T04:26:47Z"
+    },
+    {
+      "bytes": 68399,
+      "id": "P25",
+      "sha256": "fd3d1da9a1879fd3c1fab1cf67997fbf3a3b21cb714eb4269e299c398a1b0128",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P25.json",
+      "utc": "2026-11-04T04:26:49Z"
+    },
+    {
+      "bytes": 101875,
+      "id": "P40",
+      "sha256": "a212ec9daf3ed3e6e3e3d79b1270c1563ef9ea8c3f379f30c958c5c23d6c7711",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P40.json",
+      "utc": "2026-11-04T04:26:51Z"
+    },
+    {
+      "bytes": 96340,
+      "id": "P26",
+      "sha256": "85dfc5149ef3827c25c234f116779e382a079be4c12191bc29d632f58d980d59",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P26.json",
+      "utc": "2026-11-04T04:26:54Z"
+    },
+    {
+      "bytes": 123382,
+      "id": "P27",
+      "sha256": "5d00952610cd9f5257a2104c22b1d4e4d69c4fd3c6d116d73597112c045d28a0",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P27.json",
+      "utc": "2026-11-04T04:26:56Z"
+    },
+    {
+      "bytes": 82474,
+      "id": "P6",
+      "sha256": "4216c41b3502421a7aeb5cf4ef22ffd250d54a18c68e550151db95fbdf963861",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P6.json",
+      "utc": "2026-11-04T04:26:58Z"
+    },
+    {
+      "bytes": 56902,
+      "id": "P35",
+      "sha256": "700fd863eddc744ef1ba84dc4b48e8b28f2b31fde5ab3abab26d85ca7c3693ab",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P35.json",
+      "utc": "2026-11-04T04:27:00Z"
+    },
+    {
+      "bytes": 164430,
+      "id": "P39",
+      "sha256": "7030f00c5adaf384ee00c57a093afbf8984c0a058cc4b9d82f3313d3955a9144",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P39.json",
+      "utc": "2026-11-04T04:27:03Z"
+    },
+    {
+      "bytes": 62269,
+      "id": "P54",
+      "sha256": "992c93142ac232c95b95cfd4023f8ae764b77863825da912cc6647ef681196e4",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P54.json",
+      "utc": "2026-11-04T04:27:05Z"
+    },
+    {
+      "bytes": 93179,
+      "id": "P161",
+      "sha256": "3d2fcc9f6ac750a17fcf386a775cb59fea6b25b799885431592e54d3f9a612b1",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P161.json",
+      "utc": "2026-11-04T04:27:07Z"
+    },
+    {
+      "bytes": 79476,
+      "id": "P36",
+      "sha256": "c3ed23bc36685a2943c06cee6716d79eeb52fd1813aef663d4fa4664e53fc181",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P36.json",
+      "utc": "2026-11-04T04:27:10Z"
+    },
+    {
+      "bytes": 71546,
+      "id": "P1448",
+      "sha256": "92a7d8876a1c0ab4e76f88ba93c0764af6cf2043f76d27aa3ac3952543e83e84",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P1448.json",
+      "utc": "2026-11-04T04:27:12Z"
+    },
+    {
+      "bytes": 40270,
+      "id": "P1449",
+      "sha256": "a7fa918e39e0a4025a1bf0e17c4d21870875cbb0fb02926bf041ee6f879504eb",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P1449.json",
+      "utc": "2026-11-04T04:27:14Z"
+    },
+    {
+      "bytes": 53681,
+      "id": "P2561",
+      "sha256": "46f9b6594a5999a0a1fcd83ae08217ad1eac7029e18b2df260ce5e49094e24b3",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P2561.json",
+      "utc": "2026-11-04T04:27:16Z"
+    },
+    {
+      "bytes": 58567,
+      "id": "P1813",
+      "sha256": "a9233646efa553b396e3184cb2ca269fdde04709a070287af336e1399577869c",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P1813.json",
+      "utc": "2026-11-04T04:27:19Z"
+    },
+    {
+      "bytes": 72605,
+      "id": "P580",
+      "sha256": "38b0b5326331f49d3f93b1f370f625ecf037237a02a6d15cd1b84908d3b556cc",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P580.json",
+      "utc": "2026-11-04T04:27:21Z"
+    },
+    {
+      "bytes": 82674,
+      "id": "P582",
+      "sha256": "e488dcff7b164874414c95dbf1ff45a0d80cff7a7594bba33bc0e01087417a1d",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P582.json",
+      "utc": "2026-11-04T04:27:23Z"
+    },
+    {
+      "bytes": 75459,
+      "id": "P585",
+      "sha256": "1d23f416f718273f925a9f7d48dfe02a6412cd1f7c52aed14f6c43f2605e9491",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P585.json",
+      "utc": "2026-11-04T04:27:25Z"
+    },
+    {
+      "bytes": 46441,
+      "id": "P1696",
+      "sha256": "6ddad2cebe35ae3277da0d3204e40d0c076f1e059349d5813cee54a692ed2cd0",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P1696.json",
+      "utc": "2026-11-04T04:27:28Z"
+    },
+    {
+      "bytes": 29325,
+      "id": "P1647",
+      "sha256": "60b1a7c7a11923bf9776a60e2071bf7fc98096b00db34bd48fa6c0269e755569",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/P1647.json",
+      "utc": "2026-11-04T04:27:30Z"
+    },
+    {
+      "bytes": 136943,
+      "query": "SELECT ?e ?label ?desc ?type ?parent ?rev WHERE { VALUES ?e { wd:Q17 wd:Q30 wd:Q142 wd:Q159 wd:Q515 wd:Q668 wd:Q881 wd:Q1191 wd:Q1394 wd:Q1445 wd:Q2105 wd:Q2184 wd:Q6465 wd:Q7016 wd:Q13917 wd:Q15116 wd:Q15180 wd:Q30185 wd:Q34266 wd:Q38849 wd:Q43263 wd:Q50337 wd:Q56061 wd:Q58296 wd:Q62049 wd:Q70972 wd:Q71084 wd:Q113313 wd:Q120730 wd:Q129286 wd:Q132480 wd:Q139319 wd:Q146246 wd:Q170972 wd:Q174844 wd:Q179645 wd:Q179876 wd:Q180573 wd:Q182654 wd:Q183342 wd:Q186096 wd:Q190117 wd:Q200250 wd:Q200464 wd:Q207776 wd:Q208511 wd:Q214051 wd:Q256294 wd:Q261703 wd:Q289303 wd:Q328121 wd:Q334294 wd:Q383093 wd:Q389617 wd:Q484170 wd:Q494721 wd:Q601266 wd:Q652703 wd:Q656015 wd:Q677730 wd:Q745456 wd:Q796919 wd:Q820122 wd:Q891827 wd:Q917498 wd:Q947901 wd:Q959708 wd:Q982620 wd:Q983475 wd:Q983514 wd:Q1025961 wd:Q1052584 wd:Q1064841 wd:Q1066984 wd:Q1075455 wd:Q1081225 wd:Q1093829 wd:Q1142326 wd:Q1142402 wd:Q1149484 wd:Q1187811 wd:Q1200957 wd:Q1251239 wd:Q1280894 wd:Q1381899 wd:Q1415395 wd:Q1422929 wd:Q1549591 wd:Q1637706 wd:Q1684642 wd:Q1685102 wd:Q1685301 wd:Q1685859 wd:Q1749269 wd:Q1775108 wd:Q1960874 wd:Q1986521 wd:Q2001966 wd:Q2224568 wd:Q2240381 wd:Q2264924 wd:Q2289221 wd:Q2305208 wd:Q2341660 wd:Q2596877 wd:Q2600807 wd:Q2627082 wd:Q2748708 wd:Q2851133 wd:Q2853511 wd:Q2861746 wd:Q2863958 wd:Q3119116 wd:Q3131449 wd:Q3164528 wd:Q3257686 wd:Q3260385 wd:Q3262481 wd:Q3454090 wd:Q3477896 wd:Q3482657 wd:Q3621720 wd:Q4363833 wd:Q4442912 wd:Q4676786 wd:Q7473516 wd:Q7930989 wd:Q11271835 wd:Q11357620 wd:Q11372966 wd:Q11373125 wd:Q11375711 wd:Q11376918 wd:Q11392315 wd:Q11418818 wd:Q11422368 wd:Q11422603 wd:Q11423369 wd:Q11451416 wd:Q11455798 wd:Q11477600 wd:Q11480008 wd:Q11480501 wd:Q11507118 wd:Q11540156 wd:Q11577428 wd:Q11590164 wd:Q11603630 wd:Q11613822 wd:Q11668011 wd:Q11669428 wd:Q13099335 wd:Q16665915 wd:Q17221669 wd:Q17227960 wd:Q17276569 wd:Q18218029 wd:Q21655734 wd:Q21698492 wd:Q22923920 wd:Q23020118 wd:Q27899309 wd:Q27906714 } OPTIONAL { ?e rdfs:label ?label FILTER(lang(?label) = \"en\") } OPTIONAL { ?e schema:description ?desc FILTER(lang(?desc) = \"en\") } OPTIONAL { ?e wdt:P31 ?type } OPTIONAL { ?e wdt:P131 ?parent } OPTIONAL { ?e schema:version ?rev } }",
+      "sha256": "59cf60d34b210226e75689333d89b17d1fa8680223121482ea5b73bb25624a69",
+      "status": 200,
+      "url": "https://query.wikidata.org/sparql?query=SELECT+%3Fe+%3Flabel+%3Fdesc+%3Ftype+%3Fparent+%3Frev+WHERE+%7B+VALUES+%3Fe+%7B+wd%3AQ17+wd%3AQ30+wd%3AQ142+wd%3AQ159+wd%3AQ515+wd%3AQ668+wd%3AQ881+wd%3AQ1191+wd%3AQ1394+wd%3AQ1445+wd%3AQ2105+wd%3AQ2184+wd%3AQ6465+wd%3AQ7016+wd%3AQ13917+wd%3AQ15116+wd%3AQ15180+wd%3AQ30185+wd%3AQ34266+wd%3AQ38849+wd%3AQ43263+wd%3AQ50337+wd%3AQ56061+wd%3AQ58296+wd%3AQ62049+wd%3AQ70972+wd%3AQ71084+wd%3AQ113313+wd%3AQ120730+wd%3AQ129286+wd%3AQ132480+wd%3AQ139319+wd%3AQ146246+wd%3AQ170972+wd%3AQ174844+wd%3AQ179645+wd%3AQ179876+wd%3AQ180573+wd%3AQ182654+wd%3AQ183342+wd%3AQ186096+wd%3AQ190117+wd%3AQ200250+wd%3AQ200464+wd%3AQ207776+wd%3AQ208511+wd%3AQ214051+wd%3AQ256294+wd%3AQ261703+wd%3AQ289303+wd%3AQ328121+wd%3AQ334294+wd%3AQ383093+wd%3AQ389617+wd%3AQ484170+wd%3AQ494721+wd%3AQ601266+wd%3AQ652703+wd%3AQ656015+wd%3AQ677730+wd%3AQ745456+wd%3AQ796919+wd%3AQ820122+wd%3AQ891827+wd%3AQ917498+wd%3AQ947901+wd%3AQ959708+wd%3AQ982620+wd%3AQ983475+wd%3AQ983514+wd%3AQ1025961+wd%3AQ1052584+wd%3AQ1064841+wd%3AQ1066984+wd%3AQ1075455+wd%3AQ1081225+wd%3AQ1093829+wd%3AQ1142326+wd%3AQ1142402+wd%3AQ1149484+wd%3AQ1187811+wd%3AQ1200957+wd%3AQ1251239+wd%3AQ1280894+wd%3AQ1381899+wd%3AQ1415395+wd%3AQ1422929+wd%3AQ1549591+wd%3AQ1637706+wd%3AQ1684642+wd%3AQ1685102+wd%3AQ1685301+wd%3AQ1685859+wd%3AQ1749269+wd%3AQ1775108+wd%3AQ1960874+wd%3AQ1986521+wd%3AQ2001966+wd%3AQ2224568+wd%3AQ2240381+wd%3AQ2264924+wd%3AQ2289221+wd%3AQ2305208+wd%3AQ2341660+wd%3AQ2596877+wd%3AQ2600807+wd%3AQ2627082+wd%3AQ2748708+wd%3AQ2851133+wd%3AQ2853511+wd%3AQ2861746+wd%3AQ2863958+wd%3AQ3119116+wd%3AQ3131449+wd%3AQ3164528+wd%3AQ3257686+wd%3AQ3260385+wd%3AQ3262481+wd%3AQ3454090+wd%3AQ3477896+wd%3AQ3482657+wd%3AQ3621720+wd%3AQ4363833+wd%3AQ4442912+wd%3AQ4676786+wd%3AQ7473516+wd%3AQ7930989+wd%3AQ11271835+wd%3AQ11357620+wd%3AQ11372966+wd%3AQ11373125+wd%3AQ11375711+wd%3AQ11376918+wd%3AQ11392315+wd%3AQ11418818+wd%3AQ11422368+wd%3AQ11422603+wd%3AQ11423369+wd%3AQ11451416+wd%3AQ11455798+wd%3AQ11477600+wd%3AQ11480008+wd%3AQ11480501+wd%3AQ11507118+wd%3AQ11540156+wd%3AQ11577428+wd%3AQ11590164+wd%3AQ11603630+wd%3AQ11613822+wd%3AQ11668011+wd%3AQ11669428+wd%3AQ13099335+wd%3AQ16665915+wd%3AQ17221669+wd%3AQ17227960+wd%3AQ17276569+wd%3AQ18218029+wd%3AQ21655734+wd%3AQ21698492+wd%3AQ22923920+wd%3AQ23020118+wd%3AQ27899309+wd%3AQ27906714+%7D+OPTIONAL+%7B+%3Fe+rdfs%3Alabel+%3Flabel+FILTER%28lang%28%3Flabel%29+%3D+%22en%22%29+%7D+OPTIONAL+%7B+%3Fe+schema%3Adescription+%3Fdesc+FILTER%28lang%28%3Fdesc%29+%3D+%22en%22%29+%7D+OPTIONAL+%7B+%3Fe+wdt%3AP31+%3Ftype+%7D+OPTIONAL+%7B+%3Fe+wdt%3AP131+%3Fparent+%7D+OPTIONAL+%7B+%3Fe+schema%3Aversion+%3Frev+%7D+%7D&format=json",
+      "utc": "2026-11-04T04:27:32Z"
+    },
+    {
+      "bytes": 215267,
+      "id": "Q1156",
+      "purpose": "revision-pinned refetch",
+      "sha256": "056035b8a5c609a39659aaadd6ca151f546362a2c7fb1b1123e4cc1ea24ec30f",
+      "status": 200,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1156.json?revision=2562604813",
+      "utc": "2026-11-04T04:27:35Z"
+    }
+  ],
+  "revisions": {
+    "P131": {
+      "lastrevid": 2555801353,
+      "modified": "2026-10-11T06:19:40Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P131.json?revision=2555801353"
+    },
+    "P1448": {
+      "lastrevid": 2558804623,
+      "modified": "2026-10-19T14:06:54Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P1448.json?revision=2558804623"
+    },
+    "P1449": {
+      "lastrevid": 2559657068,
+      "modified": "2026-10-22T09:37:14Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P1449.json?revision=2559657068"
+    },
+    "P161": {
+      "lastrevid": 2562933347,
+      "modified": "2026-10-31T09:16:41Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P161.json?revision=2562933347"
+    },
+    "P1647": {
+      "lastrevid": 2559154441,
+      "modified": "2026-10-20T09:05:02Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P1647.json?revision=2559154441"
+    },
+    "P1696": {
+      "lastrevid": 2528035340,
+      "modified": "2026-08-06T09:20:01Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P1696.json?revision=2528035340"
+    },
+    "P17": {
+      "lastrevid": 2559338818,
+      "modified": "2026-10-20T19:27:36Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P17.json?revision=2559338818"
+    },
+    "P1813": {
+      "lastrevid": 2560658135,
+      "modified": "2026-10-25T11:29:48Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P1813.json?revision=2560658135"
+    },
+    "P19": {
+      "lastrevid": 2561664064,
+      "modified": "2026-10-28T11:53:06Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P19.json?revision=2561664064"
+    },
+    "P20": {
+      "lastrevid": 2563015412,
+      "modified": "2026-10-31T14:06:11Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P20.json?revision=2563015412"
+    },
+    "P22": {
+      "lastrevid": 2550854448,
+      "modified": "2026-09-29T12:13:06Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P22.json?revision=2550854448"
+    },
+    "P25": {
+      "lastrevid": 2562708280,
+      "modified": "2026-10-30T20:23:17Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P25.json?revision=2562708280"
+    },
+    "P2561": {
+      "lastrevid": 2560741206,
+      "modified": "2026-10-25T16:03:42Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P2561.json?revision=2560741206"
+    },
+    "P26": {
+      "lastrevid": 2562714916,
+      "modified": "2026-10-30T20:38:26Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P26.json?revision=2562714916"
+    },
+    "P27": {
+      "lastrevid": 2560348716,
+      "modified": "2026-10-24T16:54:48Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P27.json?revision=2560348716"
+    },
+    "P279": {
+      "lastrevid": 2564324329,
+      "modified": "2026-11-03T12:47:50Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P279.json?revision=2564324329"
+    },
+    "P31": {
+      "lastrevid": 2563869336,
+      "modified": "2026-11-02T12:51:04Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P31.json?revision=2563869336"
+    },
+    "P35": {
+      "lastrevid": 2562704461,
+      "modified": "2026-10-30T20:13:52Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P35.json?revision=2562704461"
+    },
+    "P36": {
+      "lastrevid": 2560308549,
+      "modified": "2026-10-24T14:01:21Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P36.json?revision=2560308549"
+    },
+    "P361": {
+      "lastrevid": 2563065603,
+      "modified": "2026-10-31T16:42:31Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P361.json?revision=2563065603"
+    },
+    "P39": {
+      "lastrevid": 2563049701,
+      "modified": "2026-10-31T15:56:06Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P39.json?revision=2563049701"
+    },
+    "P40": {
+      "lastrevid": 2560627922,
+      "modified": "2026-10-25T09:31:14Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P40.json?revision=2560627922"
+    },
+    "P54": {
+      "lastrevid": 2559207125,
+      "modified": "2026-10-20T11:57:44Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P54.json?revision=2559207125"
+    },
+    "P569": {
+      "lastrevid": 2562050197,
+      "modified": "2026-10-29T09:48:16Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P569.json?revision=2562050197"
+    },
+    "P570": {
+      "lastrevid": 2553983025,
+      "modified": "2026-10-06T15:05:36Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P570.json?revision=2553983025"
+    },
+    "P580": {
+      "lastrevid": 2556003306,
+      "modified": "2026-10-11T21:25:22Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P580.json?revision=2556003306"
+    },
+    "P582": {
+      "lastrevid": 2556003224,
+      "modified": "2026-10-11T21:24:57Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P582.json?revision=2556003224"
+    },
+    "P585": {
+      "lastrevid": 2550484915,
+      "modified": "2026-09-28T12:40:10Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P585.json?revision=2550484915"
+    },
+    "P6": {
+      "lastrevid": 2562704323,
+      "modified": "2026-10-30T20:13:24Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/P6.json?revision=2562704323"
+    },
+    "Q1156": {
+      "lastrevid": 2562604813,
+      "modified": "2026-10-30T15:56:15Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q1156.json?revision=2562604813"
+    },
+    "Q1352": {
+      "lastrevid": 2564214368,
+      "modified": "2026-11-03T05:31:36Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q1352.json?revision=2564214368"
+    },
+    "Q1490": {
+      "lastrevid": 2563560752,
+      "modified": "2026-11-01T20:29:12Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q1490.json?revision=2563560752"
+    },
+    "Q1854": {
+      "lastrevid": 2563461668,
+      "modified": "2026-11-01T16:07:51Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q1854.json?revision=2563461668"
+    },
+    "Q34600": {
+      "lastrevid": 2563560713,
+      "modified": "2026-11-01T20:29:06Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q34600.json?revision=2563560713"
+    },
+    "Q656": {
+      "lastrevid": 2548934371,
+      "modified": "2026-09-23T23:45:44Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q656.json?revision=2548934371"
+    },
+    "Q830149": {
+      "lastrevid": 2554923486,
+      "modified": "2026-10-08T07:01:37Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q830149.json?revision=2554923486"
+    },
+    "Q90": {
+      "lastrevid": 2563923081,
+      "modified": "2026-11-02T15:37:12Z",
+      "pinned_url": "https://www.wikidata.org/wiki/Special:EntityData/Q90.json?revision=2563923081"
+    },
+    "_reproducibility_check": {
+      "id": "Q1156",
+      "same_bytes": true,
+      "same_claims": true,
+      "same_lastrevid": true,
+      "url": "https://www.wikidata.org/wiki/Special:EntityData/Q1156.json?revision=2562604813"
+    }
+  },
+  "script": "scripts/wikidata/build_reference_slice.py",
+  "script_sha256": "02927b652f14acb87992a2d147bcb49c840ff62c8e120d7826de34c0c52b9878",
+  "status": "complete"
+}
